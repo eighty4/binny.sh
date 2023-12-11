@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <link rel="preload" href="/inter.woff2" as="font" type="font/woff2" crossorigin="anonymous"/>
+    <link rel="preload" href="/github.svg" as="image" type="image/svg+xml" crossorigin="anonymous"/>
+    <link rel="preload" href="/logo_sh.svg" as="image" type="image/svg+xml" crossorigin="anonymous"/>
+    <link rel="preload" href="/languages/rust.svg" as="image" type="image/svg+xml" crossorigin="anonymous"/>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content="Generate install scripts for C++, Golang, Rust and Zig binaries"/>
+    <title>Install.sh</title>
+    <style>
+        @font-face {
+            font-family: 'Inter Variable';
+            font-style: normal;
+            font-display: swap;
+            font-weight: 100 900;
+            src: url('/inter.woff2') format('woff2-variations');
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --black-rgb: 17, 17, 17;
+            --white-rgb: 238, 238, 238;
+            --black: rgb(var(--black-rgb));
+            --white: rgb(var(--white-rgb));
+            --bug-z-index: 3;
+            --grid-z-index: 2;
+            --triangle-z-index: 1;
+            --edge-content-padding: 2vmin;
+        }
+
+        html {
+            --head-bg-color: var(--black);
+            --head-text-color: var(--white);
+            --card-bg-color: var(--white);
+            --card-text-color: var(--black);
+            --card-graph-color: rgb(var(--black-rgb), 40%);
+            font-family: 'Inter Variable', Helvetica, sans-serif;
+        }
+
+        html.flipped {
+            --head-bg-color: var(--white);
+            --head-text-color: var(--black);
+            --card-bg-color: var(--black);
+            --card-text-color: var(--white);
+            --card-graph-color: rgb(var(--white-rgb), 40%);
+        }
+
+        html, body {
+            background: var(--card-bg-color);
+            overflow: hidden;
+        }
+
+        html, body, header {
+            height: 100vh;
+            width: 100vw;
+        }
+
+        header, main {
+            display: contents;
+        }
+
+        #grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 100vw;
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            grid-template-rows: repeat(10, 1fr);
+            z-index: var(--grid-z-index);
+        }
+
+        #eighty4 {
+            background: var(--card-bg-color);
+            grid-area: -2 / 1 / -1 / -1;
+            padding-left: var(--edge-content-padding);
+            display: flex;
+            align-items: center;
+        }
+
+        #eighty4 a {
+            display: flex;
+            align-items: center;
+            font-size: 2vh;
+            color: var(--card-text-color);
+            text-decoration: none;
+            gap: .5rem;
+        }
+
+        #eighty4 a img {
+            height: 4vh;
+        }
+
+        #github {
+            background: var(--head-bg-color);
+            grid-area: 1 / 1 / 2 / -1;
+            padding-right: var(--edge-content-padding);
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        #github a {
+            display: flex;
+            align-items: center;
+            font-size: 2vh;
+            color: var(--head-text-color);
+            text-decoration: none;
+            gap: 1rem;
+        }
+
+        #github-logo {
+            height: 4vh;
+            aspect-ratio: 1 / 1;
+            mask: url('/github.svg') no-repeat 50%;
+            mask-size: contain;
+            background: var(--head-text-color);
+        }
+
+        #github .call-to-action {
+            display: none;
+        }
+
+        #github .call-to-action.current {
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+        }
+
+        #bug {
+            --bug-size: 3.3vh;
+            aspect-ratio: 1;
+            height: var(--bug-size);
+            position: fixed;
+            top: calc(var(--bug-size) * -1);
+            right: 10vh;
+            z-index: var(--bug-z-index);
+            transform: rotate(90deg);
+            mask: url('/bug.svg') no-repeat 100% 100%;
+            mask-size: contain;
+            background: var(--head-text-color);
+            animation: crawling 1.5s linear;
+        }
+
+        @keyframes crawling {
+            0% {
+                offset-distance: 0;
+            }
+            100% {
+                offset-distance: 100%;
+            }
+        }
+
+        #logo {
+            grid-area: 2 / 2 / 4 / 4;
+            position: relative;
+        }
+
+        #sh-cursive {
+            position: absolute;
+            mask: url('/logo_sh.svg') no-repeat 100% 100%;
+            mask-size: contain;
+            background: var(--head-text-color);
+            background-size: 100%;
+            height: 100%;
+            aspect-ratio: .9;
+        }
+
+        #logo img {
+            position: absolute;
+            height: 100%;
+        }
+
+        #header {
+            grid-area: 2 / 4 / 4 / 8;
+            letter-spacing: .05rem;
+            transition: transform var(--out-transition-duration) ease-in-out;
+        }
+
+        h2, h3 {
+            font-weight: 700;
+            color: var(--head-text-color);
+        }
+
+        h2 {
+            font-size: 9vmin;
+            margin-bottom: 3vmin;
+        }
+
+        h3 {
+            font-size: 7vmin;
+        }
+
+        #tagline {
+            grid-area: 5 / 2 / 6 / 5;
+            color: var(--head-text-color);
+            font-size: 3vmin;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        #tagline p {
+            display: none;
+        }
+
+        #tagline p.show {
+            display: block;
+            font-style: italic;
+        }
+
+        #explain {
+            grid-area: 6 / 2 / 7 / 4;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        #explain button {
+            font-size: 2vmin;
+            padding: 1vmin 2vmin;
+        }
+
+        #features {
+            display: contents;
+            transition: transform var(--out-transition-duration) ease-in-out;
+        }
+
+        #features p, #lang-logos p, #lang-logos span {
+            font-size: 3.5vmin;
+            letter-spacing: .1vmin;
+            color: var(--card-text-color);
+        }
+
+        #features p {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1vmin;
+        }
+
+        #feature1 {
+            grid-area: 4 / 8 / 5 / 11;
+        }
+
+        #feature2 {
+            grid-area: 5 / 7 / 6 / 11;
+        }
+
+        #feature3 {
+            grid-area: 6 / 6 / 7 / 11;
+        }
+
+        #feature4 {
+            grid-area: 7 / 5 / 8 / 11;
+        }
+
+        #feature5 {
+            grid-area: 8 / 4 / 9 / 11;
+        }
+
+        #lang-logos {
+            grid-area: 9 / 4 / 10 / 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5vmin;
+        }
+
+        .lang-logo {
+            height: 7vmin;
+        }
+
+        #rust-logo {
+            aspect-ratio: 1 / 1;
+            mask: url('/languages/rust.svg') no-repeat 50%;
+            mask-size: contain;
+            background: var(--card-text-color);
+        }
+
+        #triangle {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 0;
+            width: 0;
+            border-top: 100vh solid var(--head-bg-color);
+            border-right: 100vw solid transparent;
+            z-index: var(--triangle-z-index);
+        }
+
+        @media screen {
+            @media (orientation: portrait) and (max-aspect-ratio: 4/5) {
+                #features {
+                    grid-area: 7 / 2 / 10 / -2;
+                    background: var(--card-bg-color);
+                }
+            }
+        }
+    </style>
+</head>
+<body>
+<div id="triangle" aria-hidden="true"></div>
+<div id="grid">
+    <header>
+        <div id="eighty4">
+            <a href="https://eighty4.tech">an <img id="eighty4-logo" src="/eighty4.svg" alt="eighty4.tech logo"/> app</a>
+        </div>
+        <div id="github">
+            <a href="https://github.com/eighty4/install.sh">
+                <span class="call-to-action current">read source</span>
+                <span class="call-to-action">contribute</span>
+                <span class="call-to-action" data-infested="true">report bugs</span>
+                <div id="github-logo" role="img"
+                     aria-label="GitHub logo link to https://github.com/eighty4/install.sh"></div>
+                <div id="bug" aria-hidden="true" style="opacity: 0;"></div>
+            </a>
+        </div>
+        <div id="header">
+            <h1 style="display: none">Install.sh</h1>
+            <h2>Binaries,</h2>
+            <h3>Installed</h3>
+        </div>
+        <div id="logo">
+            <img src="/logo_i.svg" alt="Install.sh logo"/>
+            <div id="sh-cursive" aria-hidden="true"></div>
+        </div>
+        <div id="tagline">
+            <p>"Be cool like Homebrew"</p>
+            <p>"Push bins like Rustup"</p>
+            <p>"Ship it like pnpm does"</p>
+        </div>
+        <div id="explain">
+            <button>Explain how</button>
+        </div>
+    </header>
+    <main>
+        <div id="features">
+            <p id="feature1"><b>tested</b></p>
+            <p id="feature2"><b>cross-platform</b></p>
+            <p id="feature3"><b>reproducible</b> scripts</p>
+            <p id="feature4">installs from your GitHub releases</p>
+            <p id="feature5">supports Linux, MacOS, aarch64 & x86_64</p>
+            <div id="lang-logos">
+                <span>for</span>
+                <img class="lang-logo" src="/languages/go.svg" alt="Go Language"/>
+                <div id="rust-logo" class="lang-logo" role="img" aria-label="Rust logo"></div>
+                <img class="lang-logo" src="/languages/zig.svg" alt="Zig Language"/>
+                <img class="lang-logo" src="/languages/cpp.svg" alt="C++ Language"/>
+                <span>rockstars</span>
+            </div>
+        </div>
+        <div id="graph-paper-grid" class="hide">
+            <div id="graph-paper"></div>
+        </div>
+    </main>
+</div>
+<script>
+    let flipped = localStorage.getItem('theme-flip') === '1'
+    if (typeof flipped === 'undefined' || flipped === null) {
+        flipped = window.matchMedia('(prefers-color-scheme: dark)').matches
+    }
+    if (flipped) {
+        document.documentElement.classList.add('flipped')
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+        const taglineContainer = document.querySelector('#tagline')
+        taglineContainer.children[Math.floor(Math.random() * taglineContainer.children.length)].classList.add('show')
+
+        document.querySelector('#explain button').addEventListener('click', () => {
+            const messages = [
+                `With a few keypresses and mouse clicks, we will generate an installation script for release artifacts from your GitHub repositories. The script will install your latest release to a user's home directory and add its path to their shell.`,
+                `Host the script on your project's website and give your users a command like this:
+
+curl -fsSL https://asdf/myscript.sh | sh`,
+                `That's it! You're ready to give it a go.\n\nGood luck!\n\n\n`,
+            ]
+            for (let i = 0; i < messages.length; i++) {
+                const isLastMessage = i + 1 === messages.length
+                const append = isLastMessage ? '' : '\n\nPress OK to continue guide'
+                const fn = isLastMessage ? alert : confirm
+                if (!fn('\n' + messages[i] + append)) {
+                    break
+                }
+            }
+        })
+
+        const githubContainer = document.getElementById('github')
+        let callToActions = githubContainer.querySelectorAll('.call-to-action')
+        let i = 0
+        const bugPaths = [
+            'M20 200C0 68 55 90 30 0',
+            'M40,200 C40,150 20,20 50,0',
+            'M20,200 C40,150 20,20 0,0',
+        ]
+        const getRandomBugPath = () => `path("${bugPaths[Math.floor(Math.random() * bugPaths.length)]}")`
+        let bugImg = document.getElementById('bug')
+        setInterval(() => {
+            if (bugImg) {
+                // duped removal here bc an inactive tab may not fire onanimationend consistently
+                // while setInterval is consistently called
+                bugImg.remove()
+                bugImg = null
+            }
+            callToActions[i].classList.remove('current')
+            i++
+            if (i === callToActions.length) {
+                i = 0
+            }
+            const callToAction = callToActions[i]
+            callToAction.classList.add('current')
+            if (callToAction.dataset.infested) {
+                bugImg = document.createElement('div')
+                bugImg.id = 'bug'
+                bugImg.role = 'img'
+                bugImg.ariaLabel = 'ah! a bug!'
+                bugImg.style.offsetPath = getRandomBugPath()
+                bugImg.style.right = `${document.body.clientWidth - callToAction.getBoundingClientRect().right + 25}px`
+                bugImg.onanimationend = () => {
+                    bugImg.remove()
+                    bugImg = null
+                }
+                githubContainer.appendChild(bugImg)
+            }
+        }, 4000)
+    })
+</script>
+<script type="module" src="/src/app.ts" async></script>
+</body>
+</html>

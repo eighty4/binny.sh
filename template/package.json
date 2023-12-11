@@ -1,0 +1,29 @@
+{
+  "name": "@eighty4/install-template",
+  "version": "0.0.1",
+  "author": "Adam McKee <adam.be.g84d@gmail.com>",
+  "license": "BSD-3-Clause",
+  "type": "module",
+  "main": "lib/Template.js",
+  "types": "lib/Template.d.ts",
+  "scripts": {
+    "build": "tsc --build --clean && tsc --build",
+    "gold": "UPDATE_GOLD=1 vitest run",
+    "test": "npm run test:gold && npm run test:integration",
+    "test:gold": "vitest run",
+    "test:integration": "./gold/integration_test.sh",
+    "test:watch": "vitest"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.5",
+    "typescript": "^5.4.4",
+    "vitest": "^1.4.0"
+  },
+  "files": [
+    "lib/**/*",
+    "src/**/*",
+    "gold/*.sh",
+    "package.json",
+    "tsconfig.json"
+  ]
+}

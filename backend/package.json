@@ -1,0 +1,38 @@
+{
+  "name": "@eighty4/install-backend",
+  "version": "0.0.1",
+  "private": true,
+  "author": "Adam McKee <adam.be.g84d@gmail.com>",
+  "license": "BSD-3-Clause",
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "dev": "tsx -r dotenv/config --watch src/Backend.ts",
+    "build": "tsc --build --clean && tsc --build"
+  },
+  "dependencies": {
+    "@eighty4/install-contract": "workspace:^",
+    "@eighty4/install-github": "workspace:^",
+    "@eighty4/install-template": "workspace:^",
+    "cookie-parser": "^1.4.6",
+    "express": "5.0.0-beta.3",
+    "pg": "^8.11.5",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "@types/cookie-parser": "^1.4.7",
+    "@types/express": "^4.17.21",
+    "@types/pg": "8.11.2",
+    "@types/uuid": "^9.0.8",
+    "dotenv": "^16.4.5",
+    "tsx": "^4.7.2",
+    "typescript": "^5.4.4",
+    "vitest": "^1.4.0"
+  },
+  "files": [
+    "public/**/*",
+    "lib/**/*",
+    "package.json"
+  ]
+}

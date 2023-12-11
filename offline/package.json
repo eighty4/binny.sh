@@ -1,0 +1,24 @@
+{
+  "name": "@eighty4/install-offline",
+  "version": "0.0.1",
+  "private": true,
+  "author": "Adam McKee <adam.be.g84d@gmail.com>",
+  "license": "BSD-3-Clause",
+  "type": "module",
+  "scripts": {
+    "dev": "DOTENV_CONFIG_PATH=../backend/.env tsx -r dotenv/config --watch src/Offline.ts"
+  },
+  "dependencies": {
+    "@eighty4/install-backend": "workspace:*",
+    "@eighty4/install-github": "workspace:*",
+    "cookie-parser": "^1.4.6",
+    "express": "5.0.0-beta.1"
+  },
+  "devDependencies": {
+    "@types/cookie-parser": "^1.4.7",
+    "@types/express": "^4.17.21",
+    "dotenv": "^16.4.5",
+    "tsx": "^4.7.2",
+    "typescript": "^5.4.4"
+  }
+}

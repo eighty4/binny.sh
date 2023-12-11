@@ -1,0 +1,55 @@
+#controls {
+    color: var(--head-text-color);
+    grid-area: 5 / 1 / 7 / 3;
+    user-select: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2vmin;
+    transform: translateX(-100vw);
+}
+
+.control {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: .25rem;
+}
+
+.control button {
+    background: transparent;
+    border: none;
+    color: var(--head-text-color);
+    font-family: monospace;
+    font-size: 1.5vh;
+}
+
+.control.active button {
+    font-size: 1.2vh;
+}
+
+.control input {
+    display: none;
+}
+
+.control label {
+    cursor: pointer;
+}
+
+#flip-toggle {
+    mask: url('/flip.svg') no-repeat 50%;
+    mask-size: contain;
+    mask-clip: no-clip;
+    background: var(--head-text-color);
+    height: 2.75vh;
+    aspect-ratio: 23 / 38;
+    transform: rotate(40deg);
+    transform-origin: bottom;
+    transition: transform 150ms ease-in-out;
+}
+
+html.flipped #flip-toggle {
+    transform: rotate(-40deg);
+}

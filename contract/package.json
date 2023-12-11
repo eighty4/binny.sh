@@ -1,0 +1,25 @@
+{
+  "name": "@eighty4/install-contract",
+  "version": "0.0.1",
+  "author": "Adam McKee <adam.be.g84d@gmail.com>",
+  "license": "BSD-3-Clause",
+  "type": "module",
+  "main": "lib/Contract.js",
+  "types": "lib/Contract.d.ts",
+  "scripts": {
+    "build": "tsc --build"
+  },
+  "dependencies": {
+    "@eighty4/install-github": "workspace:^"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.4",
+    "vitest": "^1.4.0"
+  },
+  "files": [
+    "lib/**/*",
+    "src/**/*",
+    "package.json",
+    "tsconfig.json"
+  ]
+}

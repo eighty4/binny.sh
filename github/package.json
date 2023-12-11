@@ -1,0 +1,27 @@
+{
+  "name": "@eighty4/install-github",
+  "version": "0.0.1",
+  "author": "Adam McKee <adam.be.g84d@gmail.com>",
+  "license": "BSD-3-Clause",
+  "type": "module",
+  "main": "lib/GitHubApiClient.js",
+  "types": "lib/GitHubApiClient.d.ts",
+  "scripts": {
+    "test": "vitest run",
+    "build": "tsc --build"
+  },
+  "dependencies": {
+    "@eighty4/install-template": "workspace:^"
+  },
+  "devDependencies": {
+    "dotenv": "^16.4.5",
+    "typescript": "^5.4.4",
+    "vitest": "^1.4.0"
+  },
+  "files": [
+    "lib/**/*",
+    "src/**/*",
+    "package.json",
+    "tsconfig.json"
+  ]
+}
