@@ -15,9 +15,9 @@
     "test:watch": "vitest"
   },
   "devDependencies": {
-    "@types/node": "^20.12.5",
-    "typescript": "^5.4.4",
-    "vitest": "^1.4.0"
+    "@types/node": "^20.14.0",
+    "typescript": "^5.4.5",
+    "vitest": "^1.6.0"
   },
   "files": [
     "lib/**/*",

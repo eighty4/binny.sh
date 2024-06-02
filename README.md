@@ -32,6 +32,14 @@ These commands will stub API dependencies for offline development of the fronten
 Selfies and #installsh tweets while developing on an airplane, on safari, or in a James Cameron-funded submersible
 expedition are appreciated!
 
+### Interactive update with `pnpm`
+
+The update command can be used interactively and recursively to upgrade project dependencies:
+
+```bash
+pnpm update --interactive --latest --recursive
+```
+
 ## Example install scripts in the wild
 
 Here is a list of install scripts for popular applications:
