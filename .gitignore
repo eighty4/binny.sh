@@ -5,6 +5,7 @@ tsconfig.tsbuildinfo
 
 backend/lib
 backend/public
+backend/.env.development
 contract/lib
 e2e/blob-report
 e2e/playwright/.cache
@@ -14,4 +15,5 @@ frontend/.env.development
 frontend/.env.production
 frontend/dist
 github/lib
+offline/lib
 template/lib

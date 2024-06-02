@@ -6,10 +6,13 @@
   "license": "BSD-3-Clause",
   "type": "module",
   "scripts": {
-    "test": "vitest run",
-    "test:watch": "vitest",
-    "dev": "tsx -r dotenv/config --watch src/Backend.ts",
-    "build": "tsc --build --clean && tsc --build"
+    "build": "tsc --build --clean && tsc --build",
+    "build:watch": "pnpm build --watch",
+    "env:dev": "dotenvx run -f .env -f .env.development",
+    "start": "pnpm env:dev -- node lib/Backend.js",
+    "start:watch": "pnpm env:dev -- node --watch lib/Backend.js",
+    "test": "pnpm env:dev -- vitest run",
+    "test:watch": "pnpm env:dev -- vitest"
   },
   "dependencies": {
     "@eighty4/install-contract": "workspace:^",
@@ -21,12 +24,11 @@
     "uuid": "^9.0.1"
   },
   "devDependencies": {
+    "@dotenvx/dotenvx": "^0.44.1",
     "@types/cookie-parser": "^1.4.7",
     "@types/express": "^4.17.21",
     "@types/pg": "8.11.2",
     "@types/uuid": "^9.0.8",
-    "dotenv": "^16.4.5",
-    "tsx": "^4.7.2",
     "typescript": "^5.4.4",
     "vitest": "^1.4.0"
   },
