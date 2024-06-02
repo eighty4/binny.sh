@@ -22,11 +22,11 @@ These commands will stub API dependencies for offline development:
 
 Selfies and #installsh tweets while developing on an airplane, on safari, or in a James Cameron-funded submersible expedition are appreciated!
 
-## Examples install scripts in the wild
+## Example install scripts in the wild
 
 Here is a list of install scripts for popular applications:
 
-- homebrew
-- pnpm
-- rustup
-- wasm-pack
+- [Homebrew](https://brew.sh/)
+- [pnpm](https://pnpm.io/installation/)
+- [rustup](https://rustup.rs/)
+- [wasm-pack](https://rustwasm.github.io/wasm-pack/installer/)
