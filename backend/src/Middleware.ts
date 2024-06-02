@@ -27,37 +27,6 @@ export const authorizeGitHubUser: RequestHandler = (req, res, next) => {
         })
 }
 
-export const compressedStaticServer: RequestHandler = (req, res, next) => {
-    if (req.method === 'GET') {
-        const acceptEncoding = req.headers['accept-encoding']
-        if (acceptEncoding) {
-            if ('/' === req.url) {
-                const headers: Record<string, string> = {}
-                headers['Content-Type'] = 'text/html'
-                if (acceptEncoding.includes('br')) {
-                    headers['Content-Encoding'] = 'br'
-                    return res.sendFile(path.join(process.cwd(), 'public', 'index.html.br'), {headers})
-                } else if (acceptEncoding.includes('gzip')) {
-                    headers['Content-Encoding'] = 'gzip'
-                    return res.sendFile(path.join(process.cwd(), 'public', 'index.html.gz'), {headers})
-                }
-            } else if (/^\/(assets\/)?.*\.(css|js)$/.test(req.url)) {
-                const extension = req.url.substring(req.url.lastIndexOf('.') + 1)
-                const headers: Record<string, string> = {}
-                headers['Content-Type'] = extension === 'js' ? 'text/javascript' : 'text/' + extension
-                if (acceptEncoding.includes('br')) {
-                    headers['Content-Encoding'] = 'br'
-                    return res.sendFile(path.join(process.cwd(), 'public', req.url + '.br'), {headers})
-                } else if (acceptEncoding.includes('gzip')) {
-                    headers['Content-Encoding'] = 'gzip'
-                    return res.sendFile(path.join(process.cwd(), 'public', req.url + '.gz'), {headers})
-                }
-            }
-        }
-    }
-    next()
-}
-
 export const printHttpLog: RequestHandler = (req, res, next) => {
     const start = Date.now()
     res.on('finish', () => {

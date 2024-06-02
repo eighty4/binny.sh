@@ -1,7 +1,7 @@
 // import net from 'node:net'
 import cookieParser from 'cookie-parser'
 import express from 'express'
-import {authorizeGitHubUser, compressedStaticServer, printHttpLog} from './Middleware.js'
+import {authorizeGitHubUser, printHttpLog} from './Middleware.js'
 import {generateScriptRouteFn, getLoginResultRouteFn, getOAuthRedirectRouteFn} from './Routes.js'
 
 const parsePortEnvVariable = (key: string, def: number): number => {
@@ -24,12 +24,6 @@ const HTTP_PORT = parsePortEnvVariable('HTTP_PORT', 5741)
 const app = express()
 app.use(cookieParser())
 app.use(express.json())
-
-if (process.env['NODE_ENV'] === 'production') {
-    app.use(compressedStaticServer)
-    app.use(express.static('public'))
-}
-
 app.use(printHttpLog)
 
 app.get('/login/oauth/github', getOAuthRedirectRouteFn)
