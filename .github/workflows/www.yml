@@ -20,6 +20,9 @@ jobs:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     steps:
+      - name: Check env vars
+        run: |
+          if [ -z "$GITHUB_CLIENT_ID" ]; then exit 1; fi
       - name: Checkout
         uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -30,6 +33,8 @@ jobs:
           corepack enable && corepack prepare pnpm@latest --activate
           pnpm i
           pnpm build
+        env:
+          GITHUB_CLIENT_ID: ${{secrets.GH_CLIENT_ID}}
         working-directory: frontend
       - name: Setup Pages
         uses: actions/configure-pages@v4

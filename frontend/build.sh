@@ -1,7 +1,9 @@
 #!/usr/bin/env sh
 set -e
 
-echo "VITE_SCRIPT_TEMPLATE_VERSION=\"$(node templateVersion.js)\"" > .env.production
+echo "VITE_GITHUB_CLIENT_ID=\"$GITHUB_CLIENT_ID\"" > .env.production
+echo "VITE_SCRIPT_TEMPLATE_VERSION=\"$(node templateVersion.js)\"" >> .env.production
+
 pnpm build:tsc
 pnpm build:vite
 
