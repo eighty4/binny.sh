@@ -11,7 +11,7 @@
     "build": "pnpm build:dist",
     "build:dist": "./build.sh",
     "build:tsc": "tsc --build --clean && tsc --build",
-    "build:vite": "vite build --base=/install.sh/",
+    "build:vite": "vite build",
     "dev": "vite",
     "dev:offline": "vite --mode offline",
     "preview": "vite preview",
