@@ -1,3 +1,4 @@
+import * as fs from 'node:fs'
 import {type ConfigEnv, defineConfig, type ProxyOptions} from 'vite'
 
 export default defineConfig((env: ConfigEnv) => {
@@ -23,8 +24,12 @@ function buildProxyConfig(mode: string): Record<string, string | ProxyOptions> {
         }
     } else {
         return {
-            '/api': 'http://localhost:5741',
-            '/login': 'http://localhost:5741',
+            // '/api': 'http://localhost:5741',
+            '/login': `https://${getApiGatewayApiId()}.execute-api.us-east-2.amazonaws.com/development`,
         }
     }
+}
+
+function getApiGatewayApiId(): string {
+    return fs.readFileSync('../lambdas/.l3/aws/api').toString().trim()
 }

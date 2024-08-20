@@ -1,21 +1,24 @@
-import ConfigureBinary from './ConfigureBinary.ts'
-import ConfigureScript from './ConfigureScript.ts'
-import RepositoryLink from './RepositoryLink.ts'
-import RepositoryNavigation from './RepositoryNavigation.ts'
-import RepositoryPagination from './RepositoryPagination.ts'
+import ConfigureBinaries from './configure/ConfigureBinaries.ts'
+import ConfigureBinary from './configure/ConfigureBinary.ts'
+import ConfigureScript from './configure/ConfigureScript.ts'
+import RepositoryLink from './search/RepositoryLink.ts'
+import RepositoryNavigation from './search/RepositoryNavigation.ts'
 import SpinIndicator from './SpinIndicator.ts'
 import SystemLogo from './SystemLogo.ts'
+import ProfilePicture from './ProfilePicture.ts'
 
-document.head.innerHTML += ConfigureBinary.templateHTML()
+document.head.innerHTML += ConfigureBinaries.templateHTML()
+    + ConfigureBinary.templateHTML()
     + ConfigureScript.templateHTML()
     + RepositoryLink.templateHTML()
     + RepositoryNavigation.templateHTML()
     + SpinIndicator.templateHTML()
 
+customElements.define('configure-binaries', ConfigureBinaries)
 customElements.define('configure-binary', ConfigureBinary)
 customElements.define('configure-script', ConfigureScript)
+customElements.define('profile-picture', ProfilePicture)
 customElements.define('repository-link', RepositoryLink)
 customElements.define('repository-navigation', RepositoryNavigation)
-customElements.define('repository-pagination', RepositoryPagination)
 customElements.define('spin-indicator', SpinIndicator)
 customElements.define('system-logo', SystemLogo)

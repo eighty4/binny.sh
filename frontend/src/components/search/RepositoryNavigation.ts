@@ -1,7 +1,7 @@
 import {Repository} from '@eighty4/install-github'
 import RepositoryLink from './RepositoryLink.ts'
-// import RepositoryPagination from './RepositoryPagination.ts'
-import {cloneTemplate} from '../dom.ts'
+import css from './RepositoryNavigation.css?inline'
+import {cloneTemplate} from '../../dom.ts'
 
 export default class RepositoryNavigation extends HTMLElement {
 
@@ -10,33 +10,7 @@ export default class RepositoryNavigation extends HTMLElement {
     static templateHTML(): string {
         return `
             <template id="${RepositoryNavigation.TEMPLATE_ID}">
-                <style>
-                    .repos {
-                        width: 40vw;
-                        max-width: 30rem;
-                        background: #111;
-                        padding: 2.5rem 2rem;
-                    }
-                    .container {
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                        height: 6rem;
-                        will-change: transform;
-                    }
-                    repository-link {
-                        flex: 1;
-                    }
-                    .separator {
-                        background: #222;
-                        margin: 1rem 1rem;
-                        height: 1px;
-                        transition: all .075s ease-in-out;
-                    }
-                    .separator.hide {
-                        background: #111;
-                    }
-                </style>
+                <style>${css}</style>
                 <repository-search></repository-search>
                 <div class="repos"></div>
                 <repository-pagination></repository-pagination>

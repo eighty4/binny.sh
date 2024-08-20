@@ -1,0 +1,51 @@
+.link {
+    background: #111;
+    border: 1px solid transparent;
+    color: var(--head-text-color);
+    display: flex;
+    flex-direction: column;
+    gap: .75rem;
+    text-decoration: none;
+    padding: 1rem;
+    box-sizing: border-box;
+    cursor: pointer;
+    transition: all .3s ease-in-out;
+}
+
+.link:hover {
+    background: #282828;
+    border-color: #555;
+    border-radius: 15px;
+    padding: 1rem 1.5rem;
+    transform: scale(.9);
+    transform-origin: center;
+}
+
+.deets, .header {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+}
+
+.name {
+    flex: 1;
+    font-size: 1.1rem;
+}
+
+.version {
+    font-size: .9rem;
+}
+
+.deets {
+    padding-left: 2.5rem;
+}
+
+.os-logos {
+    display: contents;
+}
+
+.update {
+    font-size: .8rem;
+    flex: 1;
+    text-align: right;
+}

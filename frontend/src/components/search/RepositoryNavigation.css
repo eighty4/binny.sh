@@ -1,0 +1,29 @@
+.repos {
+    width: 40vw;
+    max-width: 30rem;
+    background: #111;
+    padding: 2.5rem 2rem;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 6rem;
+    will-change: transform;
+}
+
+repository-link {
+    flex: 1;
+}
+
+.separator {
+    background: #222;
+    margin: 1rem 1rem;
+    height: 1px;
+    transition: all .075s ease-in-out;
+}
+
+.separator.hide {
+    background: #111;
+}

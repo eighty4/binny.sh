@@ -2,7 +2,7 @@ import type {Architecture, Distribution, OperatingSystem} from './Distrubtions.j
 
 export interface GenerateScriptOptions {
     binaryName: string
-    filenames: Record<string, Distribution>
+    files: Record<string, Distribution>
     repository: {
         owner: string
         name: string
@@ -20,20 +20,24 @@ function validateOptions(options: GenerateScriptOptions) {
         throw new Error('options.repository.owner param is required')
     } else if (!options.repository.name || !options.repository.name.length) {
         throw new Error('options.repository.name param is required')
-    } else if (!options.filenames || !Object.keys(options.filenames).length) {
-        throw new Error('options.filenames is required')
+    } else if (!options.files || !Object.keys(options.files).length) {
+        throw new Error('options.files is required')
     }
 }
 
-function distributionSupport(distributions: Array<Distribution>): {
+interface DistributionSupport {
     architectures: Array<Architecture>,
     oses: Array<OperatingSystem>
-} {
+}
+
+function collectDistributionSupport(distributions: Array<Distribution>): DistributionSupport {
     const architectures: Array<Architecture> = []
     const oses: Array<OperatingSystem> = []
     for (const distribution of distributions) {
-        if (!architectures.includes(distribution.arch)) {
-            architectures.push(distribution.arch)
+        if (distribution.arch) {
+            if (!architectures.includes(distribution.arch)) {
+                architectures.push(distribution.arch)
+            }
         }
         if (!oses.includes(distribution.os)) {
             oses.push(distribution.os)
@@ -44,7 +48,7 @@ function distributionSupport(distributions: Array<Distribution>): {
 
 export function generateScript(options: GenerateScriptOptions): string {
     validateOptions(options)
-    const {architectures, oses} = distributionSupport(Object.values(options.filenames))
+    const {architectures, oses} = collectDistributionSupport(Object.values(options.files))
     return `#!/usr/bin/env sh
 set -e
 
@@ -133,7 +137,7 @@ check_cmd() {
   fi
 }
 
-${resolveFilenameFunction(options.filenames)}
+${resolveFilenameFunction(options.files)}
 
 check_cmd chmod
 check_cmd cut
@@ -186,14 +190,14 @@ function assignOrAbandon(check: boolean, variable: string, assignment: string, l
     }
 }
 
-function resolveFilenameFunction(filenamesToDistribution: Record<string, Distribution>) {
-    const filenames = Object.keys(filenamesToDistribution)
+function resolveFilenameFunction(files: Record<string, Distribution>) {
+    const filenames = Object.keys(files)
     const chunks: Array<string> = []
-    chunks.push(`  if ${renderCheckDistribution(filenamesToDistribution[filenames[0]])}; then`)
+    chunks.push(`  if ${renderCheckDistribution(files[filenames[0]])}; then`)
     chunks.push(`    _filename="${filenames[0]}"`)
     if (filenames.length > 1) {
         for (const filename of filenames.splice(1)) {
-            chunks.push(`  elif ${renderCheckDistribution(filenamesToDistribution[filename])}; then`)
+            chunks.push(`  elif ${renderCheckDistribution(files[filename])}; then`)
             chunks.push(`    _filename="${filename}"`)
         }
     }

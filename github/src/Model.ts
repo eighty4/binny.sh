@@ -13,7 +13,7 @@ export interface Asset {
 
 export interface Binary extends Asset {
     arch?: Architecture
-    os?: OperatingSystem
+    os: OperatingSystem
 }
 
 export interface Release {

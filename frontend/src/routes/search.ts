@@ -1,9 +1,9 @@
 import {type Repository} from '@eighty4/install-github'
-import {showGraphPaper} from './graphPaper.ts'
-import {createSessionCache} from './sessionCache.ts'
-import createGitHubGraphApiClient from './createGitHubGraphApiClient.ts'
-import RepositoryNavigation from './components/RepositoryNavigation.ts'
-import {removeChildNodes} from './dom.ts'
+import RepositoryNavigation from '../components/search/RepositoryNavigation.ts'
+import {showGraphPaper} from '../graphPaper.ts'
+import {createSessionCache} from '../sessionCache.ts'
+import createGitHubGraphApiClient from '../createGitHubGraphApiClient.ts'
+import {removeChildNodes} from '../dom.ts'
 
 const projectsCache = createSessionCache<Array<Repository>>('search.projects')
 
@@ -49,7 +49,7 @@ export function findProgramRepository() {
                 <div style="color: var(--head-text-color); width: 25vmin; padding: 6vmin; background: var(--head-bg-color);">
                     <h3 style="font-size: 2rem; margin-bottom: 2rem">Oh, this is awkward</h3>
                     <p style="margin-bottom: 1rem;">You don't have any GitHub releases with artifacts for Linux, MacOS or Windows.</p>
-                    <p style="margin-bottom: .75rem;">Try these docs out and come back:</p>
+                    <p style="margin-bottom: .75rem;">Try these docs and come back:</p>
                     <h4 style="padding: 1rem 0 .5rem">CLI</h4>
                     <p><a href="https://cli.github.com/manual/gh_release_create" style="color: var(--head-text-color); padding: .5rem">Create a release</a></p>
                     <p><a href="https://cli.github.com/manual/gh_release_upload" style="color: var(--head-text-color); padding: .5rem">Create a release asset</a></p>

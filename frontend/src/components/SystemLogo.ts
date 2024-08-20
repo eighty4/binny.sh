@@ -1,17 +1,24 @@
 import {OperatingSystem} from '@eighty4/install-template'
 
+interface SystemLogoOptions {
+    color: string
+    os: OperatingSystem
+    size: string
+}
+
 export default class SystemLogo extends HTMLElement {
 
     static observedAttributes = ['color', 'os']
 
-    constructor(os?: OperatingSystem, color?: string) {
+    constructor(opts?: Partial<SystemLogoOptions>) {
         super()
-        if (color) this.setAttribute('color', color)
-        if (os) this.setAttribute('os', os)
+        if (opts?.color) this.setAttribute('color', opts?.color)
+        if (opts?.os) this.setAttribute('os', opts?.os)
+        if (opts?.size) this.setAttribute('size', opts?.size)
         this.style.aspectRatio = '1 / 1'
-        this.style.background = color || 'hotpink'
+        this.style.background = opts?.color || 'hotpink'
         this.style.display = 'inline-block'
-        this.style.width = '1rem'
+        this.style.width = opts?.size || '1rem'
         this.style.willChange = 'transform'
     }
 

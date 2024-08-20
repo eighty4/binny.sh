@@ -19,7 +19,7 @@ const OS_ARCHITECTURES: Record<OperatingSystem, Array<Architecture>> = {
     'Windows': ['x86_64', 'aarch64', 'arm'],
 }
 
-export function resolveDistribution(filename: string, contentType: string): Partial<Distribution> | undefined {
+export function resolveDistribution(filename: string, contentType: string): Distribution | undefined {
     const os = resolveOperatingSystem(contentType)
     if (os) {
         const arch = resolveArchitecture(os, filename)

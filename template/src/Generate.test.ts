@@ -15,7 +15,7 @@ function generateScriptTest(goldFile: string, options: GenerateScriptOptions) {
 
 test('generate maestro.sh', () => generateScriptTest('maestro.sh', {
     binaryName: 'maestro',
-    filenames: {
+    files: {
         'maestro-darwin-amd64': {
             arch: 'x86_64',
             os: 'MacOS',
@@ -31,7 +31,7 @@ test('generate maestro.sh', () => generateScriptTest('maestro.sh', {
         'maestro-linux-arm64': {
             arch: 'aarch64',
             os: 'Linux'
-        }
+        },
     },
     repository: {
         owner: 'eighty4',

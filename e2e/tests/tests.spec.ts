@@ -14,7 +14,7 @@ test('login to #search route', async ({page}) => {
     await page.waitForSelector('#login-redirect')
     await page.click("#login-redirect")
     await page.waitForSelector('#graph-paper')
-    await page.waitForSelector('#search-input')
+    await page.waitForSelector('.repos')
 })
 
 test('#search to #configure/eighty4/maestro', async ({page}) => {
@@ -23,6 +23,7 @@ test('#search to #configure/eighty4/maestro', async ({page}) => {
     await page.waitForSelector('#login-redirect')
     await page.click("#login-redirect")
     await page.waitForSelector('#graph-paper')
-    await page.waitForSelector('#search-input')
-    await page.keyboard.insertText('maestro')
+    await page.waitForSelector('.repos')
+    await page.getByText('eighty4/maestro').click()
+    await page.getByText('for Linux and MacOS').isVisible()
 })

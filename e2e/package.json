@@ -6,11 +6,11 @@
   "license": "BSD-3-Clause",
   "type": "module",
   "scripts": {
-    "dev": "playwright test --ui",
+    "test:ui": "playwright test --ui",
     "test": "playwright test"
   },
   "devDependencies": {
     "@playwright/test": "^1.46.1",
-    "@types/node": "^22.4.0"
+    "@types/node": "^22.4.1"
   }
 }

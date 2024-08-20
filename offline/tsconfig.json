@@ -11,16 +11,10 @@
     "outDir": "lib",
     "rootDir": "src"
   },
-  "files": [
-    "../backend/src/req.d.ts"
-  ],
   "include": [
     "src/**/*.ts"
   ],
   "references": [
-    {
-      "path": "../backend"
-    },
     {
       "path": "../github"
     }

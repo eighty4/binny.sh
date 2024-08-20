@@ -1,5 +1,4 @@
 packages:
-  - backend
   - contract
   - e2e
   - frontend

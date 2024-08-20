@@ -1,9 +1,9 @@
 import {type Repository} from '@eighty4/install-github'
-import createGitHubGraphApiClient from './createGitHubGraphApiClient.ts'
-import {showGraphPaper} from './graphPaper.ts'
-import {createSessionCache} from './sessionCache.ts'
-import ConfigureScript from './components/ConfigureScript.ts'
-import {removeChildNodes} from './dom.ts'
+import ConfigureScript from '../components/configure/ConfigureScript.ts'
+import createGitHubGraphApiClient from '../createGitHubGraphApiClient.ts'
+import {showGraphPaper} from '../graphPaper.ts'
+import {createSessionCache} from '../sessionCache.ts'
+import {removeChildNodes} from '../dom.ts'
 
 export const configureRepositoryCache = createSessionCache<Repository>('configure.repo')
 

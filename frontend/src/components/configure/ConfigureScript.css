@@ -1,0 +1,56 @@
+.header {
+    width: 45vw;
+}
+
+.row {
+    display: flex;
+    gap: .75rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.name {
+    flex: 1;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.version {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.files {
+    min-height: 20vh;
+}
+
+.buttons {
+    margin-left: 2.75rem;
+}
+
+.download {
+    border: none;
+    background: #80f390;
+    color: #021;
+    display: inline-flex;
+    align-items: center;
+    padding: .5rem .75rem;
+    transition: background .1s;
+}
+
+.download:hover:not(:disabled) {
+    background: #80ff90;
+}
+
+.download:disabled {
+    background: #a0eeb0;
+    color: #687;
+}
+
+.download + .download {
+    margin-left: 1.5rem;
+}
+
+.download svg {
+    margin-right: .25rem;
+}

@@ -63,6 +63,13 @@
             width: 100vw;
         }
 
+        body {
+            background-color: var(--card-bg-color);
+            background-image: radial-gradient(circle, var(--card-graph-color) 1px, transparent 1px);
+            background-position: center;
+            background-size: 3rem 3rem;
+        }
+
         header, main {
             display: contents;
         }
@@ -80,7 +87,6 @@
         }
 
         #eighty4 {
-            background: var(--card-bg-color);
             grid-area: -2 / 1 / -1 / -1;
             padding-left: var(--edge-content-padding);
             display: flex;
@@ -101,7 +107,6 @@
         }
 
         #github {
-            background: var(--head-bg-color);
             grid-area: 1 / 1 / 2 / -1;
             padding-right: var(--edge-content-padding);
             display: flex;
@@ -288,13 +293,16 @@
         }
 
         #triangle {
+            clip-path: polygon(0 0, 100% 0, 100% 10%, 90% 10%, 10% 90%, 0 90%);
+        }
+
+        .triangle {
             position: fixed;
             top: 0;
             left: 0;
-            height: 0;
-            width: 0;
-            border-top: 100vh solid var(--head-bg-color);
-            border-right: 100vw solid transparent;
+            height: 100%;
+            width: 100%;
+            background: var(--head-bg-color);
             z-index: var(--triangle-z-index);
         }
 
@@ -309,7 +317,7 @@
     </style>
 </head>
 <body>
-<div id="triangle" aria-hidden="true"></div>
+<div id="triangle" class="triangle" aria-hidden="true"></div>
 <div id="grid">
     <header>
         <div id="eighty4">
@@ -358,9 +366,6 @@
                 <img class="lang-logo" src="/languages/cpp.svg" alt="C++ Language"/>
                 <span>rockstars</span>
             </div>
-        </div>
-        <div id="graph-paper-grid" class="hide">
-            <div id="graph-paper"></div>
         </div>
     </main>
 </div>

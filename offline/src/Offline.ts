@@ -1,6 +1,5 @@
 import cookieParser from 'cookie-parser'
-import express, {type RequestHandler} from 'express'
-import {createAccessTokenCookie, generateScriptRouteFn} from '@eighty4/install-backend/lib/Routes.js'
+import express from 'express'
 import {lookupRepositoryReleasesGraph, lookupViewerRepositoriesWithLatestReleaseGraph} from './data.js'
 
 const HTTP_PORT = 7411
@@ -22,20 +21,6 @@ app.use((req, res, next) => {
     next()
 })
 
-const offlineAuthorizeGitHubUser: RequestHandler = (req, res, next) => {
-    const accessToken = req.cookies.ght
-    if (accessToken) {
-        req.user = {
-            accessToken,
-            userId: 1,
-            login: 'eighty4',
-        }
-        next()
-    } else {
-        res.redirect(301, 'http://localhost:5711?error')
-    }
-}
-
 app.post('/offline/github/graph', (req, res) => {
     if (/^\s*{\s*viewer\s*{\s*repositories\(/.test(req.body.query)) {
         res.json(lookupViewerRepositoriesWithLatestReleaseGraph()).end()
@@ -56,15 +41,10 @@ app.post('/offline/github/graph', (req, res) => {
 })
 
 app.get('/offline/github/oauth', async (req, res) => {
-    res.redirect('http://localhost:5711?login=1')
+    const accessToken = '1234'
+    res.setHeader('Set-Cookie', `ght=${accessToken}; Secure; SameSite=Strict; Path=/`)
+    res.redirect('http://localhost:5711')
 })
-
-app.get('/login/notify', (req, res) => {
-    res.setHeader('Set-Cookie', createAccessTokenCookie('1234'))
-    res.json({newUser: true})
-})
-
-app.post('/api/script', offlineAuthorizeGitHubUser, generateScriptRouteFn)
 
 app.listen(HTTP_PORT, () => {
     console.log('install.sh http listening on', 7411)

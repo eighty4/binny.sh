@@ -1,0 +1,15 @@
+.bin {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 2.5rem;
+    font-family: monospace;
+}
+
+.filename {
+    flex: 1;
+}
+
+.arch {
+    width: 8vw;
+}

@@ -106,7 +106,7 @@ export const repositories: Record<string, Repository> = {
             }, {
                 arch: 'x86_64',
                 contentType: 'application/x-dosexec',
-                filename: 'maestro-windows-amd64',
+                filename: 'maestro-windows-amd64.exe',
                 os: 'Windows',
             }],
             otherAssets: [{
