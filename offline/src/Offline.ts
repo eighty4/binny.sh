@@ -1,6 +1,6 @@
 import cookieParser from 'cookie-parser'
 import express from 'express'
-import {lookupRepositoryReleasesGraph, lookupViewerRepositoriesWithLatestReleaseGraph} from './data.js'
+import {handleGraphQuery} from './data.js'
 
 const HTTP_PORT = 7411
 
@@ -22,27 +22,17 @@ app.use((req, res, next) => {
 })
 
 app.post('/offline/github/graph', (req, res) => {
-    if (/^\s*{\s*viewer\s*{\s*repositories\(/.test(req.body.query)) {
-        res.json(lookupViewerRepositoriesWithLatestReleaseGraph()).end()
-    } else {
-        const matches = /repository\(owner:\s"(?<owner>[a-z0-9-]+)",\sname:\s"(?<name>[a-z0-9-]+)"\)/.exec(req.body.query)
-        if (matches && matches.groups) {
-            const {owner, name} = matches.groups
-            const result = lookupRepositoryReleasesGraph({owner, name})
-            if (result) {
-                res.json(result).end()
-            } else {
-                res.end()
-            }
-        } else {
-            res.status(500).end()
-        }
-    }
+    res.json({data: handleGraphQuery(req.body.query)})
 })
 
 app.get('/offline/github/oauth', async (req, res) => {
     const accessToken = '1234'
-    res.setHeader('Set-Cookie', `ght=${accessToken}; Secure; SameSite=Strict; Path=/`)
+    // todo does Safari work with Secure and SameSite=Strict when the hostname isn't localhost?
+    if (req.header('user-agent')?.includes('Safari')) {
+        res.setHeader('Set-Cookie', `ght=${accessToken}; Path=/`)
+    } else {
+        res.setHeader('Set-Cookie', `ght=${accessToken}; Secure; SameSite=Strict; Path=/`)
+    }
     res.redirect('http://localhost:5711')
 })
 

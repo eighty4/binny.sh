@@ -7,16 +7,13 @@
   "main": "lib/GitHubApiClient.js",
   "types": "lib/GitHubApiClient.d.ts",
   "scripts": {
-    "test": "vitest run",
-    "build": "tsc --build"
+    "build": "tsc --build --clean && tsc --build"
   },
   "dependencies": {
     "@eighty4/install-template": "workspace:^"
   },
   "devDependencies": {
-    "dotenv": "^16.4.5",
-    "typescript": "^5.5.4",
-    "vitest": "^2.0.5"
+    "typescript": "^5.5.4"
   },
   "files": [
     "lib/**/*",

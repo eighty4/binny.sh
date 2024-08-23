@@ -1,5 +1,5 @@
 import type {Binary} from '@eighty4/install-github'
-import {OperatingSystem, operatingSystemLabel} from '@eighty4/install-template'
+import {type OperatingSystem, operatingSystemLabel} from '@eighty4/install-template'
 import ConfigureBinary from './ConfigureBinary.ts'
 import css from './ConfigureBinaries.css?inline'
 import SystemLogo from '../SystemLogo.ts'

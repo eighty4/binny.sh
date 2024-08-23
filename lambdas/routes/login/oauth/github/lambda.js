@@ -22,7 +22,10 @@ async function fetchAccessToken(code) {
             code,
         }),
     })
-    console.log(`github access token response ${response.status}`)
+    if (response.status !== 200) {
+        console.error(`github access token response ${response.status}: ${await response.text()}`)
+        throw new Error('github access token exchange failed')
+    }
     const formData = await response.formData()
     const accessToken = formData.get('access_token')
     if (accessToken) {
@@ -32,6 +35,7 @@ async function fetchAccessToken(code) {
         for (const key in formData.keys()) {
             formDataStr += `${key}=${formData.get(key)}`
         }
-        throw new Error('access_token missing, form data has: ' + formDataStr)
+        console.error('github access token exchange form data missing access_token, form data has: ' + formDataStr)
+        throw new Error('github access token exchange failed')
     }
 }

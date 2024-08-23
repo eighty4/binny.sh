@@ -1,8 +1,18 @@
 import type {Architecture, OperatingSystem} from '@eighty4/install-template'
 
+export type Language = 'C++' | 'C' | 'Go' | 'Rust' | 'Zig'
+
+export interface User {
+    login: string
+    // email?: string
+    id: string
+    avatarUrl: string
+}
+
 export interface Repository {
     owner: string
     name: string
+    languages: Array<Language>
     latestRelease?: Release
 }
 

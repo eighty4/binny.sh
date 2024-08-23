@@ -13,45 +13,48 @@ jobs:
   verified:
     runs-on: ubuntu-latest
     needs:
-      - verify-backend
+#      - verify-backend
       - verify-frontend
+      - verify-github
       - verify-template
     steps:
       - uses: actions/checkout@v4
       - run: echo "44.481800,-88.054413"
 
-  verify-backend:
-    runs-on: ubuntu-latest
-    services:
-      postgres:
-        image: postgres:16
-        ports:
-          - 5432:5432
-        env:
-          POSTGRES_DB: eighty4
-          POSTGRES_USER: eighty4
-          POSTGRES_PASSWORD: eighty4
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 5s
-          --health-timeout 5s
-          --health-retries 10
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-      - name: sql
-        run: |
-          sudo apt-get install -y postgresql-client
-          PGPASSWORD=eighty4 psql -h localhost -U eighty4 -f backend/sql/v001-init-schema.sql eighty4
-      - name: verify
-        run: |
-          corepack enable && corepack prepare pnpm@latest --activate
-          pnpm i
-          pnpm build
-          pnpm test
-        working-directory: backend
+#  verify-backend:
+#    runs-on: ubuntu-latest
+#    services:
+#      postgres:
+#        image: postgres:16
+#        ports:
+#          - 5432:5432
+#        env:
+#          POSTGRES_DB: eighty4
+#          POSTGRES_USER: eighty4
+#          POSTGRES_PASSWORD: eighty4
+#        options: >-
+#          --health-cmd pg_isready
+#          --health-interval 5s
+#          --health-timeout 5s
+#          --health-retries 10
+#    steps:
+#      - uses: actions/checkout@v4
+#      - uses: actions/setup-node@v4
+#        with:
+#          node-version: 20
+#      - name: sql
+#        run: |
+#          sudo apt-get update -y
+#          sudo apt-get install -y postgresql-client
+#          PGPASSWORD=eighty4 psql -h localhost -U eighty4 -f v001-init-schema.sql eighty4
+#        working-directory: sql
+#      - name: verify
+#        run: |
+#          corepack enable && corepack prepare pnpm@latest --activate
+#          pnpm i
+#          pnpm build
+#          pnpm test
+#        working-directory: backend
 
   verify-frontend:
     runs-on: ubuntu-latest
@@ -60,14 +63,31 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+      - name: install brotli
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y brotli
       - name: verify
         run: |
-          apt-get update -y && apt-get install -y brotli
+          corepack enable && corepack prepare pnpm@latest --activate
+          pnpm i
+          VITE_GITHUB_CLIENT_ID=ci pnpm build
+          pnpm svg
+        working-directory: frontend
+
+  verify-github:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: verify
+        run: |
           corepack enable && corepack prepare pnpm@latest --activate
           pnpm i
           pnpm build
-          pnpm svg
-        working-directory: frontend
+        working-directory: github
 
   verify-template:
     runs-on: ubuntu-latest

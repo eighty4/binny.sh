@@ -22,9 +22,9 @@ jobs:
     steps:
       - name: Check env vars
         run: |
-          if [ -z "$GITHUB_CLIENT_ID" ]; then exit 1; fi
+          if [ -z "$GH_OAUTH_CLIENT_ID" ]; then exit 1; fi
         env:
-          GITHUB_CLIENT_ID: ${{secrets.GH_CLIENT_ID}}
+          GH_OAUTH_CLIENT_ID: ${{secrets.GH_OAUTH_CLIENT_ID}}
       - name: Checkout
         uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -36,7 +36,7 @@ jobs:
           pnpm i
           pnpm build
         env:
-          GITHUB_CLIENT_ID: ${{secrets.GITHUB_CLIENT_ID}}
+          VITE_GITHUB_CLIENT_ID: ${{secrets.GH_OAUTH_CLIENT_ID}}
         working-directory: frontend
       - name: Setup Pages
         uses: actions/configure-pages@v4

@@ -1,7 +1,7 @@
 import {readFileSync, writeFileSync} from 'node:fs'
 import {join} from 'node:path'
 import {expect, test} from 'vitest'
-import {generateScript, type GenerateScriptOptions} from './Generate'
+import {generateScript, type GenerateScriptOptions} from './Generate.js'
 
 function generateScriptTest(goldFile: string, options: GenerateScriptOptions) {
     const goldPath = join('gold', 'scripts', goldFile)

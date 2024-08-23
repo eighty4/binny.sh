@@ -6,13 +6,12 @@
   "license": "BSD-3-Clause",
   "type": "module",
   "scripts": {
-    "build": "tsc --build --clean && tsc --build",
-    "start": "pnpm build && node lib/Offline.js"
+    "start": "tsc --build && node lib/Offline.js"
   },
   "dependencies": {
     "@eighty4/install-github": "workspace:*",
     "cookie-parser": "^1.4.6",
-    "express": "5.0.0-beta.1"
+    "express": "5.0.0-beta.3"
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.7",

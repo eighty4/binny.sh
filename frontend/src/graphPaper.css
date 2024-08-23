@@ -1,4 +1,4 @@
-html.out #triangle {
+html.out:not(.reader) #triangle {
     transform: scale(0);
     transform-origin: top left;
     transition-property: transform;
@@ -12,10 +12,8 @@ html.out #triangle {
 }
 
 #graph-paper {
-    grid-area: 4 / 4 / -1 / -4;
-    width: 100%;
-    height: 100%;
-    box-sizing: border-box;
-    color: var(--card-text-color);
-    border: none;
+    position: relative;
+    left: 20vw;
+    top: 20vh;
+    width: 60vw;
 }

@@ -1,9 +1,14 @@
-import type {Repository} from './Model.js'
-import {mapReleaseNode, RepositoryReleasesGraph, ViewerRepositoriesWithLatestReleaseGraph} from './graphApiTypes.js'
+import {
+    mapLanguageNodes,
+    mapReleaseNode,
+    type RepositoryReleasesGraph,
+    type ViewerRepositoriesWithLatestReleaseGraph,
+    type ViewerUserGraph,
+} from './graphApiTypes.js'
+import {fetchUserQuery, queryLatestReleaseQuery, queryUserRepositoriesQuery} from './graphApiQueries.js'
+import type {Repository, User} from './Model.js'
 
 export * from './Model.js'
-
-export type PageUserRepositoriesCallback = (repos: Array<Repository>, complete: boolean) => void
 
 interface QueryUserRepositoriesResponse {
     repositories: Array<Repository>
@@ -16,6 +21,16 @@ export class GitHubApiClient {
                 private readonly ghGraphApiUrl: string = 'https://api.github.com/graphql') {
     }
 
+    async queryUser(): Promise<User> {
+        const result = await this.internalDoGraphApiQuery<ViewerUserGraph>(fetchUserQuery)
+        return {
+            login: result.data.viewer.login,
+            // email: result.data.viewer.email.length ? result.data.viewer.email : undefined,
+            id: result.data.viewer.id,
+            avatarUrl: result.data.viewer.avatarUrl,
+        }
+    }
+
     async collectUserRepositories(): Promise<Array<Repository>> {
         const result: Array<Repository> = []
         let hasNextPage = true
@@ -26,39 +41,11 @@ export class GitHubApiClient {
             nextCursor = response.endCursor
             result.push(...response.repositories)
         } while (hasNextPage)
-        result.sort((a, b) => {
-            if (!!a.latestRelease) {
-                return -1
-            } else {
-                return 1
-            }
-        })
         return result
     }
 
     async queryLatestRelease(repoOwner: string, repoName: string): Promise<Repository> {
-        const result = await this.internalDoGraphApiQuery<RepositoryReleasesGraph>(`
-query {
-  repository(owner: "${repoOwner}", name: "${repoName}") {
-    releases(first: 1, orderBy: {field: CREATED_AT, direction: DESC}) {
-      nodes {
-        createdAt
-        tagCommit {
-          abbreviatedOid
-        }
-        tagName
-        updatedAt
-        url
-        releaseAssets(first: 100) {
-          nodes {
-            name
-            contentType
-          }
-        }
-      }
-    }
-  }
-}`)
+        const result = await this.internalDoGraphApiQuery<RepositoryReleasesGraph>(queryLatestReleaseQuery(repoOwner, repoName))
         if (result.data.repository === null) {
             throw new Error(`${repoOwner}/${repoName} not found`)
         }
@@ -69,70 +56,19 @@ query {
         return {
             owner: repoOwner,
             name: repoName,
+            languages: mapLanguageNodes(result.data.repository.languages.nodes),
             latestRelease: mapReleaseNode(releases.nodes[0]),
         }
     }
 
-    pageUserRepositories(reposPerPage: number, callback: PageUserRepositoriesCallback): void {
-        this.internalPageUserRepositories(reposPerPage, callback).then().catch(console.error)
-    }
-
-    private async internalPageUserRepositories(reposPerPage: number, callback: PageUserRepositoriesCallback): Promise<void> {
-        let hasNextPage = true
-        let nextCursor: string | undefined = undefined
-        do {
-            const response = await this.internalQueryUserRepositories(reposPerPage, nextCursor)
-            hasNextPage = response.hasNextPage
-            nextCursor = response.endCursor
-            callback(response.repositories, !hasNextPage)
-        } while (hasNextPage)
-    }
-
     private async internalQueryUserRepositories(reposPerPage: number, cursor?: string): Promise<QueryUserRepositoriesResponse> {
-        const result = await this.internalDoGraphApiQuery<ViewerRepositoriesWithLatestReleaseGraph>(`
-{
-  viewer {
-    repositories(
-      first: ${reposPerPage}, after: ${cursor ? `"${cursor}"` : 'null'},
-      affiliations: [OWNER, COLLABORATOR, ORGANIZATION_MEMBER]
-    ) {
-      nodes {
-        ... on Repository {
-          name
-          owner {
-            login
-          }
-          releases(first: 1, orderBy: {field: CREATED_AT, direction: DESC}) {
-            nodes {
-              createdAt
-              tagCommit {
-                abbreviatedOid
-              }
-              tagName
-              updatedAt
-              url
-              releaseAssets(first: 100) {
-                nodes {
-                  name
-                  contentType
-                }
-              }
-            }
-          }
-        }
-      }
-      pageInfo {
-        endCursor
-        hasNextPage
-      }
-    }
-  }
-}`)
+        const result = await this.internalDoGraphApiQuery<ViewerRepositoriesWithLatestReleaseGraph>(queryUserRepositoriesQuery(reposPerPage, cursor))
         const repositories: Array<Repository> = []
         for (const repo of result.data.viewer.repositories.nodes) {
             repositories.push({
                 owner: repo.owner.login,
                 name: repo.name,
+                languages: mapLanguageNodes(repo.languages.nodes),
                 latestRelease: repo.releases.nodes.length ? mapReleaseNode(repo.releases.nodes[0]) : undefined,
             })
         }
@@ -150,12 +86,12 @@ query {
             body: JSON.stringify({query}),
         })
         if (response.status !== 200) {
-            throw new Error('internalDoGraphApiQuery status code ' + response.status)
+            throw new Error('internalDoGraphApiQuery bad gh graphql status code: ' + response.status)
         }
         const result = await response.json()
         if (!result.data) {
             console.error('internalDoGraphApiQuery response', JSON.stringify(result, null, 4))
-            throw new Error('internalDoGraphApiQuery wtf')
+            throw new Error('internalDoGraphApiQuery bad gh graphql response')
         }
         console.log('internalDoGraphApiQuery', result)
         return result

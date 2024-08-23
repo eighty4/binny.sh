@@ -1,4 +1,4 @@
-import {Repository} from '@eighty4/install-github'
+import type {Repository} from '@eighty4/install-github'
 import RepositoryLink from './RepositoryLink.ts'
 import css from './RepositoryNavigation.css?inline'
 import {cloneTemplate} from '../../dom.ts'
@@ -11,15 +11,12 @@ export default class RepositoryNavigation extends HTMLElement {
         return `
             <template id="${RepositoryNavigation.TEMPLATE_ID}">
                 <style>${css}</style>
-                <repository-search></repository-search>
                 <div class="repos"></div>
                 <repository-pagination></repository-pagination>
             </template>`
     }
 
     #links: HTMLDivElement
-
-    // #pagination: RepositoryPagination
 
     #projects: Array<Repository> = []
 
@@ -30,7 +27,6 @@ export default class RepositoryNavigation extends HTMLElement {
         this.#shadow = this.attachShadow({mode: 'open'})
         this.#shadow.appendChild(cloneTemplate(RepositoryNavigation.TEMPLATE_ID))
         this.#links = this.#shadow.querySelector('.repos') as HTMLDivElement
-        // this.#pagination = this.#shadow.querySelector('repository-pagination') as RepositoryPagination
     }
 
     disconnectedCallback() {

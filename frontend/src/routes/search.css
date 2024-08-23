@@ -1,0 +1,8 @@
+#graph-paper.search {
+    box-sizing: border-box;
+    padding: 3rem;
+}
+
+repository-section + repository-section {
+    margin-top: 2rem;
+}

@@ -1,5 +1,9 @@
+import type {Repository, User} from '@eighty4/install-github'
+
 export interface SessionCache<T> {
     clear(): void
+
+    hasValue(): boolean
 
     read(): T | null
 
@@ -11,6 +15,9 @@ export function createSessionCache<T>(key: string): SessionCache<T> {
         clear() {
             sessionStorage.removeItem(key)
         },
+        hasValue() {
+            return sessionStorage.getItem(key) !== null
+        },
         read() {
             const data = sessionStorage.getItem(key)
             return data === null ? null : JSON.parse(data)
@@ -20,3 +27,9 @@ export function createSessionCache<T>(key: string): SessionCache<T> {
         },
     }
 }
+
+export const configureRepoCache = createSessionCache<Repository>('configure.repo')
+
+export const gitHubTokenCache = createSessionCache<string>('ght')
+
+export const gitHubUserCache = createSessionCache<User>('ghu')

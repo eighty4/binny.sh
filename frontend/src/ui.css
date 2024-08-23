@@ -1,3 +1,13 @@
+#page-header {
+    grid-area: 2 / 3 / 3 / -3;
+    color: var(--head-text-color);
+    font-size: 1.45rem;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    padding-bottom: 2vh;
+}
+
 :root {
     --out-transition-duration: 400ms;
 }
@@ -28,6 +38,7 @@ html.out #explain, html.out #logo, html.out #tagline {
 
 html.out #login {
     opacity: 0;
+    pointer-events: none;
     transform: scale(50%);
 }
 

@@ -1,26 +1,58 @@
 import type {Release, Repository} from '@eighty4/install-github'
-import {
+import type {
     ReleaseAssetNode,
     ReleaseNode,
     RepositoryNode,
     RepositoryReleasesGraph,
     ViewerRepositoriesWithLatestReleaseGraph,
+    ViewerUserGraph,
 } from '@eighty4/install-github/lib/graphApiTypes.js'
 
-export function lookupRepositoryReleasesGraph(repository: Repository): { data: RepositoryReleasesGraph } | undefined {
-    const repoKey = `${repository.owner}/${repository.name}`
-    if (repositories[repoKey]) {
+const fns: Array<(query: string) => any | undefined> = [
+    lookupViewerUserGraph,
+    lookupViewerRepositoriesWithLatestReleaseGraph,
+    lookupRepositoryReleasesGraph,
+]
+
+export function handleGraphQuery(query: string): any | never {
+    for (const fn of fns) {
+        const maybe = fn(query)
+        if (maybe) {
+            return maybe
+        }
+    }
+    throw new Error()
+}
+
+function lookupViewerUserGraph(query: string): ViewerUserGraph | undefined {
+    if (/^\s*query\s*{\s*viewer\s*{\s*login/.test(query)) {
         return {
-            data: {
-                repository: mapRepository(repositories[repoKey]),
+            viewer: {
+                login: 'eighty4',
+                email: '',
+                avatarUrl: '',
+                id: '1234',
             },
         }
     }
 }
 
-export function lookupViewerRepositoriesWithLatestReleaseGraph(): { data: ViewerRepositoriesWithLatestReleaseGraph } {
-    return {
-        data: {
+function lookupRepositoryReleasesGraph(query: string): RepositoryReleasesGraph | undefined {
+    const matches = /repository\(owner:\s"(?<owner>[a-z0-9-]+)",\sname:\s"(?<name>[a-z0-9-]+)"\)/.exec(query)
+    if (matches && matches.groups) {
+        const {owner, name} = matches.groups
+        const repoKey = `${owner}/${name}`
+        if (repositories[repoKey]) {
+            return {
+                repository: mapRepository(repositories[repoKey]),
+            }
+        }
+    }
+}
+
+function lookupViewerRepositoriesWithLatestReleaseGraph(query: string): ViewerRepositoriesWithLatestReleaseGraph | undefined {
+    if (/^\s*{\s*viewer\s*{\s*repositories\(/.test(query)) {
+        return {
             viewer: {
                 repositories: {
                     nodes: Object.keys(repositories).map(repoName => repositories[repoName]).map(mapRepository),
@@ -30,7 +62,7 @@ export function lookupViewerRepositoriesWithLatestReleaseGraph(): { data: Viewer
                     },
                 },
             },
-        },
+        }
     }
 }
 
@@ -39,6 +71,9 @@ function mapRepository(repository: Repository): RepositoryNode {
         name: repository.name,
         owner: {
             login: repository.owner,
+        },
+        languages: {
+            nodes: repository.languages.map(name => ({name})),
         },
         releases: {
             nodes: mapRelease(repository.latestRelease),
@@ -80,6 +115,7 @@ export const repositories: Record<string, Repository> = {
     'eighty4/maestro': {
         owner: 'eighty4',
         name: 'maestro',
+        languages: ['Go'],
         latestRelease: {
             commitHash: 'bbb3b25',
             createdAt: '2024-01-01',
@@ -121,6 +157,7 @@ export const repositories: Record<string, Repository> = {
     'eighty4/unresolved': {
         owner: 'eighty4',
         name: 'unresolved',
+        languages: ['C', 'C++'],
         latestRelease: {
             commitHash: 'bbb3b25',
             createdAt: '2024-01-01',

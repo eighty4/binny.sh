@@ -1,17 +1,35 @@
 import {type Repository} from '@eighty4/install-github'
-import RepositoryNavigation from '../components/search/RepositoryNavigation.ts'
-import {showGraphPaper} from '../graphPaper.ts'
-import {createSessionCache} from '../sessionCache.ts'
+import './search.css'
+import emptyHtml from './search.empty.html?raw'
+import errorHtml from './search.error.html?raw'
 import createGitHubGraphApiClient from '../createGitHubGraphApiClient.ts'
 import {removeChildNodes} from '../dom.ts'
+import {onClearGraphPaper, showGraphPaper} from '../graphPaper.ts'
+import {createSessionCache, gitHubUserCache} from '../sessionCache.ts'
+import {clearPageHeader, setPageHeader} from '../ui.ts'
+import RepositorySection from '../components/search/RepositorySection.ts'
+
+type RepoSectionType = 'generated' | 'released' | 'compatible'
+
+interface RepoSectionData {
+    type: RepoSectionType
+    repos: Array<Repository>
+}
+
+const sectionHeaders: Record<RepoSectionType, string> = {
+    generated: 'Install.sh scripts',
+    released: 'With released binaries',
+    compatible: 'Uses compiled languages',
+}
 
 const projectsCache = createSessionCache<Array<Repository>>('search.projects')
 
 export function findProgramRepository() {
     showGraphPaper((graphPaper) => {
-        graphPaper.classList.add('center')
-
-        let navigation: RepositoryNavigation
+        graphPaper.classList.add('search')
+        setPageHeader(`${gitHubUserCache.read()!.login}'s repos`)
+        onClearGraphPaper(clearPageHeader)
+        let loading: boolean = true
         let projects = projectsCache.read()
 
         if (projects?.length) {
@@ -24,20 +42,46 @@ export function findProgramRepository() {
 
         function onProjectsReceived(repositories: Array<Repository>) {
             projectsCache.write(projects = repositories)
-            if (projects.length) {
-                showProjects(projects)
-            } else {
-                showGuideOnEmptyProjects()
-            }
+            showProjects(projects)
         }
 
         function showProjects(projects: Array<Repository>) {
-            if (!navigation) {
-                navigation = new RepositoryNavigation()
+            if (loading) {
                 removeChildNodes(graphPaper)
-                graphPaper.appendChild(navigation)
+                loading = false
+                const groupedRepos = groupRepositories(projects)
+                const primaryRepoGroups: Array<RepoSectionData> = []
+                if (groupedRepos.releasesWithGeneratedScripts) {
+                    // todo
+                }
+                if (groupedRepos.releasesWithBinaries.length) {
+                    primaryRepoGroups.push({
+                        type: 'released',
+                        repos: groupedRepos.releasesWithBinaries,
+                    })
+                }
+                if (groupedRepos.notReleasedWithCompiledLanguage.length) {
+                    primaryRepoGroups.push({
+                        type: 'compatible',
+                        repos: groupedRepos.notReleasedWithCompiledLanguage,
+                    })
+                }
+                if (primaryRepoGroups.length) {
+                    showPrimaryRepoSections(primaryRepoGroups)
+                } else {
+                    showGuideOnEmptyProjects()
+                }
+            } else {
+                // todo diff cache and api response
             }
-            navigation.projects = projects
+        }
+
+        function showPrimaryRepoSections(repoSections: Array<RepoSectionData>) {
+            for (const data of repoSections) {
+                graphPaper.insertAdjacentHTML('beforeend', `<repository-section class="${data.type}" header="${sectionHeaders[data.type]}"></repository-section>`)
+                const repoSection = graphPaper.querySelector(`.${data.type}`) as RepositorySection
+                repoSection.repos = data.repos
+            }
         }
 
         function showGuideOnEmptyProjects() {
@@ -45,29 +89,43 @@ export function findProgramRepository() {
             // todo search/filter repositories
             // todo show projects without releases
             // todo link to fork a workflow template to create Zig/Rust/Golang workflows with release uploads
-            graphPaper.innerHTML = `
-                <div style="color: var(--head-text-color); width: 25vmin; padding: 6vmin; background: var(--head-bg-color);">
-                    <h3 style="font-size: 2rem; margin-bottom: 2rem">Oh, this is awkward</h3>
-                    <p style="margin-bottom: 1rem;">You don't have any GitHub releases with artifacts for Linux, MacOS or Windows.</p>
-                    <p style="margin-bottom: .75rem;">Try these docs and come back:</p>
-                    <h4 style="padding: 1rem 0 .5rem">CLI</h4>
-                    <p><a href="https://cli.github.com/manual/gh_release_create" style="color: var(--head-text-color); padding: .5rem">Create a release</a></p>
-                    <p><a href="https://cli.github.com/manual/gh_release_upload" style="color: var(--head-text-color); padding: .5rem">Create a release asset</a></p>
-                    <h4 style="padding: 1rem 0 .5rem">Rest API</h4>
-                    <p><a href="https://docs.github.com/en/rest/releases/releases?apiVersion=2022-11-28#create-a-release" style="color: var(--head-text-color); padding: .5rem">Create a release</a></p>
-                    <p><a href="https://docs.github.com/en/rest/releases/assets?apiVersion=2022-11-28#upload-a-release-asset" style="color: var(--head-text-color); padding: .5rem">Create a release asset</a></p>
-                </div>
-            `
+            graphPaper.innerHTML = emptyHtml
         }
 
         function onExceptionalCondition(e: Error) {
             console.error(e)
-            graphPaper.innerHTML = `
-                <div style="color: var(--head-text-color); min-width: 25vmin; padding: 6vmin; background: orangered">
-                    <h3 style="font-size: 2rem; margin-bottom: 2rem">Oh, this is awkward</h3>
-                    <pre><code>${e.stack}</code></pre>
-                </div>
-            `
+            graphPaper.innerHTML = errorHtml
+            if (import.meta.env.DEV) {
+                graphPaper.querySelector('code')!.innerText = e.stack?.toString() || e.message
+            }
         }
     })
+}
+
+interface GroupedRepos {
+    releasesWithGeneratedScripts: Array<Repository>
+    releasesWithBinaries: Array<Repository>
+    notReleasedWithCompiledLanguage: Array<Repository>
+    everythingElse: Array<Repository>
+}
+
+function groupRepositories(repos: Array<Repository>): GroupedRepos {
+    const releasesWithBinaries: Array<Repository> = []
+    const notReleasedWithCompiledLanguage: Array<Repository> = []
+    const everythingElse: Array<Repository> = []
+    for (const repo of repos) {
+        if (repo.latestRelease?.binaries?.length) {
+            releasesWithBinaries.push(repo)
+        } else if (repo.languages.length) {
+            notReleasedWithCompiledLanguage.push(repo)
+        } else {
+            everythingElse.push(repo)
+        }
+    }
+    return {
+        releasesWithGeneratedScripts: [],
+        releasesWithBinaries,
+        notReleasedWithCompiledLanguage,
+        everythingElse,
+    }
 }

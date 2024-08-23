@@ -55,35 +55,28 @@
 
         html, body {
             background: var(--card-bg-color);
-            overflow: hidden;
-        }
-
-        html, body, header {
-            height: 100vh;
-            width: 100vw;
-        }
-
-        body {
-            background-color: var(--card-bg-color);
-            background-image: radial-gradient(circle, var(--card-graph-color) 1px, transparent 1px);
-            background-position: center;
-            background-size: 3rem 3rem;
-        }
-
-        header, main {
-            display: contents;
+            min-height: 100vh;
+            overflow-x: hidden;
         }
 
         #grid {
+            height: 100vh;
+            width: 100vw;
             position: fixed;
             top: 0;
             left: 0;
-            height: 100vh;
-            width: 100vw;
             display: grid;
             grid-template-columns: repeat(10, 1fr);
             grid-template-rows: repeat(10, 1fr);
             z-index: var(--grid-z-index);
+            background-image: radial-gradient(circle, var(--card-graph-color) 1px, transparent 1px);
+            background-position: center;
+            background-size: 3rem 3rem;
+            pointer-events: none;
+        }
+
+        #grid * {
+            pointer-events: auto;
         }
 
         #eighty4 {
@@ -318,57 +311,53 @@
 </head>
 <body>
 <div id="triangle" class="triangle" aria-hidden="true"></div>
-<div id="grid">
-    <header>
-        <div id="eighty4">
-            <a href="https://eighty4.tech">an <img id="eighty4-logo" src="/eighty4.svg" alt="eighty4.tech logo"/> app</a>
+<header id="grid">
+    <div id="eighty4">
+        <a href="https://eighty4.tech">an <img id="eighty4-logo" src="/eighty4.svg" alt="eighty4.tech logo"/> app</a>
+    </div>
+    <div id="github">
+        <a href="https://github.com/eighty4/install.sh">
+            <span class="call-to-action current">read source</span>
+            <span class="call-to-action">contribute</span>
+            <span class="call-to-action" data-infested="true">report bugs</span>
+            <div id="github-logo" role="img"
+                 aria-label="GitHub logo link to https://github.com/eighty4/install.sh"></div>
+            <div id="bug" aria-hidden="true" style="opacity: 0;"></div>
+        </a>
+    </div>
+    <div id="header">
+        <h1 style="display: none">Install.sh</h1>
+        <h2>Binaries,</h2>
+        <h3>Installed</h3>
+    </div>
+    <div id="logo">
+        <img src="/logo_i.svg" alt="Install.sh logo"/>
+        <div id="sh-cursive" aria-hidden="true"></div>
+    </div>
+    <div id="tagline">
+        <p>"Be cool like Homebrew"</p>
+        <p>"Push bins like Rustup"</p>
+        <p>"Ship it like pnpm does"</p>
+    </div>
+    <div id="explain">
+        <button>Explain how</button>
+    </div>
+    <div id="features">
+        <p id="feature1"><b>tested</b></p>
+        <p id="feature2"><b>cross-platform</b></p>
+        <p id="feature3"><b>reproducible</b> scripts</p>
+        <p id="feature4">installs from your GitHub releases</p>
+        <p id="feature5">supports Linux, MacOS, aarch64 & x86_64</p>
+        <div id="lang-logos">
+            <span>for</span>
+            <img class="lang-logo" src="/languages/go.svg" alt="Go Language"/>
+            <div id="rust-logo" class="lang-logo" role="img" aria-label="Rust logo"></div>
+            <img class="lang-logo" src="/languages/zig.svg" alt="Zig Language"/>
+            <img class="lang-logo" src="/languages/cpp.svg" alt="C++ Language"/>
+            <span>rockstars</span>
         </div>
-        <div id="github">
-            <a href="https://github.com/eighty4/install.sh">
-                <span class="call-to-action current">read source</span>
-                <span class="call-to-action">contribute</span>
-                <span class="call-to-action" data-infested="true">report bugs</span>
-                <div id="github-logo" role="img"
-                     aria-label="GitHub logo link to https://github.com/eighty4/install.sh"></div>
-                <div id="bug" aria-hidden="true" style="opacity: 0;"></div>
-            </a>
-        </div>
-        <div id="header">
-            <h1 style="display: none">Install.sh</h1>
-            <h2>Binaries,</h2>
-            <h3>Installed</h3>
-        </div>
-        <div id="logo">
-            <img src="/logo_i.svg" alt="Install.sh logo"/>
-            <div id="sh-cursive" aria-hidden="true"></div>
-        </div>
-        <div id="tagline">
-            <p>"Be cool like Homebrew"</p>
-            <p>"Push bins like Rustup"</p>
-            <p>"Ship it like pnpm does"</p>
-        </div>
-        <div id="explain">
-            <button>Explain how</button>
-        </div>
-    </header>
-    <main>
-        <div id="features">
-            <p id="feature1"><b>tested</b></p>
-            <p id="feature2"><b>cross-platform</b></p>
-            <p id="feature3"><b>reproducible</b> scripts</p>
-            <p id="feature4">installs from your GitHub releases</p>
-            <p id="feature5">supports Linux, MacOS, aarch64 & x86_64</p>
-            <div id="lang-logos">
-                <span>for</span>
-                <img class="lang-logo" src="/languages/go.svg" alt="Go Language"/>
-                <div id="rust-logo" class="lang-logo" role="img" aria-label="Rust logo"></div>
-                <img class="lang-logo" src="/languages/zig.svg" alt="Zig Language"/>
-                <img class="lang-logo" src="/languages/cpp.svg" alt="C++ Language"/>
-                <span>rockstars</span>
-            </div>
-        </div>
-    </main>
-</div>
+    </div>
+</header>
 <script>
     let flipped = localStorage.getItem('theme-flip') === '1'
     if (typeof flipped === 'undefined' || flipped === null) {
@@ -380,25 +369,6 @@
     document.addEventListener('DOMContentLoaded', () => {
         const taglineContainer = document.querySelector('#tagline')
         taglineContainer.children[Math.floor(Math.random() * taglineContainer.children.length)].classList.add('show')
-
-        document.querySelector('#explain button').addEventListener('click', () => {
-            const messages = [
-                `With a few keypresses and mouse clicks, we will generate an installation script for release artifacts from your GitHub repositories. The script will install your latest release to a user's home directory and add its path to their shell.`,
-                `Host the script on your project's website and give your users a command like this:
-
-curl -fsSL https://asdf/myscript.sh | sh`,
-                `That's it! You're ready to give it a go.\n\nGood luck!\n\n\n`,
-            ]
-            for (let i = 0; i < messages.length; i++) {
-                const isLastMessage = i + 1 === messages.length
-                const append = isLastMessage ? '' : '\n\nPress OK to continue guide'
-                const fn = isLastMessage ? alert : confirm
-                if (!fn('\n' + messages[i] + append)) {
-                    break
-                }
-            }
-        })
-
         const githubContainer = document.getElementById('github')
         let callToActions = githubContainer.querySelectorAll('.call-to-action')
         let i = 0

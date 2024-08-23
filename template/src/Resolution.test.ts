@@ -1,5 +1,5 @@
 import {expect, test} from 'vitest'
-import {resolveDistribution} from './Resolution'
+import {resolveDistribution} from './Resolution.js'
 
 test('resolveDistribution for Linux', () => {
     expect(resolveDistribution('maestro-linux-386', 'application/x-executable'))

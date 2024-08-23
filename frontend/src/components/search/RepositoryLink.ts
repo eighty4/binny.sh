@@ -1,7 +1,7 @@
 import type {Repository} from '@eighty4/install-github'
 import css from './RepositoryLink.css?inline'
 import SystemLogo from '../SystemLogo.ts'
-import {configureRepositoryCache} from '../../routes/configure.ts'
+import {configureRepoCache} from '../../sessionCache.ts'
 import {cloneTemplate} from '../../dom.ts'
 import {pushConfigureRoute} from '../../router.ts'
 
@@ -49,7 +49,7 @@ export default class RepositoryLink extends HTMLElement {
     }
 
     private onClick = () => {
-        configureRepositoryCache.write(this.#repo)
+        configureRepoCache.write(this.#repo)
         this.style.viewTransitionName = `repo-${this.#repo.owner}-${this.#repo.name}`
         pushConfigureRoute(this.#repo)
     }

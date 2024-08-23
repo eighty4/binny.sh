@@ -5,7 +5,7 @@ set -e
 
 cd frontend
 echo '\n*** frontend ***'
-pnpm build
+VITE_GITHUB_CLIENT_ID=ci pnpm build
 cd ..
 
 cd template

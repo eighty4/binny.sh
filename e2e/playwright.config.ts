@@ -1,4 +1,4 @@
-import {defineConfig, devices} from '@playwright/test'
+import {defineConfig, devices, type PlaywrightTestConfig} from '@playwright/test'
 
 // https://playwright.dev/docs/test-configuration
 
@@ -10,7 +10,7 @@ export default defineConfig({
     workers: process.env.CI ? 1 : undefined,
     reporter: 'html',
     use: {
-        // baseURL: 'http://127.0.0.1:3000',
+        baseURL: 'http://localhost:5711',
         trace: 'on-first-retry',
     },
     projects: [
@@ -30,9 +30,15 @@ export default defineConfig({
         },
     ],
 
-    webServer: {
-      command: './start_app.sh',
-      url: 'http://localhost:5711',
-      reuseExistingServer: !process.env.CI,
-    },
+    webServer: createWebServerConfig(),
 })
+
+function createWebServerConfig(): (PlaywrightTestConfig['webServer']) | undefined {
+    if (process.env.CI) {
+        return {
+            command: './start_app.sh',
+            url: 'http://localhost:5711',
+            reuseExistingServer: false,
+        }
+    }
+}

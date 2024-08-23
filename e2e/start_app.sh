@@ -1,18 +1,17 @@
 #!/bin/bash
 
-pushd ..
-  pnpm -r build
-popd
-
 pushd ../frontend
-#  pnpm preview:offline &
-  pnpm dev:offline &
-  frontend_pid=$!
+  pnpm build:tsc
 popd
 
 pushd ../offline
-  pnpm dev &
+  pnpm start &
   offline_pid=$!
+popd
+
+pushd ../frontend
+  pnpm dev:offline &
+  frontend_pid=$!
 popd
 
 function cleanup()

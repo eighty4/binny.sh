@@ -1,49 +1,44 @@
 import {initializeCustomizationControls} from './customizations.ts'
+import {initializeExplainButton} from './explain.ts'
 import {showLoginButton} from './login.ts'
-import {getCookie, parseQueryParams} from './parse.ts'
+import {getCookie} from './parse.ts'
 import {handleCurrentRoute, subscribeRouterEvents} from './router.ts'
+import {initializeUserPanel} from './userPanel.ts'
 import './components/define.ts'
+import createGitHubGraphApiClient from './createGitHubGraphApiClient.ts'
+import {gitHubTokenCache, gitHubUserCache} from './sessionCache.ts'
 
 if (document.readyState !== 'loading') {
-    onPageLoad()
+    startApp()
 } else {
-    document.addEventListener('DOMContentLoaded', onPageLoad)
-}
-
-function onPageLoad() {
-    const params = parseQueryParams()
-    if (params['login']) {
-        handleLoginRequest(params['login'])
-    } else if (params['auth']) {
-        showLoginButton(params['auth'])
-    } else {
-        startApp()
-    }
-}
-
-function handleLoginRequest(loginId: string) {
-    fetch('/login/notify?login=' + loginId)
-        .then((r) => {
-            if (r.status === 200) {
-                startApp()
-            } else {
-                showLoginButton('failed')
-            }
-        })
-        .catch(e => {
-            console.log('await login error', e)
-        })
-    window.history.replaceState(null, '', '/')
+    document.addEventListener('DOMContentLoaded', startApp)
 }
 
 function startApp() {
     initializeCustomizationControls()
-    const ght = getCookie('ght')
-    if (ght) {
-        sessionStorage.setItem('ght', ght)
-        subscribeRouterEvents()
-        handleCurrentRoute()
+    if (gitHubUserCache.hasValue()) {
+        startUserSession()
+        return
     } else {
-        showLoginButton()
+        const ght = getCookie('ght')
+        if (ght) {
+            gitHubTokenCache.write(ght)
+            createGitHubGraphApiClient().queryUser()
+                .then(user => gitHubUserCache.write(user))
+                .then(startUserSession)
+            return
+        }
     }
+    startLandingSession()
+}
+
+function startLandingSession() {
+    initializeExplainButton()
+    showLoginButton()
+}
+
+function startUserSession() {
+    initializeUserPanel()
+    subscribeRouterEvents()
+    handleCurrentRoute()
 }

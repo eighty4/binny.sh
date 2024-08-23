@@ -1,8 +1,22 @@
 import {resolveDistribution} from '@eighty4/install-template'
-import type {Asset, Binary, Release} from './Model.js'
+import type {Asset, Binary, Language, Release} from './Model.js'
+
+const compileBinaryLanguages = Object.freeze(['C', 'C++', 'Go', 'Rust', 'Zig'])
+
+export interface ViewerUserGraph {
+    viewer: {
+        login: string
+        email: string
+        id: string
+        avatarUrl: string
+    }
+}
 
 export interface RepositoryReleasesGraph {
     repository: {
+        languages: {
+            nodes: Array<LanguageNode>
+        }
         releases: {
             nodes: Array<ReleaseNode>
         }
@@ -26,9 +40,16 @@ export interface RepositoryNode {
     owner: {
         login: string
     }
+    languages: {
+        nodes: Array<LanguageNode>
+    }
     releases: {
         nodes: Array<ReleaseNode>
     }
+}
+
+export interface LanguageNode {
+    name: string
 }
 
 export interface ReleaseNode {
@@ -47,6 +68,12 @@ export interface ReleaseNode {
 export interface ReleaseAssetNode {
     name: string
     contentType: string
+}
+
+export function mapLanguageNodes(nodes: Array<LanguageNode>): Array<Language> {
+    return nodes
+        .map(languageNode => languageNode.name)
+        .filter(language => compileBinaryLanguages.includes(language)) as Array<Language>
 }
 
 export function mapReleaseNode(release: ReleaseNode): Release {

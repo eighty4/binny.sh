@@ -28,22 +28,18 @@ export function showGraphPaper(readyFn?: (graphPaper: HTMLElement) => void): HTM
 }
 
 function appendTriangle2() {
-    const triangle2 = document.createElement('div')
-    triangle2.id = 'triangle2'
-    triangle2.classList.add('triangle')
-    triangle2.ariaHidden = 'true'
-    document.body.appendChild(triangle2)
+    document.body.insertAdjacentHTML('beforeend', `<div id="triangle2" class="triangle" aria-hidden=true></div>`)
     appendedTriangle2 = true
 }
 
-function createGraphPaper() {
-    graphPaper = document.createElement('div')
-    graphPaper.id = 'graph-paper'
-    return document.body.querySelector('main')!.appendChild(graphPaper)
+function createGraphPaper(): HTMLElement {
+    document.body.insertAdjacentHTML('beforeend', `<main id="graph-paper"></main>`)
+    return document.getElementById('graph-paper')!
 }
 
 function clearGraphPaper(graphPaper: HTMLElement) {
     if (clearGraphPaperFn) clearGraphPaperFn()
     clearGraphPaperFn = null
     removeChildNodes(graphPaper)
+    graphPaper.classList.remove(...graphPaper.classList.values())
 }

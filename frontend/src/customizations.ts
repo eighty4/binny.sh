@@ -1,24 +1,13 @@
 import './customizations.css'
+import html from './customizations.html?raw'
 
 export function initializeCustomizationControls() {
     if (!localStorage.getItem('level')) {
         return
     }
-    const controls = createCustomizationControls()
-    initializeStyleControl(controls.querySelector('#flip-input') as HTMLInputElement)
-    document.querySelector('#grid header')!.appendChild(controls)
-}
-
-function createCustomizationControls(): HTMLElement {
-    const controls = document.createElement('div')
-    controls.id = 'controls'
-    controls.ariaHidden = 'true'
-    controls.innerHTML = `
-<div class="control">
-    <button>style</button>
-    <label id="flip-toggle" for="flip-input"><input type="checkbox" name="flip-input" id="flip-input"></label>
-</div>`
-    return controls
+    const header = document.querySelector('#grid header')!
+    header.insertAdjacentHTML('beforeend', html)
+    initializeStyleControl(header.querySelector('#flip-input') as HTMLInputElement)
 }
 
 function initializeStyleControl(styleInput: HTMLInputElement) {

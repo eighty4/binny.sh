@@ -1,5 +1,6 @@
-import {toggleReaderMode} from './ui.ts'
 import './login.css'
+import html from  './login.html?raw'
+import {toggleReaderMode} from './ui.ts'
 
 const LOGIN_LINK_MOVE_THRESHOLD = .075
 
@@ -8,15 +9,7 @@ interface Point {
     y: number
 }
 
-export function showLoginButton(error?: string) {
-    if (error) {
-        alert(`There was an error during login. The error message is:
-
-"${error}"
-
-Please login again!`)
-    }
-
+export function showLoginButton() {
     let delaying = false
     const loginLink = createLoginLink()
     let splitDistance = 0
@@ -92,21 +85,18 @@ function createLoginLink(): HTMLDivElement {
 }
 
 function showLoginPrompt() {
-    const loginPrompt = document.createElement('div')
-    loginPrompt.id = 'login-prompt'
-    loginPrompt.innerHTML = `
-        <p>You'll be redirected to GitHub for authentication. Hold on to your bits.</p>
-        <div>
-             <button id="login-redirect">Continue to login</button>
-             <button id="login-cancel">Cancel</button>
-        </div>
-    `
-    const grid = document.getElementById('grid') as HTMLDivElement
-    grid.appendChild(loginPrompt)
+    const grid = document.getElementById('grid')!
+    grid.insertAdjacentHTML('beforeend', html)
+    const loginPrompt = grid.querySelector('#login-prompt')!
     const redirectButton = loginPrompt.querySelector('#login-redirect') as HTMLButtonElement
     const cancelButton = loginPrompt.querySelector('#login-cancel') as HTMLButtonElement
     redirectButton.addEventListener('click', redirectToLogin)
     cancelButton.addEventListener('click', closeLoginPrompt)
+
+    function redirectToLogin() {
+        loginPrompt.innerHTML = '<spin-indicator></spin-indicator>'
+        document.location = import.meta.env.VITE_GITHUB_OAUTH_ADDRESS
+    }
 
     function closeLoginPrompt() {
         redirectButton.removeEventListener('click', redirectToLogin)
@@ -114,10 +104,6 @@ function showLoginPrompt() {
         grid.removeChild(loginPrompt)
         toggleReaderMode(false).then()
     }
-}
-
-function redirectToLogin() {
-    document.location = import.meta.env.VITE_GITHUB_OAUTH_ADDRESS
 }
 
 function calculateDistanceBetweenPoints(p1: Point, p2: Point): number {
