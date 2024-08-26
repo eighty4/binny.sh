@@ -11,9 +11,15 @@ html.out:not(.reader) #triangle {
     clip-path: polygon(0 0, 100% 0, 100% 10%, 90% 10%, 80% 20%, 20% 20%, 20% 80%, 10% 90%, 0 90%);
 }
 
-#graph-paper {
+#graph-paper-positioning {
     position: relative;
     left: 20vw;
     top: 20vh;
     width: 60vw;
+}
+
+#graph-paper {
+    margin: 10vw auto 0;
+    max-width: 38rem;
+    width: 40vw;
 }

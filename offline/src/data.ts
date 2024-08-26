@@ -163,7 +163,7 @@ export const repositories: Record<string, Repository> = {
             createdAt: '2024-01-01',
             binaries: [{
                 contentType: 'application/x-executable',
-                filename: 'maestro-linux-amd64',
+                filename: 'maestro-linux',
                 os: 'Linux',
             }],
             otherAssets: [],

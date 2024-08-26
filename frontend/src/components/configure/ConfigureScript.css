@@ -1,7 +1,3 @@
-.header {
-    width: 45vw;
-}
-
 .row {
     display: flex;
     gap: .75rem;
@@ -11,7 +7,7 @@
 
 .name {
     flex: 1;
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     font-weight: 600;
 }
 
@@ -25,7 +21,11 @@
 }
 
 .buttons {
-    margin-left: 2.75rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 5rem;
+    gap: 2rem;
 }
 
 .download {
@@ -45,10 +45,6 @@
 .download:disabled {
     background: #a0eeb0;
     color: #687;
-}
-
-.download + .download {
-    margin-left: 1.5rem;
 }
 
 .download svg {

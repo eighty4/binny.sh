@@ -1,6 +1,8 @@
 // https://en.wikipedia.org/wiki/Uname#Examples
 export type Architecture = 'aarch64' | 'arm' | 'x86_64'
 
+export const ARCHITECTURES: Array<Architecture> = ['aarch64', 'arm', 'x86_64']
+
 export type OperatingSystem = 'Linux' | 'MacOS' | 'Windows'
 
 export function operatingSystemLabel(os: OperatingSystem): string {

@@ -1,6 +1,9 @@
-#graph-paper.search {
-    box-sizing: border-box;
-    padding: 3rem;
+#graph-paper.search-route h3 {
+    color: var(--card-text-color);
+    font-weight: 500;
+    font-size: 1.5rem;
+    padding-bottom: 2.25rem;
+    text-align: center;
 }
 
 repository-section + repository-section {

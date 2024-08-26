@@ -1,7 +1,12 @@
 import type {Binary} from '@eighty4/install-github'
 import {type OperatingSystem, operatingSystemLabel} from '@eighty4/install-template'
-import ConfigureBinary from './ConfigureBinary.ts'
+import {
+    ARCHITECTURE_UPDATE_EVENT_TYPE,
+    type ArchitectureUpdateEvent,
+    createArchitectureUpdate,
+} from './ArchitectureUpdate.ts'
 import css from './ConfigureBinaries.css?inline'
+import ConfigureBinary from './ConfigureBinary.ts'
 import SystemLogo from '../SystemLogo.ts'
 import {cloneTemplate, removeChildNodes} from '../../dom.ts'
 
@@ -26,6 +31,8 @@ export default class ConfigureBinaries extends HTMLElement {
 
     readonly #bins: Array<Binary>
 
+    readonly #container: HTMLElement
+
     readonly #shadow: ShadowRoot
 
     constructor(bins: Array<Binary>, os: OperatingSystem) {
@@ -35,14 +42,25 @@ export default class ConfigureBinaries extends HTMLElement {
         this.#shadow.appendChild(cloneTemplate(ConfigureBinaries.TEMPLATE_ID))
         this.#shadow.querySelector('.os .logo')!.appendChild(new SystemLogo({os, color: '#111', size: '1.5rem'}))
         this.#shadow.querySelector('.os')!.appendChild(document.createTextNode(`${operatingSystemLabel(os)} binaries`))
-        this.update()
+        this.#container = this.#shadow.querySelector('.bins')!
     }
 
-    update() {
-        const container = this.#shadow.querySelector('.bins')!
-        removeChildNodes(container)
+    connectedCallback() {
         for (const bin of this.#bins) {
-            container.appendChild(new ConfigureBinary(bin))
+            this.#container.appendChild(new ConfigureBinary(bin))
+                .addEventListener(ARCHITECTURE_UPDATE_EVENT_TYPE, this.#onArchUpdate as EventListener)
         }
+    }
+
+    disconnectedCallback() {
+        for (const configureBinary of this.querySelectorAll('configure-binary')) {
+            configureBinary.removeEventListener(ARCHITECTURE_UPDATE_EVENT_TYPE, this.#onArchUpdate as EventListener)
+        }
+        removeChildNodes(this.#container)
+    }
+
+    #onArchUpdate = (e: ArchitectureUpdateEvent) => {
+        const {arch, filename} = e.detail
+        this.dispatchEvent(createArchitectureUpdate(arch, filename))
     }
 }

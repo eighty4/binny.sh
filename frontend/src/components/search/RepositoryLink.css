@@ -9,6 +9,7 @@
     padding: 1rem;
     box-sizing: border-box;
     cursor: pointer;
+    transform-origin: center;
     transition: all .3s ease-in-out;
 }
 
@@ -18,7 +19,11 @@
     border-radius: 15px;
     padding: 1rem 1.5rem;
     transform: scale(.9);
-    transform-origin: center;
+}
+
+.link:active {
+    transform: scale(.85) translateY(3px);
+    transition: all .075s ease-in-out;
 }
 
 .deets, .header {

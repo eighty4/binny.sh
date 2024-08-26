@@ -19,17 +19,3 @@ export async function toggleReaderMode(openOrClose: boolean): Promise<void> {
         }, {once: true})
     })
 }
-
-export function setPageHeader(header: string) {
-    (document.getElementById('page-header') || createPageHeader()).innerText = header
-}
-
-function createPageHeader(): HTMLDivElement {
-    const pageHeader = document.createElement('div')
-    pageHeader.id = 'page-header'
-    return document.getElementById('grid')!.appendChild(pageHeader)
-}
-
-export function clearPageHeader() {
-    document.getElementById('page-header')?.remove()
-}

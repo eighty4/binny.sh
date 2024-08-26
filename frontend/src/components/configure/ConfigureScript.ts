@@ -1,10 +1,19 @@
 import type {Binary, Repository} from '@eighty4/install-github'
-import type {Distribution, GenerateScriptOptions, OperatingSystem} from '@eighty4/install-template'
+import {
+    type Architecture,
+    type Distribution,
+    type GenerateScriptOptions,
+    type OperatingSystem,
+} from '@eighty4/install-template'
+import {ARCHITECTURE_UPDATE_EVENT_TYPE, type ArchitectureUpdateEvent} from './ArchitectureUpdate.ts'
 import ConfigureBinaries from './ConfigureBinaries.ts'
 import css from './ConfigureScript.css?inline'
-import {cloneTemplate} from '../../dom.ts'
+import {cloneTemplate, removeChildNodes} from '../../dom.ts'
 import {downloadScript} from '../../download.ts'
 
+// todo links to gh commit, repo and release pages
+// todo release date
+// todo repo languages
 export default class ConfigureScript extends HTMLElement {
 
     private static readonly TEMPLATE_ID = 'tmpl-configure-script'
@@ -15,7 +24,6 @@ export default class ConfigureScript extends HTMLElement {
                 <style>${css}</style>
                 <div class="header">
                     <div class="row">
-                        <profile-picture></profile-picture>
                         <span class="name"></span>
                         <span class="version"></span>
                     </div>
@@ -31,6 +39,10 @@ export default class ConfigureScript extends HTMLElement {
             </template>
         `
     }
+
+    readonly #architectureResolved: Record<string, Architecture> = {}
+
+    readonly #architectureUnresolved: Record<string, OperatingSystem> = {}
 
     readonly #binaries: Record<OperatingSystem, Array<Binary>> = {
         Linux: [],
@@ -49,12 +61,14 @@ export default class ConfigureScript extends HTMLElement {
         if (repo.latestRelease?.binaries) {
             for (const binary of repo.latestRelease.binaries!) {
                 this.#binaries[binary.os].push(binary)
+                if (!binary.arch) {
+                    this.#architectureUnresolved[binary.filename] = binary.os
+                }
             }
         }
         this.#repo = repo
         this.#shadow = this.attachShadow({mode: 'open'})
         this.#shadow.appendChild(cloneTemplate(ConfigureScript.TEMPLATE_ID))
-        this.#shadow.querySelector('profile-picture')!.setAttribute('owner', repo.owner)
         if (this.#binaries['Linux'].length || this.#binaries['MacOS'].length) {
             this.#downloadButtons['Linux'] = this.#downloadButtons['MacOS'] = this.#shadow.querySelector('.buttons')!
                 .appendChild(this.#createDownloadButton('Linux'))
@@ -63,33 +77,42 @@ export default class ConfigureScript extends HTMLElement {
             this.#downloadButtons['Windows'] = this.#shadow.querySelector('.buttons')!
                 .appendChild(this.#createDownloadButton('Windows'))
         }
-        this.update()
+        this.#render()
     }
 
     disconnectedCallback() {
         for (const os of Object.keys(this.#downloadButtons)) {
             this.#downloadButtons[os as OperatingSystem]!.removeEventListener('click', this.#onDownloadButtonClick)
         }
+        for (const configureBinaries of this.querySelectorAll('configure-binaries')) {
+            configureBinaries.removeEventListener(ARCHITECTURE_UPDATE_EVENT_TYPE, this.#onArchUpdate as EventListener)
+        }
+        removeChildNodes(this.#shadow)
     }
 
-    update() {
+    #render() {
         this.#shadow.querySelector('.commit')!.textContent = this.#repo.latestRelease?.commitHash || ''
         this.#shadow.querySelector<HTMLElement>('.header')!.style.viewTransitionName = `repo-${this.#repo.owner}-${this.#repo.name}`
         this.#shadow.querySelector('.name')!.textContent = `${this.#repo.owner}/${this.#repo.name}`
         this.#shadow.querySelector('.version')!.textContent = this.#repo.latestRelease?.tag || ''
         const binariesContainer = this.#shadow.querySelector('.files') as HTMLElement
         if (this.#repo.latestRelease?.binaries.length) {
-            if (this.#binaries['Linux'].length) {
-                binariesContainer.appendChild(new ConfigureBinaries(this.#binaries['Linux'], 'Linux'))
-            }
-            if (this.#binaries['MacOS'].length) {
-                binariesContainer.appendChild(new ConfigureBinaries(this.#binaries['MacOS'], 'MacOS'))
-            }
-            if (this.#binaries['Windows'].length) {
-                binariesContainer.appendChild(new ConfigureBinaries(this.#binaries['Windows'], 'Windows'))
-            }
+            this.#renderConfigureBinaries(binariesContainer, 'Linux')
+            this.#renderConfigureBinaries(binariesContainer, 'MacOS')
+            this.#renderConfigureBinaries(binariesContainer, 'Windows')
+        } else {
+            // todo will somebody think of the lack of content for repos without binaries?
         }
+        // todo nice to have render non binary file assets
         console.log('ConfigureScript', this.#repo.latestRelease?.binaries)
+    }
+
+    #renderConfigureBinaries(container: HTMLElement, os: OperatingSystem) {
+        const bins = this.#binaries[os]
+        if (bins.length) {
+            container.appendChild(new ConfigureBinaries(bins, os))
+                .addEventListener(ARCHITECTURE_UPDATE_EVENT_TYPE, this.#onArchUpdate as EventListener)
+        }
     }
 
     #createDownloadButton(os: OperatingSystem): HTMLButtonElement {
@@ -105,38 +128,75 @@ export default class ConfigureScript extends HTMLElement {
 </svg>`
         downloadButton.appendChild(document.createTextNode(`for ${os === 'Windows' ? 'Windows' : 'Linux and MacOS'}`))
         downloadButton.addEventListener('click', this.#onDownloadButtonClick)
-        downloadButton.setAttribute('data-os', os)
-        if (os === 'Windows') {
-            downloadButton.disabled = true
-        }
+        downloadButton.disabled = !this.#isDownloadButtonEnabled(os)
         return downloadButton
     }
 
+    #isDownloadButtonEnabled(os: OperatingSystem): boolean {
+        if (os === 'Windows') {
+            return false
+        } else {
+            for (const filename of Object.keys(this.#architectureUnresolved)) {
+                if (this.#architectureUnresolved[filename] !== 'Windows') {
+                    return false
+                }
+            }
+            return true
+        }
+    }
+
+    #updateDownloadButtonEnabled(os: OperatingSystem) {
+        this.#downloadButtons[os]!.disabled = !(os === 'Windows'
+            ? this.#isDownloadButtonEnabled(os)
+            : (['Linux', 'MacOS'] as Array<OperatingSystem>).every(os => this.#isDownloadButtonEnabled(os)))
+    }
+
+    #onArchUpdate = (e: ArchitectureUpdateEvent) => {
+        this.#architectureResolved[e.detail.filename] = e.detail.arch
+        const resolvedBinOs = this.#architectureUnresolved[e.detail.filename]
+        if (resolvedBinOs) {
+            delete this.#architectureUnresolved[e.detail.filename]
+            this.#updateDownloadButtonEnabled(resolvedBinOs)
+        }
+    }
+
     #onDownloadButtonClick = (/*e: MouseEvent*/) => {
-        // (e.target as HTMLButtonElement).getAttribute('data-os')
+        // todo support windows
         downloadScript(this.#buildGenerateScriptOptions())
+        // todo save generated script and template version to db
+        // todo save resolved architecture values to db
     }
 
     // todo binaryName needs a ui input to override default of repo name
     #buildGenerateScriptOptions(): GenerateScriptOptions {
-        const files: Record<string, Distribution> = {}
-        for (const os of Object.keys(this.#binaries)) {
-            for (const binary of this.#binaries[os as OperatingSystem]) {
-                if (binary.arch) {
-                    files[binary.filename] = {
-                        arch: binary.arch,
-                        os: binary.os,
-                    }
-                }
-            }
-        }
         return {
+            binaryName: this.#repo.name,
+            files: this.#collectBinaryDistributions(),
             repository: {
                 owner: this.#repo.owner,
                 name: this.#repo.name,
             },
-            binaryName: this.#repo.name,
-            files,
         }
+    }
+
+    #collectBinaryDistributions(): Record<string, Distribution> {
+        const files: Record<string, Distribution> = {}
+        for (const os of Object.keys(this.#binaries)) {
+            for (const binary of this.#binaries[os as OperatingSystem]) {
+                files[binary.filename] = {
+                    arch: binary.arch || this.#expectResolvedArchitecture(binary.filename),
+                    os: binary.os,
+                }
+            }
+        }
+        return files
+    }
+
+    #expectResolvedArchitecture(filename: string): Architecture | never {
+        const arch = this.#architectureResolved[filename]
+        if (!arch) {
+            throw new Error('expected resolved architecture for ' + filename)
+        }
+        return arch
     }
 }

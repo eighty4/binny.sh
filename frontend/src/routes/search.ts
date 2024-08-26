@@ -4,9 +4,8 @@ import emptyHtml from './search.empty.html?raw'
 import errorHtml from './search.error.html?raw'
 import createGitHubGraphApiClient from '../createGitHubGraphApiClient.ts'
 import {removeChildNodes} from '../dom.ts'
-import {onClearGraphPaper, showGraphPaper} from '../graphPaper.ts'
+import {showGraphPaper} from '../graphPaper.ts'
 import {createSessionCache, gitHubUserCache} from '../sessionCache.ts'
-import {clearPageHeader, setPageHeader} from '../ui.ts'
 import RepositorySection from '../components/search/RepositorySection.ts'
 
 type RepoSectionType = 'generated' | 'released' | 'compatible'
@@ -26,12 +25,10 @@ const projectsCache = createSessionCache<Array<Repository>>('search.projects')
 
 export function findProgramRepository() {
     showGraphPaper((graphPaper) => {
-        graphPaper.classList.add('search')
-        setPageHeader(`${gitHubUserCache.read()!.login}'s repos`)
-        onClearGraphPaper(clearPageHeader)
+        graphPaper.classList.add('search-route')
+
         let loading: boolean = true
         let projects = projectsCache.read()
-
         if (projects?.length) {
             showProjects(projects)
         } else {
@@ -67,6 +64,7 @@ export function findProgramRepository() {
                     })
                 }
                 if (primaryRepoGroups.length) {
+                    graphPaper.innerHTML = `<h3>${gitHubUserCache.read()!.login}'s repos</h3>`
                     showPrimaryRepoSections(primaryRepoGroups)
                 } else {
                     showGuideOnEmptyProjects()

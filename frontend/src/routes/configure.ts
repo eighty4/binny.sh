@@ -1,7 +1,6 @@
 import {type Repository} from '@eighty4/install-github'
 import ConfigureScript from '../components/configure/ConfigureScript.ts'
 import createGitHubGraphApiClient from '../createGitHubGraphApiClient.ts'
-import './configure.css'
 import {showGraphPaper} from '../graphPaper.ts'
 import {removeChildNodes} from '../dom.ts'
 import {configureRepoCache} from '../sessionCache.ts'
