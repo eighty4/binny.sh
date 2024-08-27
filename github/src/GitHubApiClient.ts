@@ -16,6 +16,9 @@ interface QueryUserRepositoriesResponse {
     hasNextPage: boolean
 }
 
+export class Unauthorized {
+}
+
 export class GitHubApiClient {
     constructor(private readonly ghAccessToken: string,
                 private readonly ghGraphApiUrl: string = 'https://api.github.com/graphql') {
@@ -86,7 +89,12 @@ export class GitHubApiClient {
             body: JSON.stringify({query}),
         })
         if (response.status !== 200) {
-            throw new Error('internalDoGraphApiQuery bad gh graphql status code: ' + response.status)
+            switch (response.status) {
+                case 401:
+                    throw new Unauthorized()
+                default:
+                    throw new Error('internalDoGraphApiQuery bad gh graphql status code: ' + response.status)
+            }
         }
         const result = await response.json()
         if (!result.data) {

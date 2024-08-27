@@ -1,5 +1,6 @@
 import type {User} from '@eighty4/install-github'
 import createGitHubGraphApiClient from './createGitHubGraphApiClient.ts'
+import {logout} from './logout.ts'
 import html from './userPanel.html?raw'
 import './userPanel.css'
 
@@ -35,10 +36,4 @@ function showUserMenu() {
 function hideUserMenu() {
     console.log('hide')
     userMenu.classList.remove('expanded')
-}
-
-function logout() {
-    sessionStorage.clear()
-    document.cookie = `ght=;Path=/;Max-Age=0`
-    window.location.replace('/')
 }
