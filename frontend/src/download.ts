@@ -2,7 +2,7 @@ import {generateScript, type GenerateScriptOptions} from '@eighty4/install-templ
 
 export function downloadScript(options: GenerateScriptOptions) {
     try {
-        downloadBlob(generateScript(options))
+        downloadBlob(generateScript(options).script)
     } catch (e: any) {
         // todo observability
         document.body.style.background = 'orangered'

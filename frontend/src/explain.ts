@@ -6,13 +6,11 @@ let dialog: HTMLDialogElement
 export const initializeExplainButton = () => {
     const button = document.querySelector('#explain button')!
     button.addEventListener('click', openDialog)
-    console.log(button)
     appendDialogMarkup()
 }
 
 function openDialog() {
     if (!dialog.open) {
-        console.log('wtf')
         dialog.showModal()
     }
 }

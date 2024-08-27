@@ -90,14 +90,14 @@ resolve_filename() {
   _cpu="$1"
   _os="$2"
   _filename=""
-  if test "$_cpu" = "x86_64" && test "$_os" = "MacOS"; then
-    _filename="maestro-darwin-amd64"
-  elif test "$_cpu" = "aarch64" && test "$_os" = "MacOS"; then
-    _filename="maestro-darwin-arm64"
-  elif test "$_cpu" = "x86_64" && test "$_os" = "Linux"; then
+  if test "$_cpu" = "x86_64" && test "$_os" = "Linux"; then
     _filename="maestro-linux-amd64"
   elif test "$_cpu" = "aarch64" && test "$_os" = "Linux"; then
     _filename="maestro-linux-arm64"
+  elif test "$_cpu" = "x86_64" && test "$_os" = "MacOS"; then
+    _filename="maestro-darwin-amd64"
+  elif test "$_cpu" = "aarch64" && test "$_os" = "MacOS"; then
+    _filename="maestro-darwin-arm64"
   else
     abandon_ship "no prebuilt $_cpu binary for $_os"
   fi

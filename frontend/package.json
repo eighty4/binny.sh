@@ -14,12 +14,9 @@
     "build:vite": "vite build",
     "dev": "vite",
     "dev:offline": "vite --mode offline",
-    "preview": "vite preview",
-    "preview:offline": "vite preview --mode offline",
     "svg": "npx -y svgo@latest -f assets/svg -o public -r"
   },
   "dependencies": {
-    "@eighty4/install-contract": "workspace:^",
     "@eighty4/install-github": "workspace:^",
     "@eighty4/install-template": "workspace:^"
   },

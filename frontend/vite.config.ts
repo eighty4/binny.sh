@@ -34,13 +34,10 @@ function buildProxyConfig(mode: string): Record<string, string | ProxyOptions> |
             return
         case 'offline':
             return {
-                '/api': 'http://localhost:7411',
-                '/login': 'http://localhost:7411',
                 '/offline': 'http://localhost:7411',
             }
         default:
             return {
-                // '/api': 'http://localhost:5741',
                 '/login': `https://${getApiGatewayApiId()}.execute-api.us-east-2.amazonaws.com/development`,
             }
     }

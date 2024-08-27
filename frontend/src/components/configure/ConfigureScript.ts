@@ -170,33 +170,24 @@ export default class ConfigureScript extends HTMLElement {
     // todo binaryName needs a ui input to override default of repo name
     #buildGenerateScriptOptions(): GenerateScriptOptions {
         return {
-            binaryName: this.#repo.name,
-            files: this.#collectBinaryDistributions(),
-            repository: {
-                owner: this.#repo.owner,
-                name: this.#repo.name,
-            },
+            binaryInstalls: [{
+                installAs: this.#repo.name,
+                binaries: this.#repo.latestRelease!.binaries.map(binary => binary.filename),
+            }],
+            explicitArchitectures: this.#architectureResolved,
+            repository: this.#repo,
+            resolvedDistributions: this.#collectResolvedDistributions(),
         }
     }
 
-    #collectBinaryDistributions(): Record<string, Distribution> {
+    #collectResolvedDistributions(): Record<string, Distribution> {
         const files: Record<string, Distribution> = {}
-        for (const os of Object.keys(this.#binaries)) {
-            for (const binary of this.#binaries[os as OperatingSystem]) {
-                files[binary.filename] = {
-                    arch: binary.arch || this.#expectResolvedArchitecture(binary.filename),
-                    os: binary.os,
-                }
+        for (const binary of this.#repo.latestRelease!.binaries) {
+            files[binary.filename] = {
+                arch: binary.arch,
+                os: binary.os,
             }
         }
         return files
-    }
-
-    #expectResolvedArchitecture(filename: string): Architecture | never {
-        const arch = this.#architectureResolved[filename]
-        if (!arch) {
-            throw new Error('expected resolved architecture for ' + filename)
-        }
-        return arch
     }
 }

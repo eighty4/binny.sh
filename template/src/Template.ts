@@ -1,4 +1,5 @@
 export type {Architecture, Distribution, OperatingSystem} from './Distrubtions.js'
 export {ARCHITECTURES, operatingSystemLabel} from './Distrubtions.js'
 export {generateScript, type GenerateScriptOptions} from './Generate.js'
+export {getTemplateVersion} from './getTemplateVersion.js'
 export {resolveDistribution} from './Resolution.js'

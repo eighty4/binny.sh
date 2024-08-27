@@ -29,11 +29,9 @@ function createUserPanel(user: User) {
 }
 
 function showUserMenu() {
-    console.log('show')
     userMenu.classList.add('expanded')
 }
 
 function hideUserMenu() {
-    console.log('hide')
     userMenu.classList.remove('expanded')
 }
