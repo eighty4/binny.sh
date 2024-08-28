@@ -1,15 +1,13 @@
-import type {Binary, Repository} from '@eighty4/install-github'
-import {
-    type Architecture,
-    type Distribution,
-    type GenerateScriptOptions,
-    type OperatingSystem,
-} from '@eighty4/install-template'
+import {type Binary, type Repository, Unauthorized} from '@eighty4/install-github'
+import type {Architecture, Distribution, GenerateScriptOptions, OperatingSystem} from '@eighty4/install-template'
+import {generateScript} from '@eighty4/install-template'
 import {ARCHITECTURE_UPDATE_EVENT_TYPE, type ArchitectureUpdateEvent} from './ArchitectureUpdate.ts'
 import ConfigureBinaries from './ConfigureBinaries.ts'
 import css from './ConfigureScript.css?inline'
+import {downloadScript} from './download.ts'
+import {saveGeneratedScript} from '../../api.ts'
 import {cloneTemplate, removeChildNodes} from '../../dom.ts'
-import {downloadScript} from '../../download.ts'
+import {logout} from '../../logout.ts'
 
 // todo links to gh commit, repo and release pages
 // todo release date
@@ -160,11 +158,20 @@ export default class ConfigureScript extends HTMLElement {
         }
     }
 
-    #onDownloadButtonClick = (/*e: MouseEvent*/) => {
+    // todo script filename needs a ui input to override default
+    #onDownloadButtonClick = () => {
         // todo support windows
-        downloadScript(this.#buildGenerateScriptOptions())
-        // todo save generated script and template version to db
-        // todo save resolved architecture values to db
+        const generatedScript = generateScript(this.#buildGenerateScriptOptions())
+        downloadScript(`install_${this.#repo.name}.sh`, generatedScript.script)
+        saveGeneratedScript(generatedScript).then().catch((e) => {
+            if (e instanceof Unauthorized) {
+                logout()
+            } else {
+                console.error(e)
+                alert('The clouds are broken. We\'ll redirect you to the homepage.')
+                window.location.replace('/')
+            }
+        })
     }
 
     // todo binaryName needs a ui input to override default of repo name

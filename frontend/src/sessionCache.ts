@@ -1,4 +1,5 @@
-import type {Repository, User} from '@eighty4/install-github'
+import type {User} from '@eighty4/install-github'
+import type {RepositoryWithScript} from './routes/searchData.ts'
 
 export interface SessionCache<T> {
     clear(): void
@@ -28,7 +29,7 @@ export function createSessionCache<T>(key: string): SessionCache<T> {
     }
 }
 
-export const configureRepoCache = createSessionCache<Repository>('configure.repo')
+export const configureRepoCache = createSessionCache<RepositoryWithScript>('configure.repo')
 
 export const gitHubTokenCache = createSessionCache<string>('ght')
 

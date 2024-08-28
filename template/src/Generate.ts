@@ -6,11 +6,13 @@ export interface Repository {
     name: string
 }
 
+// Installation of a binary performed by generated script and the GitHub release's binaries to install from
 export interface BinaryInstall {
     installAs: string
     binaries: Array<string>
 }
 
+// Options container for generating a script
 export interface GenerateScriptOptions {
     binaryInstalls: Array<BinaryInstall>
     explicitArchitectures: Record<string, Architecture>
@@ -21,14 +23,18 @@ export interface GenerateScriptOptions {
     resolvedDistributions: Record<string, Distribution>
 }
 
+// User customizations for generated script
 export interface GeneratedScriptSpec {
+    binaryInstalls: Array<BinaryInstall>
     explicitArchitectures: Record<string, Architecture>
-    repository: Repository
-    templateVersion: string
 }
 
-export interface GeneratedScript extends GeneratedScriptSpec {
+// Generated script output and inputs used to create script
+export interface GeneratedScript {
+    repository: Repository
     script: string
+    spec: GeneratedScriptSpec
+    templateVersion: string
 }
 
 function validateOptions(options: GenerateScriptOptions) {
@@ -111,10 +117,13 @@ function collectBinaryDistributions(options: GenerateScriptOptions): Record<stri
 export function generateScript(options: GenerateScriptOptions): GeneratedScript {
     validateOptions(options)
     return {
-        explicitArchitectures: options.explicitArchitectures,
         repository: options.repository,
         templateVersion: getTemplateVersion(),
         script: scriptTemplateFn(options),
+        spec: {
+            binaryInstalls: options.binaryInstalls,
+            explicitArchitectures: options.explicitArchitectures,
+        }
     }
 }
 

@@ -1,31 +1,60 @@
-// import type {GeneratedScript, GeneratedScriptRequest} from '@eighty4/install-contract'
+import {Unauthorized} from '@eighty4/install-github'
+import type {GeneratedScript} from '@eighty4/install-template'
+import {gitHubTokenCache} from './sessionCache.ts'
 
-// saveTemplateVersion({
-//     repository: {
-//         owner: options.repository.owner,
-//         name: options.repository.name,
-//     },
-//     templateVersion: import.meta.env.VITE_SCRIPT_TEMPLATE_VERSION,
-// }).then()
+const GEN_SCRIPTS_URL = import.meta.env.VITE_INSTALL_API_BASE_URL + '/generated-scripts'
 
-// async function saveTemplateVersion(generatedScript: GeneratedScript): Promise<void> {
-//     const request: GeneratedScriptRequest = {generatedScript}
-//     const response = await fetch('/api/project/script', {
-//         headers: {
-//             'content-type': 'application/json',
-//         },
-//         method: 'post',
-//         body: JSON.stringify(request)
-//     })
-//     if (response.status === 200) {
-//         return
-//     } else if (response.status === 401) {
-//         // todo redirect to login
-//         document.body.style.background = 'orangered'
-//         console.error('login access token has expired')
-//     } else {
-//         document.body.style.background = 'orangered'
-//         console.error(`/api/project/script returned an unexpected ${response.status} status`)
-//     }
-//     throw new Error('/api/projects ' + response.status)
-// }
+export async function saveGeneratedScript(generatedScript: GeneratedScript): Promise<void> {
+    const authToken = gitHubTokenCache.read()
+    const response = await fetch(GEN_SCRIPTS_URL, {
+        method: 'POST',
+        headers: {
+            'authorization': 'Bearer ' + authToken,
+            'content-type': 'application/json',
+        },
+        body: JSON.stringify({
+            repository: {
+                owner: generatedScript.repository.owner,
+                name: generatedScript.repository.name,
+            },
+            spec: generatedScript.spec,
+            templateVersion: generatedScript.templateVersion,
+        }),
+    })
+    if (response.status !== 200) {
+        switch (response.status) {
+            case 401:
+                throw new Unauthorized()
+            default:
+                throw new Error('blah blah blah')
+        }
+    }
+}
+
+export async function fetchGeneratedScripts(): Promise<Array<GeneratedScript>> {
+    const authToken = gitHubTokenCache.read()
+    const response = await fetch(GEN_SCRIPTS_URL, {
+        method: 'GET',
+        headers: {
+            'authorization': 'Bearer ' + authToken,
+        },
+    })
+    if (response.status !== 200) {
+        switch (response.status) {
+            case 401:
+                throw new Unauthorized()
+            default:
+                throw new Error('blah blah blah')
+        }
+    }
+    return response.json()
+}
+
+export async function fetchGeneratedScriptsKeyedByRepo(): Promise<Record<string, GeneratedScript>> {
+    const generatedScripts = await fetchGeneratedScripts()
+    const result: Record<string, GeneratedScript> = {}
+    for (const generatedScript of generatedScripts) {
+        result[`${generatedScript.repository.owner}/${generatedScript.repository.name}`] = generatedScript
+    }
+    return result
+}

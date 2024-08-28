@@ -36,6 +36,18 @@ app.get('/offline/github/oauth', async (req, res) => {
     res.redirect('http://localhost:5711')
 })
 
+const generatedScripts: Array<any> = []
+
+app.get('/offline/api/generated-scripts', async (_req, res) => {
+    res.json(generatedScripts)
+})
+
+app.post('/offline/api/generated-scripts', async (req, res) => {
+    generatedScripts.push(req.body)
+    console.log(generatedScripts)
+    res.end()
+})
+
 app.listen(HTTP_PORT, () => {
     console.log('install.sh http listening on', 7411)
 })

@@ -1,11 +1,24 @@
+import RepositoryLink from './RepositoryLink.ts'
 import css from './RepositorySection.css?inline'
 import {cloneTemplate, removeChildNodes} from '../../dom.ts'
-import type {Repository} from '@eighty4/install-github'
-import RepositoryLink from './RepositoryLink.ts'
+import type {RepositoryWithScript} from '../../routes/searchData.ts'
+
+export type RepoSectionType = 'generated' | 'released' | 'compatible' | 'incompatible'
+
+function repoSectionHeader(type: RepoSectionType): string {
+    switch (type) {
+        case 'generated':
+            return 'Your scripts'
+        case 'released':
+            return 'With released binaries'
+        case 'compatible':
+            return 'Uses compiled languages'
+        case 'incompatible':
+            return 'All your JavaScript, Python and Ruby repositories (that create excessive carbon footprints and are bad for the environment)'
+    }
+}
 
 export default class RepositorySection extends HTMLElement {
-
-    static observedAttributes = ['header']
 
     private static readonly TEMPLATE_ID = 'tmpl-repo-section'
 
@@ -18,26 +31,22 @@ export default class RepositorySection extends HTMLElement {
             </template>`
     }
 
-    #repos: Array<Repository> = []
+    #repos: Array<RepositoryWithScript> = []
 
     readonly #reposDiv: HTMLDivElement
 
     readonly #shadow: ShadowRoot
 
-    constructor() {
+    constructor(type: RepoSectionType, repos: Array<RepositoryWithScript>) {
         super()
         this.#shadow = this.attachShadow({mode: 'open'})
         this.#shadow.appendChild(cloneTemplate(RepositorySection.TEMPLATE_ID))
+        this.#shadow.querySelector('h3')!.innerText = repoSectionHeader(type)
         this.#reposDiv = this.#shadow.querySelector('.repos')!
+        this.repos = repos
     }
 
-    attributeChangedCallback(name: any, _oldValue: string, newValue: string) {
-        if (name === 'header') {
-            this.#shadow.querySelector('h3')!.innerText = newValue
-        }
-    }
-
-    set repos(repos: Array<Repository>) {
+    set repos(repos: Array<RepositoryWithScript>) {
         // todo sort repos
         this.#repos = repos
         this.#update()

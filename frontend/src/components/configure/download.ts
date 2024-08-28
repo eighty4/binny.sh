@@ -1,8 +1,6 @@
-import {generateScript, type GenerateScriptOptions} from '@eighty4/install-template'
-
-export function downloadScript(options: GenerateScriptOptions) {
+export function downloadScript(filename: string, content: string) {
     try {
-        downloadBlob(generateScript(options).script)
+        downloadBlob(filename, content)
     } catch (e: any) {
         // todo observability
         document.body.style.background = 'orangered'
@@ -10,13 +8,13 @@ export function downloadScript(options: GenerateScriptOptions) {
     }
 }
 
-function downloadBlob(text: string) {
-    downloadFile('install.sh', URL.createObjectURL(new Blob([text], {type: 'text/plain'})))
+function downloadBlob(filename: string, content: string) {
+    downloadFile(filename, URL.createObjectURL(new Blob([content], {type: 'text/plain'})))
 }
 
 // todo evaluate downloadBlob vs downloadText methods
-// function downloadText(text: string) {
-//     downloadFile('install.sh', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text))
+// function downloadText(filename: string, content: string) {
+//     downloadFile(filename, 'data:text/plain;charset=utf-8,' + encodeURIComponent(content))
 // }
 
 function downloadFile(filename: string, href: string) {
