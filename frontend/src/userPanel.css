@@ -21,9 +21,6 @@
     will-change: transform;
 }
 
-#user-menu.expanded {
-}
-
 #user-avatar {
     border-radius: 50%;
     width: var(--avatar-size);
@@ -55,9 +52,9 @@
     font-family: monospace;
     text-align: center;
     transition: all .05s ease-in-out;
-}
 
-#logout:hover {
-    background: #111;
-    color: #eee;
+    &:hover {
+        background: #111;
+        color: #eee;
+    }
 }

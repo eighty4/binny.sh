@@ -1,11 +1,19 @@
-#graph-paper.search-route h3 {
-    color: var(--card-text-color);
-    font-weight: 500;
-    font-size: 1.5rem;
-    padding-bottom: 2.25rem;
-    text-align: center;
-}
+#graph-paper.search-route {
+    & .search-header {
+        color: var(--card-text-color);
+        font-weight: 500;
+        font-size: 1.5rem;
+        padding-bottom: 2.25rem;
+        text-align: center;
+    }
 
-repository-section + repository-section {
-    margin-top: 2rem;
+    & repository-section + repository-section {
+        margin-top: 2rem;
+    }
+
+    & spin-indicator {
+        display: block;
+        margin: 26vh auto 0;
+        width: fit-content;
+    }
 }

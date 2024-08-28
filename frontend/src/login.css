@@ -28,19 +28,19 @@
     user-select: none;
     cursor: pointer;
     transition: all calc(var(--login-link-moving-duration) / 4) ease-in-out;
-}
 
-#login.moving {
-    animation: login-rotate, login-slide, login-slim;
-    animation-duration: var(--login-link-moving-duration);
-    transform-origin: center;
-    background: hotpink;
-    border-color: lawngreen;
-    color: transparent;
-}
+    &.moving {
+        animation: login-rotate, login-slide, login-slim;
+        animation-duration: var(--login-link-moving-duration);
+        transform-origin: center;
+        background: hotpink;
+        border-color: lawngreen;
+        color: transparent;
+    }
 
-#login:hover {
-    transform: scale(1.15);
+    &:hover {
+        transform: scale(1.15);
+    }
 }
 
 @keyframes login-rotate {
@@ -85,14 +85,14 @@
     text-wrap: balance;
     gap: 3vh;
     color: var(--card-text-color);
-}
 
-#login-prompt button {
-    font-size: 3vh;
-    font-weight: 500;
-    padding: 1vh 2vw;
-    cursor: pointer;
-    border-radius: 2px;
+    & button {
+        font-size: 3vh;
+        font-weight: 500;
+        padding: 1vh 2vw;
+        cursor: pointer;
+        border-radius: 2px;
+    }
 }
 
 #login-redirect {
@@ -103,9 +103,9 @@
     border: 1px solid transparent;
     opacity: .8;
     transition: all 100ms ease-in-out;
-}
 
-#login-cancel:hover {
-    border: 1px solid #666;
-    opacity: 1;
+    &:hover {
+        border: 1px solid #666;
+        opacity: 1;
+    }
 }

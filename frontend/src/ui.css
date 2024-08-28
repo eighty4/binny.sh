@@ -11,30 +11,32 @@
     transition-delay: 150ms;
 }
 
-html.out #controls {
-    opacity: 1;
-    transform: translateY(0);
-}
+html.out {
+    & #controls {
+        opacity: 1;
+        transform: translateY(0);
+    }
 
-html.out #features * {
-    opacity: 0;
-    transform: translateX(100vw);
-}
+    & #features * {
+        opacity: 0;
+        transform: translateX(100vw);
+    }
 
-html.out #explain, html.out #logo, html.out #tagline {
-    opacity: 0;
-    transform: translateX(-100vw);
-}
+    & #login {
+        opacity: 0;
+        pointer-events: none;
+        transform: scale(50%);
+    }
 
-html.out #login {
-    opacity: 0;
-    pointer-events: none;
-    transform: scale(50%);
-}
+    & #header {
+        opacity: 0;
+        transform: translateY(-100vh);
+    }
 
-html.out #header {
-    opacity: 0;
-    transform: translateY(-100vh);
+    & #explain, #logo, #tagline {
+        opacity: 0;
+        transform: translateX(-100vw);
+    }
 }
 
 /*
@@ -50,35 +52,37 @@ html.out #header {
     --triangle-shift-rotate-degs: -45deg;
     --triangle-shift-scale-percent: 300%;
     --triangle-shift-translate-x: -12.5vw;
+
+    &.shift {
+        animation: shift-triangle 600ms;
+        animation-delay: 150ms;
+        animation-fill-mode: forwards;
+    }
+
+    &.unshift {
+        animation: shift-triangle 600ms;
+        animation-delay: 150ms;
+        animation-fill-mode: forwards;
+        animation-direction: reverse;
+    }
+
+    &.shifted {
+        transform: rotate(var(--triangle-shift-rotate-degs)) scale(var(--triangle-shift-scale-percent)) translateX(var(--triangle-shift-translate-x));
+    }
 }
 
-#triangle.shift {
-    animation: shift-triangle 600ms;
-    animation-delay: 150ms;
-    animation-fill-mode: forwards;
-}
+html.reader {
+    & #controls {
+        display: none;
+    }
 
-#triangle.unshift {
-    animation: shift-triangle 600ms;
-    animation-delay: 150ms;
-    animation-fill-mode: forwards;
-    animation-direction: reverse;
-}
+    & #eighty4 {
+        transform: translateY(50vh);
+    }
 
-#triangle.shifted {
-    transform: rotate(var(--triangle-shift-rotate-degs)) scale(var(--triangle-shift-scale-percent)) translateX(var(--triangle-shift-translate-x));
-}
-
-html.reader #controls {
-    display: none;
-}
-
-html.reader #eighty4 {
-    transform: translateY(50vh);
-}
-
-html.reader #github {
-    transform: translateY(-50vh);
+    & #github {
+        transform: translateY(-50vh);
+    }
 }
 
 /* todo dynamic rotate degrees based on aspect ratio */

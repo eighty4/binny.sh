@@ -8,16 +8,6 @@ importers:
 
   .: {}
 
-  contract:
-    dependencies:
-      '@eighty4/install-github':
-        specifier: workspace:^
-        version: link:../github
-    devDependencies:
-      typescript:
-        specifier: ^5.5.4
-        version: 5.5.4
-
   e2e:
     devDependencies:
       '@playwright/test':
@@ -29,9 +19,6 @@ importers:
 
   frontend:
     dependencies:
-      '@eighty4/install-contract':
-        specifier: workspace:^
-        version: link:../contract
       '@eighty4/install-github':
         specifier: workspace:^
         version: link:../github

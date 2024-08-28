@@ -11,19 +11,19 @@
     cursor: pointer;
     transform-origin: center;
     transition: all .3s ease-in-out;
-}
 
-.link:hover {
-    background: #282828;
-    border-color: #555;
-    border-radius: 15px;
-    padding: 1rem 1.5rem;
-    transform: scale(.9);
-}
+    &:hover {
+        background: #282828;
+        border-color: #555;
+        border-radius: 15px;
+        padding: 1rem 1.5rem;
+        transform: scale(.9);
+    }
 
-.link:active {
-    transform: scale(.85) translateY(3px);
-    transition: all .075s ease-in-out;
+    &:active {
+        transform: scale(.85) translateY(3px);
+        transition: all .075s ease-in-out;
+    }
 }
 
 .deets, .header {

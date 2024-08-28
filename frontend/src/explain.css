@@ -5,27 +5,27 @@
     padding: 3.5rem;
     background: #eee;
     font-size: 1.1rem;
-}
 
-#explain-dialog p {
-    line-height: 1.5rem;
-    letter-spacing: .032rem;
-}
+    & p {
+        line-height: 1.5rem;
+        letter-spacing: .032rem;
+    }
 
-#explain-dialog .pkg {
-    font-family: monospace;
-}
+    & .pkg {
+        font-family: monospace;
+    }
 
-#explain-dialog p + p {
-    margin-top: 1.5rem;
-}
+    & p + p {
+        margin-top: 1.5rem;
+    }
 
-#explain-dialog button {
-    margin: 0 auto;
-    font-size: 2vmin;
-    padding: 1vmin 2vmin;
-}
+    & button {
+        margin: 0 auto;
+        font-size: 2vmin;
+        padding: 1vmin 2vmin;
+    }
 
-#explain-dialog::backdrop {
-    background: rgba(50, 50, 50, .5);
+    &::backdrop {
+        background: rgba(50, 50, 50, .5);
+    }
 }

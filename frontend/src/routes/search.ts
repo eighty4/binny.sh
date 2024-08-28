@@ -64,7 +64,7 @@ export function findProgramRepository() {
                     })
                 }
                 if (primaryRepoGroups.length) {
-                    graphPaper.innerHTML = `<h3>${gitHubUserCache.read()!.login}'s repos</h3>`
+                    graphPaper.innerHTML = `<h3 class="search-header">${gitHubUserCache.read()!.login}'s repos</h3>`
                     showPrimaryRepoSections(primaryRepoGroups)
                 } else {
                     showGuideOnEmptyProjects()

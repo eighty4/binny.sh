@@ -43,14 +43,14 @@
             --card-text-color: var(--black);
             --card-graph-color: rgb(var(--black-rgb), 40%);
             font-family: 'Inter Variable', Helvetica, sans-serif;
-        }
 
-        html.flipped {
-            --head-bg-color: var(--white);
-            --head-text-color: var(--black);
-            --card-bg-color: var(--black);
-            --card-text-color: var(--white);
-            --card-graph-color: rgb(var(--white-rgb), 40%);
+            &.flipped {
+                --head-bg-color: var(--white);
+                --head-text-color: var(--black);
+                --card-bg-color: var(--black);
+                --card-text-color: var(--white);
+                --card-graph-color: rgb(var(--white-rgb), 40%);
+            }
         }
 
         html, body {
@@ -73,10 +73,10 @@
             background-position: center;
             background-size: 3rem 3rem;
             pointer-events: none;
-        }
 
-        #grid * {
-            pointer-events: auto;
+            & * {
+                pointer-events: auto;
+            }
         }
 
         #eighty4 {
@@ -84,19 +84,19 @@
             padding-left: var(--edge-content-padding);
             display: flex;
             align-items: center;
-        }
 
-        #eighty4 a {
-            display: flex;
-            align-items: center;
-            font-size: 2vh;
-            color: var(--card-text-color);
-            text-decoration: none;
-            gap: .5rem;
-        }
+            & a {
+                display: flex;
+                align-items: center;
+                font-size: 2vh;
+                color: var(--card-text-color);
+                text-decoration: none;
+                gap: .5rem;
 
-        #eighty4 a img {
-            height: 4vh;
+                & img {
+                    height: 4vh;
+                }
+            }
         }
 
         #github {
@@ -105,15 +105,25 @@
             display: flex;
             justify-content: flex-end;
             align-items: center;
-        }
 
-        #github a {
-            display: flex;
-            align-items: center;
-            font-size: 2vh;
-            color: var(--head-text-color);
-            text-decoration: none;
-            gap: 1rem;
+            & a {
+                display: flex;
+                align-items: center;
+                font-size: 2vh;
+                color: var(--head-text-color);
+                text-decoration: none;
+                gap: 1rem;
+            }
+
+            & .call-to-action {
+                display: none;
+
+                &.current {
+                    display: flex;
+                    align-items: center;
+                    gap: .5rem;
+                }
+            }
         }
 
         #github-logo {
@@ -122,16 +132,6 @@
             mask: url('/github.svg') no-repeat 50%;
             mask-size: contain;
             background: var(--head-text-color);
-        }
-
-        #github .call-to-action {
-            display: none;
-        }
-
-        #github .call-to-action.current {
-            display: flex;
-            align-items: center;
-            gap: .5rem;
         }
 
         #bug {
@@ -161,6 +161,11 @@
         #logo {
             grid-area: 2 / 2 / 4 / 4;
             position: relative;
+
+            & img {
+                position: absolute;
+                height: 100%;
+            }
         }
 
         #sh-cursive {
@@ -173,29 +178,24 @@
             aspect-ratio: .9;
         }
 
-        #logo img {
-            position: absolute;
-            height: 100%;
-        }
-
         #header {
             grid-area: 2 / 4 / 4 / 8;
             letter-spacing: .05rem;
             transition: transform var(--out-transition-duration) ease-in-out;
-        }
 
-        h2, h3 {
-            font-weight: 700;
-            color: var(--head-text-color);
-        }
+            & h2, h3 {
+                font-weight: 700;
+                color: var(--head-text-color);
+            }
 
-        h2 {
-            font-size: 9vmin;
-            margin-bottom: 3vmin;
-        }
+            & h2 {
+                font-size: 9vmin;
+                margin-bottom: 3vmin;
+            }
 
-        h3 {
-            font-size: 7vmin;
+            h3 {
+                font-size: 7vmin;
+            }
         }
 
         #tagline {
@@ -205,15 +205,15 @@
             display: flex;
             align-items: center;
             justify-content: flex-start;
-        }
 
-        #tagline p {
-            display: none;
-        }
+            & p {
+                display: none;
 
-        #tagline p.show {
-            display: block;
-            font-style: italic;
+                &.show {
+                    display: block;
+                    font-style: italic;
+                }
+            }
         }
 
         #explain {
@@ -221,11 +221,11 @@
             display: flex;
             align-items: center;
             justify-content: flex-start;
-        }
 
-        #explain button {
-            font-size: 2vmin;
-            padding: 1vmin 2vmin;
+            & button {
+                font-size: 2vmin;
+                padding: 1vmin 2vmin;
+            }
         }
 
         #features {
@@ -272,10 +272,10 @@
             align-items: center;
             justify-content: center;
             gap: 5vmin;
-        }
 
-        .lang-logo {
-            height: 7vmin;
+            & .lang-logo {
+                height: 7vmin;
+            }
         }
 
         #rust-logo {
