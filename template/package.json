@@ -22,7 +22,7 @@
   "files": [
     "lib/**/*",
     "src/**/*",
-    "gold/*.sh",
+    "gold/**/*.sh",
     "package.json",
     "tsconfig.json"
   ]

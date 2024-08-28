@@ -9,7 +9,7 @@ function generateScriptTest(goldFile: string, options: GenerateScriptOptions) {
     if (process.env.UPDATE_GOLD === '1') {
         writeFileSync(goldPath, result.script)
     } else {
-        expect(result).toBe(readFileSync(goldPath).toString())
+        expect(result.script).toBe(readFileSync(goldPath).toString())
     }
 }
 
