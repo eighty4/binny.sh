@@ -1,9 +1,9 @@
-import {type Repository} from '@eighty4/install-github'
-import ConfigureScript from '../components/configure/ConfigureScript.ts'
+import type {RepositoryWithScript} from './searchData.ts'
 import createGitHubGraphApiClient from '../createGitHubGraphApiClient.ts'
 import {showGraphPaper} from '../graphPaper.ts'
 import {removeChildNodes} from '../dom.ts'
 import {configureRepoCache} from '../sessionCache.ts'
+import ConfigureScript from '../components/configure/ConfigureScript.ts'
 
 // todo error handling
 export function openRepositoryConfig(repoOwner: string, repoName: string) {
@@ -21,7 +21,7 @@ export function openRepositoryConfig(repoOwner: string, repoName: string) {
                 .catch(console.error)
         }
 
-        function showConfig(repository: Repository) {
+        function showConfig(repository: RepositoryWithScript) {
             removeChildNodes(graphPaper)
             graphPaper.appendChild(new ConfigureScript(repository))
         }

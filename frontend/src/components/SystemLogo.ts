@@ -8,7 +8,7 @@ interface SystemLogoOptions {
 
 export default class SystemLogo extends HTMLElement {
 
-    static observedAttributes = ['color', 'os']
+    static observedAttributes = ['color', 'os', 'size']
 
     constructor(opts?: Partial<SystemLogoOptions>) {
         super()
@@ -16,9 +16,9 @@ export default class SystemLogo extends HTMLElement {
         if (opts?.os) this.setAttribute('os', opts?.os)
         if (opts?.size) this.setAttribute('size', opts?.size)
         this.style.aspectRatio = '1 / 1'
-        this.style.background = opts?.color || 'hotpink'
+        this.style.background = this.getAttribute('color') || 'hotpink'
         this.style.display = 'inline-block'
-        this.style.width = opts?.size || '1rem'
+        this.style.width = this.getAttribute('size') || '1rem'
         this.style.willChange = 'transform'
     }
 

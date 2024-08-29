@@ -16,37 +16,58 @@
     font-weight: 600;
 }
 
-.files {
-    min-height: 20vh;
-}
-
 .buttons {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 5rem;
     gap: 2rem;
+
+    & .download {
+        border: none;
+        background: #80f390;
+        color: #021;
+        display: inline-flex;
+        align-items: center;
+        padding: .5rem .75rem;
+        transition: background .1s;
+
+        & svg {
+            margin-right: .25rem;
+        }
+
+        &:hover:not(:disabled) {
+            background: #80ff90;
+        }
+
+        &:disabled {
+            background: #a0eeb0;
+            color: #687;
+        }
+    }
 }
 
-.download {
-    border: none;
-    background: #80f390;
-    color: #021;
-    display: inline-flex;
-    align-items: center;
-    padding: .5rem .75rem;
-    transition: background .1s;
-}
+.bins-by-os {
+    margin: 2.5rem 0;
 
-.download:hover:not(:disabled) {
-    background: #80ff90;
-}
+    & .os {
+        display: flex;
+        justify-content: center;
+        font-size: 1.2rem;
+        font-weight: 500;
 
-.download:disabled {
-    background: #a0eeb0;
-    color: #687;
-}
+        & system-logo {
+            margin-right: 1rem;
+        }
+    }
 
-.download svg {
-    margin-right: .25rem;
+    & .bins {
+        padding: 1rem 0;
+    }
+
+    & .text {
+        text-align: center;
+        font-style: italic;
+        padding: 2rem 0;
+    }
 }

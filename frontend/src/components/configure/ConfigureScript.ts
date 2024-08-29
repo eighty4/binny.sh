@@ -1,13 +1,15 @@
-import {type Binary, type Repository, Unauthorized} from '@eighty4/install-github'
+import {type Binary, Unauthorized} from '@eighty4/install-github'
 import type {Architecture, Distribution, GenerateScriptOptions, OperatingSystem} from '@eighty4/install-template'
-import {generateScript} from '@eighty4/install-template'
+import {generateScript, OPERATING_SYSTEMS} from '@eighty4/install-template'
 import {ARCHITECTURE_UPDATE_EVENT_TYPE, type ArchitectureUpdateEvent} from './ArchitectureUpdate.ts'
-import ConfigureBinaries from './ConfigureBinaries.ts'
+import ConfigureBinaryFile from './ConfigureBinaryFile.ts'
 import css from './ConfigureScript.css?inline'
+import html from './ConfigureScript.html?raw'
 import {downloadScript} from './download.ts'
 import {saveGeneratedScript} from '../../api.ts'
 import {cloneTemplate, removeChildNodes} from '../../dom.ts'
 import {logout} from '../../logout.ts'
+import type {RepositoryWithScript} from '../../routes/searchData.ts'
 
 // todo links to gh commit, repo and release pages
 // todo release date
@@ -17,25 +19,7 @@ export default class ConfigureScript extends HTMLElement {
     private static readonly TEMPLATE_ID = 'tmpl-configure-script'
 
     static templateHTML(): string {
-        return `
-            <template id="${this.TEMPLATE_ID}">
-                <style>${css}</style>
-                <div class="header">
-                    <div class="row">
-                        <span class="name"></span>
-                        <span class="version"></span>
-                    </div>
-                    <div class="row">
-                        <span style="flex: 1"></span>
-                        <span class="commit"></span>
-                    </div>
-                </div>
-                <div class="buttons">
-                </div>
-                <div class="files">
-                </div>
-            </template>
-        `
+        return `<template id="${this.TEMPLATE_ID}"><style>${css}</style>${html}</template>`
     }
 
     readonly #architectureResolved: Record<string, Architecture> = {}
@@ -50,11 +34,11 @@ export default class ConfigureScript extends HTMLElement {
 
     readonly #downloadButtons: Partial<Record<OperatingSystem, HTMLButtonElement>> = {}
 
-    readonly #repo: Repository
+    readonly #repo: RepositoryWithScript
 
     readonly #shadow: ShadowRoot
 
-    constructor(repo: Repository) {
+    constructor(readonly repo: RepositoryWithScript) {
         super()
         if (repo.latestRelease?.binaries) {
             for (const binary of repo.latestRelease.binaries!) {
@@ -62,6 +46,11 @@ export default class ConfigureScript extends HTMLElement {
                 if (!binary.arch) {
                     this.#architectureUnresolved[binary.filename] = binary.os
                 }
+            }
+        }
+        if (repo.script?.spec.explicitArchitectures) {
+            for (const filename of Object.keys(repo.script.spec.explicitArchitectures)) {
+                this.#resolveArchitecture(filename, repo.script.spec.explicitArchitectures[filename])
             }
         }
         this.#repo = repo
@@ -82,7 +71,7 @@ export default class ConfigureScript extends HTMLElement {
         for (const os of Object.keys(this.#downloadButtons)) {
             this.#downloadButtons[os as OperatingSystem]!.removeEventListener('click', this.#onDownloadButtonClick)
         }
-        for (const configureBinaries of this.querySelectorAll('configure-binaries')) {
+        for (const configureBinaries of this.#shadow.querySelectorAll('configure-binary')) {
             configureBinaries.removeEventListener(ARCHITECTURE_UPDATE_EVENT_TYPE, this.#onArchUpdate as EventListener)
         }
         removeChildNodes(this.#shadow)
@@ -93,23 +82,28 @@ export default class ConfigureScript extends HTMLElement {
         this.#shadow.querySelector<HTMLElement>('.header')!.style.viewTransitionName = `repo-${this.#repo.owner}-${this.#repo.name}`
         this.#shadow.querySelector('.name')!.textContent = `${this.#repo.owner}/${this.#repo.name}`
         this.#shadow.querySelector('.version')!.textContent = this.#repo.latestRelease?.tag || ''
-        const binariesContainer = this.#shadow.querySelector('.files') as HTMLElement
         if (this.#repo.latestRelease?.binaries.length) {
-            this.#renderConfigureBinaries(binariesContainer, 'Linux')
-            this.#renderConfigureBinaries(binariesContainer, 'MacOS')
-            this.#renderConfigureBinaries(binariesContainer, 'Windows')
+            for (const os of OPERATING_SYSTEMS) {
+                this.#renderConfigureBinaryFiles(this.#shadow.querySelector(`.bins-by-os.${os.toLowerCase()} .bins`)!, os)
+            }
         } else {
             // todo will somebody think of the lack of content for repos without binaries?
         }
         // todo nice to have render non binary file assets
-        console.log('ConfigureScript', this.#repo.latestRelease?.binaries)
     }
 
-    #renderConfigureBinaries(container: HTMLElement, os: OperatingSystem) {
+    #renderConfigureBinaryFiles(container: HTMLElement, os: OperatingSystem) {
         const bins = this.#binaries[os]
         if (bins.length) {
-            container.appendChild(new ConfigureBinaries(bins, os))
-                .addEventListener(ARCHITECTURE_UPDATE_EVENT_TYPE, this.#onArchUpdate as EventListener)
+            for (const bin of bins) {
+                container.appendChild(new ConfigureBinaryFile(bin, this.#repo.script?.spec.explicitArchitectures[bin.filename]))
+                    .addEventListener(ARCHITECTURE_UPDATE_EVENT_TYPE, this.#onArchUpdate as EventListener)
+            }
+        } else {
+            const p = document.createElement('p')
+            p.classList.add('text')
+            p.textContent = `Release does not include binaries for ${os}.`
+            container.replaceWith(p)
         }
     }
 
@@ -149,13 +143,30 @@ export default class ConfigureScript extends HTMLElement {
             : (['Linux', 'MacOS'] as Array<OperatingSystem>).every(os => this.#isDownloadButtonEnabled(os)))
     }
 
-    #onArchUpdate = (e: ArchitectureUpdateEvent) => {
-        this.#architectureResolved[e.detail.filename] = e.detail.arch
-        const resolvedBinOs = this.#architectureUnresolved[e.detail.filename]
-        if (resolvedBinOs) {
-            delete this.#architectureUnresolved[e.detail.filename]
-            this.#updateDownloadButtonEnabled(resolvedBinOs)
+    #onArchUpdate = ({detail: {arch, filename}}: ArchitectureUpdateEvent) => {
+        if (this.#resolveArchitecture(filename, arch)) {
+            this.#updateDownloadButtonEnabled(this.#findOsForBinaryFilename(filename))
         }
+    }
+
+    #resolveArchitecture(filename: string, arch: Architecture): boolean {
+        this.#architectureResolved[filename] = arch
+        const previouslyUnresolved = !!this.#architectureUnresolved[filename]
+        if (previouslyUnresolved) {
+            delete this.#architectureUnresolved[filename]
+        }
+        return previouslyUnresolved
+    }
+
+    #findOsForBinaryFilename(filename: string): OperatingSystem {
+        for (const os of Object.keys(this.#binaries)) {
+            for (const binary of this.#binaries[os as OperatingSystem]) {
+                if (binary.filename === filename) {
+                    return os as OperatingSystem
+                }
+            }
+        }
+        throw new Error()
     }
 
     // todo script filename needs a ui input to override default

@@ -1,34 +1,30 @@
 import type {Binary} from '@eighty4/install-github'
 import {type Architecture, ARCHITECTURES} from '@eighty4/install-template'
 import {createArchitectureUpdate} from './ArchitectureUpdate.ts'
-import css from './ConfigureBinary.css?inline'
+import css from './ConfigureBinaryFile.css?inline'
+import html from './ConfigureBinaryFile.html?raw'
 import {cloneTemplate} from '../../dom.ts'
 
-export default class ConfigureBinary extends HTMLElement {
+export default class ConfigureBinaryFile extends HTMLElement {
 
-    private static readonly TEMPLATE_ID = 'tmpl-configure-binary'
+    private static readonly TEMPLATE_ID = 'tmpl-configure-binary-file'
 
     static templateHTML(): string {
-        return `
-            <template id="${this.TEMPLATE_ID}">
-                <style>${css}</style>
-                <div class="bin">
-                    <span class="filename"></span>
-                    <span class="arch"></span>
-                </div>
-            </template>
-        `
+        return `<template id="${this.TEMPLATE_ID}"><style>${css}</style>${html}</template>`
     }
 
     readonly #bin: Binary
 
+    readonly #explicitArchitecture?: Architecture
+
     readonly #shadow: ShadowRoot
 
-    constructor(bin: Binary) {
+    constructor(bin: Binary, explicitArchitecture?: Architecture) {
         super()
         this.#bin = bin
+        this.#explicitArchitecture = explicitArchitecture
         this.#shadow = this.attachShadow({mode: 'open'})
-        this.#shadow.appendChild(cloneTemplate(ConfigureBinary.TEMPLATE_ID))
+        this.#shadow.appendChild(cloneTemplate(ConfigureBinaryFile.TEMPLATE_ID))
     }
 
     connectedCallback() {
@@ -37,6 +33,7 @@ export default class ConfigureBinary extends HTMLElement {
         if (this.#bin.arch) {
             archContainer.textContent = this.#bin.arch
         } else {
+            archContainer.parentElement!.classList.add('unresolved')
             archContainer.replaceWith(this.#createArchSelect())
         }
     }
@@ -44,13 +41,17 @@ export default class ConfigureBinary extends HTMLElement {
     #createArchSelect(): HTMLSelectElement {
         const archSelect = document.createElement('select')
         archSelect.classList.add('arch')
-        archSelect.innerHTML = '<option value=""></option>' + ARCHITECTURES.map(arch => `<option>${arch}</option>`).join()
+        let optionsHtml = ARCHITECTURES.map(arch => `<option>${arch}</option>`).join('')
+        archSelect.innerHTML = this.#explicitArchitecture ? optionsHtml : '<option value=""></option>' + optionsHtml
         archSelect.addEventListener('input', this.#onArchUpdate)
+        if (this.#explicitArchitecture) {
+            archSelect.value = this.#explicitArchitecture
+        }
         return archSelect
     }
 
     disconnectedCallback() {
-        this.#shadow.querySelector('select')?.removeEventListener('change', this.#onArchUpdate)
+        this.#shadow.querySelector('select')?.removeEventListener('input', this.#onArchUpdate)
     }
 
     #onArchUpdate = () => {

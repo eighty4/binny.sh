@@ -1,6 +1,7 @@
 import type {OperatingSystem} from '@eighty4/install-template'
 import {OPERATING_SYSTEMS} from '@eighty4/install-template'
 import css from './RepositoryLink.css?inline'
+import html from './RepositoryLink.html?raw'
 import SystemLogo from '../SystemLogo.ts'
 import {configureRepoCache} from '../../sessionCache.ts'
 import {cloneTemplate} from '../../dom.ts'
@@ -12,21 +13,7 @@ export default class RepositoryLink extends HTMLElement {
     private static readonly TEMPLATE_ID = 'tmpl-repo-link'
 
     static templateHTML(): string {
-        return `
-            <template id="${this.TEMPLATE_ID}">
-                <style>${css}</style>
-                <div class="link">
-                    <div class="header">
-                        <profile-picture></profile-picture>
-                        <span class="name"></span>
-                        <span class="version"></span>
-                    </div>
-                    <div class="deets">
-                        <span class="os-logos"></span>
-                        <span class="update"></span>
-                    </div>
-                </div>
-            </template>`
+        return `<template id="${this.TEMPLATE_ID}"><style>${css}</style>${html}</template>`
     }
 
     readonly #repo: RepositoryWithScript
