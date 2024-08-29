@@ -43,6 +43,10 @@
             --card-text-color: var(--black);
             --card-graph-color: rgb(var(--black-rgb), 40%);
             font-family: 'Inter Variable', Helvetica, sans-serif;
+            background-color: var(--card-bg-color);
+            background-image: radial-gradient(circle, var(--card-graph-color) 1px, transparent 1px);
+            background-position: center;
+            background-size: 3rem 3rem;
 
             &.flipped {
                 --head-bg-color: var(--white);
@@ -54,15 +58,8 @@
         }
 
         html, body {
-            background: var(--card-bg-color);
             min-height: 100vh;
             overflow-x: hidden;
-        }
-
-        body {
-            background-image: radial-gradient(circle, var(--card-graph-color) 1px, transparent 1px);
-            background-position: center;
-            background-size: 3rem 3rem;
         }
 
         #grid {

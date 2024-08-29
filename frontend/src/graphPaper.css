@@ -12,14 +12,16 @@ html.out:not(.reader) #triangle {
 }
 
 #graph-paper-positioning {
-    position: relative;
+    position: absolute;
     left: 20vw;
     top: 20vh;
     width: 60vw;
+    min-height: 60vh;
 }
 
 #graph-paper {
-    margin: 10vw auto 0;
+    margin: 0 auto;
+    padding: 10vh 0;
     max-width: 38rem;
     width: 40vw;
 }
