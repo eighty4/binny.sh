@@ -1,6 +1,6 @@
 import type {Binary} from '@eighty4/install-github'
 import {type Architecture, ARCHITECTURES} from '@eighty4/install-template'
-import {createArchitectureUpdate} from './ArchitectureUpdate.ts'
+import {ARCHITECTURE_UPDATE_EVENT_TYPE, createArchitectureUpdate} from './ArchitectureUpdate.ts'
 import css from './ConfigureBinaryFile.css?inline'
 import html from './ConfigureBinaryFile.html?raw'
 import {cloneTemplate} from '../../dom.ts'
@@ -33,30 +33,45 @@ export default class ConfigureBinaryFile extends HTMLElement {
         if (this.#bin.arch) {
             archContainer.textContent = this.#bin.arch
         } else {
-            archContainer.parentElement!.classList.add('unresolved')
-            archContainer.replaceWith(this.#createArchSelect())
+            archContainer.replaceWith(this.#createNativeArchSelect())
         }
     }
 
-    #createArchSelect(): HTMLSelectElement {
+    disconnectedCallback() {
+        this.#shadow.querySelector('select')?.removeEventListener('input', this.#onNativeArchUpdate)
+        this.#shadow.querySelector('architecture-select')?.removeEventListener(ARCHITECTURE_UPDATE_EVENT_TYPE, this.#onNativeArchUpdate)
+    }
+
+    #createNativeArchSelect(): HTMLSelectElement {
         const archSelect = document.createElement('select')
         archSelect.classList.add('arch')
         let optionsHtml = ARCHITECTURES.map(arch => `<option>${arch}</option>`).join('')
         archSelect.innerHTML = this.#explicitArchitecture ? optionsHtml : '<option value=""></option>' + optionsHtml
-        archSelect.addEventListener('input', this.#onArchUpdate)
+        archSelect.addEventListener('input', this.#onNativeArchUpdate)
         if (this.#explicitArchitecture) {
             archSelect.value = this.#explicitArchitecture
         }
         return archSelect
     }
 
-    disconnectedCallback() {
-        this.#shadow.querySelector('select')?.removeEventListener('input', this.#onArchUpdate)
-    }
-
-    #onArchUpdate = () => {
+    #onNativeArchUpdate = () => {
         this.#shadow.querySelector('option[value=""]')?.remove()
         const arch = this.#shadow.querySelector('select')!.value as Architecture
         this.dispatchEvent(createArchitectureUpdate(arch, this.#bin.filename))
     }
+
+    // #createArchSelect(): ArchitectureSelect {
+    //     console.log(this.#explicitArchitecture)
+    //     const archSelect = new ArchitectureSelect(this.#bin.filename)
+    //     archSelect.classList.add('arch')
+    //     archSelect.addEventListener(ARCHITECTURE_UPDATE_EVENT_TYPE, this.#onArchUpdate as EventListener)
+    //     if (this.#explicitArchitecture) {
+    //         archSelect.value = this.#explicitArchitecture
+    //     }
+    //     return archSelect
+    // }
+    //
+    // #onArchUpdate = ({detail: arch}: CustomEvent<Architecture>) => {
+    //     this.dispatchEvent(createArchitectureUpdate(arch, this.#bin.filename))
+    // }
 }

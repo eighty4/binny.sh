@@ -6,7 +6,8 @@
     width: 30vw;
     max-width: 500px;
     margin: 0 auto;
-    padding: 1rem 1.5rem;
+    padding: 0 1.5rem;
+    height: 3.75rem;
     transition: all .1s ease-in-out;
     border-radius: 1rem;
 
@@ -30,6 +31,6 @@
     }
 
     & .arch {
-        width: 8vw;
+        width: 10rem;
     }
 }
