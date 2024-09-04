@@ -1,6 +1,8 @@
 #!/usr/bin/env sh
 set -e
 
+# Created by npm package @eighty4/install-template@0.0.1 for https://github.com/eighty4/maestro
+
 binary_name="maestro"
 repository_name="eighty4/maestro"
 

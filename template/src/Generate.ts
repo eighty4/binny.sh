@@ -134,6 +134,8 @@ function scriptTemplateFn(options: GenerateScriptOptions): string {
     return `#!/usr/bin/env sh
 set -e
 
+# Created by npm package @eighty4/install-template@${getTemplateVersion()} for https://github.com/${options.repository.owner}/${options.repository.name}
+
 binary_name="${binaryInstall.installAs}"
 repository_name="${options.repository.owner}/${options.repository.name}"
 
