@@ -38,6 +38,12 @@ jobs:
       run: |
         corepack enable && corepack prepare pnpm@latest --activate
         pnpm i
+    - name: typecheck frontend
+      run: pnpm exec tsc --build
+      working-directory: frontend
+    - name: typecheck offline
+      run: pnpm exec tsc --build
+      working-directory: offline
     - name: playwright
       env:
         CI: true

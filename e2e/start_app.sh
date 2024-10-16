@@ -1,7 +1,12 @@
 #!/bin/bash
+set -e
 
 pushd ../frontend
-  pnpm build:tsc
+  pnpm exec tsc --build
+popd
+
+pushd ../offline
+  pnpm exec tsc --build
 popd
 
 pushd ../offline
