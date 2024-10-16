@@ -106,6 +106,9 @@ function mapRelease(release?: Release): Array<ReleaseNode> {
             tagName: release.tag,
             releaseAssets: {
                 nodes: assets,
+                pageInfo: {
+                    hasNextPage: false,
+                },
             },
         }]
     }

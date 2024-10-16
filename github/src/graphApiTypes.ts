@@ -62,6 +62,9 @@ export interface ReleaseNode {
     url: string
     releaseAssets: {
         nodes: Array<ReleaseAssetNode>
+        pageInfo: {
+            hasNextPage: boolean
+        }
     }
 }
 
@@ -77,6 +80,9 @@ export function mapLanguageNodes(nodes: Array<LanguageNode>): Array<Language> {
 }
 
 export function mapReleaseNode(release: ReleaseNode): Release {
+    if (release.releaseAssets.pageInfo.hasNextPage) {
+        throw new Error(`release ${release.tagName} has more than 100 release assets and exceeding amount will not be processed bc paging is not yet supported`)
+    }
     const binaries: Array<Binary> = []
     const otherAssets: Array<Asset> = []
     for (const {name: filename, contentType} of release.releaseAssets.nodes) {
