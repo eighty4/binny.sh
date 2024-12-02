@@ -15,5 +15,6 @@ frontend/.env.development
 frontend/.env.production
 frontend/dist
 github/lib
+lambdas/.l3
 offline/lib
 template/lib
