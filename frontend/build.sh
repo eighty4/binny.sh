@@ -15,3 +15,5 @@ docker run -i --rm 84tech/minhtml \
   > dist/index.html
 
 rm dist/original.html
+
+(cd dist && zip -qr ../dist.zip .)

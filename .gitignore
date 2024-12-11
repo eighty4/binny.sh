@@ -14,6 +14,7 @@ e2e/test-results
 frontend/.env.development
 frontend/.env.production
 frontend/dist
+frontend/dist.zip
 github/lib
 lambdas/.l3
 offline/lib

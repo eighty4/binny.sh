@@ -1,12 +1,12 @@
-name: deploy frontend to gh pages
+name: Deploy frontend
 
 on:
   workflow_dispatch:
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
+#permissions:
+#  contents: read
+#  pages: write
+#  id-token: write
 
 concurrency:
   group: "pages"
@@ -14,9 +14,9 @@ concurrency:
 
 jobs:
   deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+#    environment:
+#      name: github-pages
+#      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     steps:
@@ -38,12 +38,30 @@ jobs:
         env:
           VITE_GITHUB_CLIENT_ID: ${{secrets.GH_OAUTH_CLIENT_ID}}
         working-directory: frontend
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+#      - name: Setup Pages
+#        uses: actions/configure-pages@v4
+#      - name: Upload artifact
+#        uses: actions/upload-pages-artifact@v3
+#        with:
+#          path: 'frontend/dist'
+      - name: AWS Configure
+        uses: aws-actions/configure-aws-credentials@v1
         with:
-          path: 'frontend/dist'
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-2
+      - name: S3 Upload
+        run: aws s3 cp dist.zip ${AWS_AMPLIFY_S3_SOURCE}
+        env:
+          AWS_AMPLIFY_S3_SOURCE: ${{ secrets.AWS_AMPLIFY_S3_SOURCE }}
+        working-directory: frontend
+      - name: Amplify Deploy
+        run: aws amplify start-deployment --app-id ${AWS_AMPLIFY_APP_ID} --branch-name ${AWS_AMPLIFY_BRANCH_NAME} --source-url ${AWS_AMPLIFY_S3_SOURCE}
+        env:
+          AWS_AMPLIFY_BRANCH_NAME: ${{ secrets.AWS_AMPLIFY_BRANCH_NAME }}
+          AWS_AMPLIFY_APP_ID: ${{ secrets.AWS_AMPLIFY_APP_ID }}
+          AWS_AMPLIFY_S3_SOURCE: ${{ secrets.AWS_AMPLIFY_S3_SOURCE }}
+        working-directory: frontend
+#      - name: Deploy to GitHub Pages
+#        id: deployment
+#        uses: actions/deploy-pages@v4
