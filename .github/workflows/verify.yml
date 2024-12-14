@@ -39,19 +39,20 @@ jobs:
 #          --health-retries 10
 #    steps:
 #      - uses: actions/checkout@v4
+#      - uses: pnpm/action-setup@v4
 #      - uses: actions/setup-node@v4
 #        with:
-#          node-version: 20
+#          node-version: 22
+#          cache: pnpm
 #      - name: sql
 #        run: |
 #          sudo apt-get update -y
 #          sudo apt-get install -y postgresql-client
 #          PGPASSWORD=eighty4 psql -h localhost -U eighty4 -f v001-init-schema.sql eighty4
 #        working-directory: sql
+#      - run: pnpm i
 #      - name: verify
 #        run: |
-#          corepack enable && corepack prepare pnpm@latest --activate
-#          pnpm i
 #          pnpm build
 #          pnpm test
 #        working-directory: backend
@@ -60,16 +61,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
+          cache: pnpm
       - name: install brotli
         run: |
           sudo apt-get update -y
           sudo apt-get install -y brotli
       - name: verify
         run: |
-          corepack enable && corepack prepare pnpm@latest --activate
           pnpm i
           VITE_GITHUB_CLIENT_ID=ci pnpm build
           pnpm svg
@@ -79,12 +81,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
+          cache: pnpm
       - name: verify
         run: |
-          corepack enable && corepack prepare pnpm@latest --activate
           pnpm i
           pnpm build
         working-directory: github
@@ -93,13 +96,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
+          cache: pnpm
       - name: verify
         shell: 'script -q -e -c "bash {0}"'
         run: |
-          corepack enable && corepack prepare pnpm@latest --activate
           pnpm i
           pnpm build
           pnpm test
