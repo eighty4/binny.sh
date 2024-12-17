@@ -41,7 +41,7 @@ jobs:
         run: pnpm exec tsc --build
         working-directory: frontend
       - name: typecheck offline
-        run: pnpm exec tsc --build
+        run: pnpm exec tsc --noEmit
         working-directory: offline
       - name: playwright
         env:

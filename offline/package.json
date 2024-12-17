@@ -6,7 +6,6 @@
   "license": "BSD-3-Clause",
   "type": "module",
   "scripts": {
-    "build": "tsc --build",
     "start": "node --experimental-strip-types --watch --watch-path ./ --watch-path ../github --watch-path ../template src/Offline.ts"
   },
   "dependencies": {
