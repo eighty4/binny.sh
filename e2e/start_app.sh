@@ -6,10 +6,7 @@ pushd ../frontend
 popd
 
 pushd ../offline
-  pnpm exec tsc --build
-popd
-
-pushd ../offline
+  pnpm build
   pnpm start &
   offline_pid=$!
 popd

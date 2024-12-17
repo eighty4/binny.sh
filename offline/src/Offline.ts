@@ -1,7 +1,7 @@
 import {serve} from '@hono/node-server'
 import {Hono} from 'hono'
 import {logger} from 'hono/logger'
-import {handleGraphQuery} from './data.js'
+import {handleGraphQuery} from './data.ts'
 
 const HTTP_PORT = 7411
 
