@@ -26,7 +26,6 @@ jobs:
           cache: pnpm
       - name: Build
         run: |
-          corepack enable && corepack prepare pnpm@latest --activate
           pnpm i
           pnpm build
         env:
