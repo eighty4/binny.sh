@@ -40,3 +40,7 @@ serve({
     port: HTTP_PORT,
 })
 
+process.once('SIGTERM', function () {
+    console.log('SIGTERM')
+    process.exit(0)
+})
