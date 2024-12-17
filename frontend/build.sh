@@ -6,13 +6,14 @@ pnpm build:vite
 
 mv dist/index.html dist/original.html
 
-docker run -i --rm 84tech/minhtml \
-  --minify-css --minify-js \
+pnpm exec minify-html \
+  --minify-css \
+  --minify-js \
   --do-not-minify-doctype \
   --ensure-spec-compliant-unquoted-attribute-values \
   --keep-spaces-between-attributes \
-  < dist/original.html \
-  > dist/index.html
+  --output dist/index.html \
+  dist/original.html
 
 rm dist/original.html
 
