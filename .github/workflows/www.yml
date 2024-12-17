@@ -3,20 +3,12 @@ name: Deploy frontend
 on:
   workflow_dispatch:
 
-#permissions:
-#  contents: read
-#  pages: write
-#  id-token: write
-
 concurrency:
-  group: "pages"
+  group: "deploy-frontend"
   cancel-in-progress: false
 
 jobs:
   deploy:
-#    environment:
-#      name: github-pages
-#      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     steps:
@@ -41,12 +33,6 @@ jobs:
           VITE_INSTALL_API_BASE_URL: ${{secrets.EIGHTY4_INSTALL_API_BASE_URL}}
           VITE_GITHUB_CLIENT_ID: ${{secrets.GH_OAUTH_CLIENT_ID}}
         working-directory: frontend
-#      - name: Setup Pages
-#        uses: actions/configure-pages@v4
-#      - name: Upload artifact
-#        uses: actions/upload-pages-artifact@v3
-#        with:
-#          path: 'frontend/dist'
       - name: AWS Configure
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -65,6 +51,3 @@ jobs:
           AWS_AMPLIFY_APP_ID: ${{ secrets.AWS_AMPLIFY_APP_ID }}
           AWS_AMPLIFY_S3_SOURCE: ${{ secrets.AWS_AMPLIFY_S3_SOURCE }}
         working-directory: frontend
-#      - name: Deploy to GitHub Pages
-#        id: deployment
-#        uses: actions/deploy-pages@v4
