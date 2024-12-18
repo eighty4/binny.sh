@@ -29,9 +29,6 @@ importers:
       '@minify-html/node':
         specifier: ^0.15.0
         version: 0.15.0
-      '@types/dom-view-transitions':
-        specifier: ^1.0.5
-        version: 1.0.5
       typescript:
         specifier: ^5.5.4
         version: 5.5.4
@@ -432,9 +429,6 @@ packages:
     resolution: {integrity: sha512-2jsCDZwtQvRhejHLfZ1JY6w6kEuEtfF9nzYsZxzSlNVKDX+DpsDJ+Rbjkm74nvg2rdx0gwBS+IMdvwJuq3S9pQ==}
     cpu: [x64]
     os: [win32]
-
-  '@types/dom-view-transitions@1.0.5':
-    resolution: {integrity: sha512-N2sILR7fxSMnaFaAPwGj4DtHCXjIyQTHt+xJyf9jATpzUsTkMNM0DWtqZB6W7f501B/Y0tq3uqat/VlbjuTpMA==}
 
   '@types/estree@1.0.5':
     resolution: {integrity: sha512-/kYRxGDLWzHOB7q+wtSUQlFrtcdUccpfy+X+9iMBpHK8QLLhx2wIPYuS5DYtR9Wa/YlZAbIovy7qVdB1Aq6Lyw==}
@@ -979,8 +973,6 @@ snapshots:
 
   '@rollup/rollup-win32-x64-msvc@4.21.0':
     optional: true
-
-  '@types/dom-view-transitions@1.0.5': {}
 
   '@types/estree@1.0.5': {}
 

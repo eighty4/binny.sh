@@ -34,20 +34,12 @@ export function handleCurrentRoute() {
             location = location.protocol + '//' + location.host
         }
         const [_, repoOwner, repoName] = hashParts
-        transition(() => openRepositoryConfig(repoOwner, repoName))
+        openRepositoryConfig(repoOwner, repoName)
     } else if (location.hash === '#search') {
-        transition(() => findProgramRepository())
+        findProgramRepository()
     } else if (location.hash === '') {
         replaceCurrentRoute('#search')
     } else {
         console.error('wtf')
-    }
-}
-
-function transition(fn: () => void) {
-    if (document.startViewTransition) {
-        document.startViewTransition(fn)
-    } else {
-        fn()
     }
 }

@@ -38,7 +38,6 @@ export default class RepositoryLink extends HTMLElement {
 
     #onClick = () => {
         configureRepoCache.write(this.#repo)
-        this.style.viewTransitionName = `repo-${this.#repo.owner}-${this.#repo.name}`
         pushConfigureRoute(this.#repo)
     }
 
