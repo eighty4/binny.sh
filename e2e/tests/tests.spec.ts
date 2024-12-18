@@ -17,6 +17,19 @@ test('login to #search route', async ({page}) => {
     await page.waitForSelector('.repos')
 })
 
+test('logout navigates to /', async ({page}) => {
+    await page.goto('/')
+    await page.click("#login")
+    await page.waitForSelector('#login-redirect')
+    await page.click("#login-redirect")
+    await page.waitForSelector('#graph-paper')
+    await page.waitForSelector('.repos')
+
+    await page.click("#logout")
+    await page.waitForURL('/')
+    await page.waitForSelector('#login')
+})
+
 test('#search to #configure/eighty4/maestro', async ({page}) => {
     await page.goto('/')
     await page.click("#login")
