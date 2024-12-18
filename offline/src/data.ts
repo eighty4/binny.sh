@@ -30,7 +30,7 @@ function lookupViewerUserGraph(query: string): ViewerUserGraph | undefined {
             viewer: {
                 login: 'eighty4',
                 email: '',
-                avatarUrl: '',
+                avatarUrl: 'data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=',
                 id: '1234',
             },
         }
