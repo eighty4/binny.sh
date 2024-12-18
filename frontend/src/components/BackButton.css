@@ -1,3 +1,18 @@
 div {
     cursor: pointer;
+    display: none;
+    opacity: 0;
+    transition: .3s opacity ease-in-out;
+
+    &.enabled {
+        display: block;
+    }
+
+    &.hint {
+        opacity: .25;
+    }
+
+    &:hover {
+        opacity: 1;
+    }
 }
