@@ -1,4 +1,4 @@
-import {Unauthorized} from '@eighty4/install-github'
+import {Unauthorized, type User} from '@eighty4/install-github'
 import createGitHubGraphApiClient from './createGitHubGraphApiClient.ts'
 import {initializeCustomizationControls} from './customizations.ts'
 import {initializeExplainButton} from './explain.ts'
@@ -7,7 +7,6 @@ import {logout} from './logout.ts'
 import {getCookie} from './parse.ts'
 import {handleCurrentRoute, subscribeRouterEvents} from './router.ts'
 import {gitHubTokenCache, gitHubUserCache} from './sessionCache.ts'
-import {initializeUserPanel} from './userPanel.ts'
 import './components/define.ts'
 
 if (document.readyState !== 'loading') {
@@ -51,4 +50,13 @@ function startUserSession() {
     initializeUserPanel()
     subscribeRouterEvents()
     handleCurrentRoute()
+}
+
+export function initializeUserPanel() {
+    createGitHubGraphApiClient().queryUser().then(createUserPanel)
+}
+
+function createUserPanel(user: User) {
+    document.body.insertAdjacentHTML('beforeend',
+        `<user-panel avatar="${user.avatarUrl}" username="${user.login}"></user-panel>`)
 }
