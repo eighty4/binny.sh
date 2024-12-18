@@ -11,17 +11,14 @@ html.out:not(.reader) #triangle {
     clip-path: polygon(0 0, 100% 0, 100% 10%, 90% 10%, 80% 20%, 20% 20%, 20% 80%, 10% 90%, 0 90%);
 }
 
-#graph-paper-positioning {
-    position: absolute;
-    left: 20vw;
-    top: 20vh;
-    width: 60vw;
-    min-height: 60vh;
+#graph-paper-grid {
+    width: 100vw;
+    display: grid;
+    grid-template-columns: 30vw 1fr 30vw;
+    grid-template-rows: 20vh 10vw 1fr 10vw 20vh;
 }
 
 #graph-paper {
-    margin: 0 auto;
-    padding: 10vh 0;
-    max-width: 38rem;
-    width: 40vw;
+    grid-column: 2 / -2;
+    grid-row: 3 / -3;
 }
