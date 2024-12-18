@@ -5,8 +5,13 @@ import {
     type ViewerRepositoriesWithLatestReleaseGraph,
     type ViewerUserGraph,
 } from './graphApiTypes.js'
-import {fetchUserQuery, queryLatestReleaseQuery, queryUserRepositoriesQuery} from './graphApiQueries.js'
-import type {Repository, User} from './Model.js'
+import {
+    queryAuthedUser,
+    queryLatestRelease,
+    queryRepositoryReleases,
+    queryUserRepositories,
+} from './graphApiQueries.js'
+import type {Release, Repository, User} from './Model.js'
 
 export * from './Model.js'
 
@@ -25,7 +30,7 @@ export class GitHubApiClient {
     }
 
     async queryUser(): Promise<User> {
-        const result = await this.internalDoGraphApiQuery<ViewerUserGraph>(fetchUserQuery)
+        const result = await this.internalDoGraphApiQuery<ViewerUserGraph>(queryAuthedUser)
         return {
             login: result.data.viewer.login,
             // email: result.data.viewer.email.length ? result.data.viewer.email : undefined,
@@ -48,7 +53,7 @@ export class GitHubApiClient {
     }
 
     async queryLatestRelease(repoOwner: string, repoName: string): Promise<Repository> {
-        const result = await this.internalDoGraphApiQuery<RepositoryReleasesGraph>(queryLatestReleaseQuery(repoOwner, repoName))
+        const result = await this.internalDoGraphApiQuery<RepositoryReleasesGraph>(queryLatestRelease(repoOwner, repoName))
         if (result.data.repository === null) {
             throw new Error(`${repoOwner}/${repoName} not found`)
         }
@@ -64,8 +69,21 @@ export class GitHubApiClient {
         }
     }
 
+    async queryRepositoryReleases(repoOwner: string, repoName: string, releaseCount: number = 20): Promise<Array<Release>> {
+        const result = await this.internalDoGraphApiQuery<Omit<RepositoryReleasesGraph, 'languages'>>(
+            queryRepositoryReleases(repoOwner, repoName, releaseCount))
+        if (result.data.repository === null) {
+            throw new Error(`${repoOwner}/${repoName} not found`)
+        }
+        const releases = result.data.repository.releases
+        if (releases.nodes.length === 0) {
+            throw new Error(`${repoOwner}/${repoName} has no releases`)
+        }
+        return result.data.repository.releases.nodes.map(mapReleaseNode)
+    }
+
     private async internalQueryUserRepositories(reposPerPage: number, cursor?: string): Promise<QueryUserRepositoriesResponse> {
-        const result = await this.internalDoGraphApiQuery<ViewerRepositoriesWithLatestReleaseGraph>(queryUserRepositoriesQuery(reposPerPage, cursor))
+        const result = await this.internalDoGraphApiQuery<ViewerRepositoriesWithLatestReleaseGraph>(queryUserRepositories(reposPerPage, cursor))
         const repositories: Array<Repository> = []
         for (const repo of result.data.viewer.repositories.nodes) {
             repositories.push({

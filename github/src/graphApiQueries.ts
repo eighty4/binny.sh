@@ -1,4 +1,9 @@
-export const fetchUserQuery = `
+/**
+ * GraphQL API Explorer
+ * https://docs.github.com/en/graphql/overview/explorer
+ */
+
+export const queryAuthedUser = `
 query {
   viewer {
     login
@@ -7,7 +12,34 @@ query {
   }
 }`
 
-export const queryLatestReleaseQuery = (owner: string, name: string) => `
+export const queryRepositoryReleases = (owner: string, name: string, releaseCount: number) => `
+query {
+  repository(owner: "${owner}", name: "${name}") {
+    releases(first: ${releaseCount}, orderBy: {field: CREATED_AT, direction: DESC}) {
+      nodes {
+        isLatest
+        isDraft
+        isPrerelease
+        name
+        createdAt
+        tagCommit {
+          abbreviatedOid
+        }
+        tagName
+        updatedAt
+        url
+        releaseAssets(first: 99) {
+          nodes {
+            name
+            contentType
+          }
+        }
+      }
+    }
+  }
+}`
+
+export const queryLatestRelease = (owner: string, name: string) => `
 query {
   repository(owner: "${owner}", name: "${name}") {
     languages(first: 5) {
@@ -35,7 +67,7 @@ query {
   }
 }`
 
-export const queryUserRepositoriesQuery = (reposPerPage: number, cursor?: string) => `
+export const queryUserRepositories = (reposPerPage: number, cursor?: string) => `
 {
   viewer {
     repositories(
