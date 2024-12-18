@@ -3,7 +3,7 @@ export async function GET(event) {
     return {
         statusCode: 301,
         headers: {
-            'Location': 'http://localhost:5711',
+            'Location': process.env.INSTALL_FRONTEND_ADDRESS,
             'Set-Cookie': `ght=${accessToken}; Secure; SameSite=Strict; Path=/`,
         },
         body: accessToken,
