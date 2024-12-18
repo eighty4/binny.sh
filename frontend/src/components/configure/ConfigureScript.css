@@ -16,37 +16,6 @@
     font-weight: 600;
 }
 
-.buttons {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 5rem;
-    gap: 2rem;
-
-    & .download {
-        border: none;
-        background: #80f390;
-        color: #021;
-        display: inline-flex;
-        align-items: center;
-        padding: .5rem .75rem;
-        transition: background .1s;
-
-        & svg {
-            margin-right: .25rem;
-        }
-
-        &:hover:not(:disabled) {
-            background: #80ff90;
-        }
-
-        &:disabled {
-            background: #a0eeb0;
-            color: #687;
-        }
-    }
-}
-
 .bins-by-os {
     margin: 2.5rem 0;
 

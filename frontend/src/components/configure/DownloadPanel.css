@@ -1,0 +1,36 @@
+/* todo customize behavior during view transition */
+#panel {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    max-width: calc(30vw - 2rem);
+
+    background: #def;
+
+    & button {
+        width: 100%;
+        border: none;
+        background: #80f390;
+        color: #021;
+        font-size: .6rem;
+        display: inline-flex;
+        align-items: center;
+        padding: .5rem .75rem;
+        transition: background .1s;
+
+        & svg {
+            margin-right: .5rem;
+            height: .9rem !important;
+            aspect-ratio: 1;
+        }
+
+        &:hover:not(:disabled) {
+            background: #80ff90;
+        }
+
+        &:disabled {
+            background: #a0eeb0;
+            color: #687;
+        }
+    }
+}
