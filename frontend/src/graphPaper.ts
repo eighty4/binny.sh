@@ -33,7 +33,7 @@ function appendTriangle2() {
 }
 
 function createGraphPaper(): HTMLElement {
-    document.body.insertAdjacentHTML('beforeend', `<main id="graph-paper-grid"><div id="graph-paper"></div></main>`)
+    document.body.insertAdjacentHTML('beforeend', `<main id="graph-paper-grid"><div id="graph-paper-header"><back-button></back-button></div><div id="graph-paper"></div></main>`)
     return document.getElementById('graph-paper')!
 }
 
