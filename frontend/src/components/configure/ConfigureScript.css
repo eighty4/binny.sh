@@ -14,30 +14,33 @@
     margin-top: .3rem;
 }
 
+table {
+    & tr {
+        text-align: left;
+
+        & td {
+            padding: .5rem 0;
+        }
+
+        &.file {
+            font-family: monospace;
+            text-indent: 1rem;
+        }
+    }
+}
+
 #binaries {
     margin-top: 2rem;
-
-    & .cat {
-        text-align: left;
-
-        & th {
-            padding: .25rem;
-        }
+    & thead {
+        font-size: 1.5rem;
     }
 
-    & .os {
-        text-align: left;
-        text-indent: 1.25rem;
-
-        & th {
-            padding: .25rem;
-        }
+    & tr.os {
+        display: block;
+        padding-top: 1rem;
     }
+}
 
-    & .bin {
-        padding: .2rem;
-        padding-left: 1.5rem;
-        text-indent: 2.5rem;
-        font-family: monospace;
-    }
+#assets {
+    margin-top: 2.5rem;
 }
