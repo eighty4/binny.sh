@@ -1,42 +1,43 @@
-.row {
-    display: flex;
-    gap: .75rem;
-    justify-content: center;
-    align-items: center;
-}
-
-.name {
+#name {
     flex: 1;
-    font-size: 1.5rem;
-    font-weight: 600;
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: 2px;
 }
 
-.version {
+#version {
     font-size: 1.1rem;
     font-weight: 600;
 }
 
-.bins-by-os {
-    margin: 2.5rem 0;
+#version, #commit {
+    margin-top: .3rem;
+}
 
-    & .os {
-        display: flex;
-        justify-content: center;
-        font-size: 1.2rem;
-        font-weight: 500;
+#binaries {
+    margin-top: 2rem;
 
-        & system-logo {
-            margin-right: 1rem;
+    & .cat {
+        text-align: left;
+
+        & th {
+            padding: .25rem;
         }
     }
 
-    & .bins {
-        padding: 1rem 0;
+    & .os {
+        text-align: left;
+        text-indent: 1.25rem;
+
+        & th {
+            padding: .25rem;
+        }
     }
 
-    & .text {
-        text-align: center;
-        font-style: italic;
-        padding: 2rem 0;
+    & .bin {
+        padding: .2rem;
+        padding-left: 1.5rem;
+        text-indent: 2.5rem;
+        font-family: monospace;
     }
 }

@@ -1,7 +1,6 @@
 import {Unauthorized} from '@eighty4/install-github'
 import {generateScript, OPERATING_SYSTEMS} from '@eighty4/install-template'
 import {ARCHITECTURE_UPDATE_EVENT_TYPE, type ArchitectureUpdateEvent} from './ArchitectureUpdate.ts'
-import ConfigureBinaryFile from './ConfigureBinaryFile.ts'
 import css from './ConfigureScript.css?inline'
 import html from './ConfigureScript.html?raw'
 import {downloadScript} from './download.ts'
@@ -42,34 +41,40 @@ export default class ConfigureScript extends HTMLElement {
     connectedCallback() {
         this.#downloadPanel.addEventListener(DOWNLOAD_SCRIPT_EVENT_TYPE, this.#onDownloadButtonClick as EventListener)
         this.#downloadPanel.update(this.#configuration)
-        this.#shadow.querySelector('.commit')!.textContent = this.#repo.latestRelease?.commitHash || ''
-        this.#shadow.querySelector<HTMLElement>('.header')!.style.viewTransitionName = `repo-${this.#repo.owner}-${this.#repo.name}`
-        this.#shadow.querySelector('.name')!.textContent = `${this.#repo.owner}/${this.#repo.name}`
-        this.#shadow.querySelector('.version')!.textContent = this.#repo.latestRelease?.tag || ''
-        const assets = this.#configuration.buildAssetsView()
-        for (const os of OPERATING_SYSTEMS) {
-            const container = this.#shadow.querySelector(`.bins-by-os.${os.toLowerCase()} .bins`)!
-            if (assets.binaries[os].length) {
-                for (const bin of assets.binaries[os]) {
-                    container.appendChild(new ConfigureBinaryFile(bin, this.#repo.script?.spec.explicitArchitectures[bin.filename]))
-                        .addEventListener(ARCHITECTURE_UPDATE_EVENT_TYPE, this.#onArchUpdate as EventListener)
-                }
-            } else {
-                const p = document.createElement('p')
-                p.classList.add('text')
-                p.textContent = `Release does not include binaries for ${os}.`
-                container.replaceWith(p)
-            }
-            // todo nice to have render non binary file assets
-        }
+        this.#shadow.querySelector('#commit')!.textContent = this.#repo.latestRelease?.commitHash || ''
+        this.#shadow.querySelector('#name')!.textContent = `${this.#repo.owner}/${this.#repo.name}`
+        this.#shadow.querySelector('#version')!.textContent = this.#repo.latestRelease?.tag || ''
+        this.#renderAssetsTable()
     }
 
     disconnectedCallback() {
         this.#downloadPanel.removeEventListener('download-script', this.#onDownloadButtonClick as EventListener)
-        for (const configureBinaries of this.#shadow.querySelectorAll('configure-binary')) {
+        for (const configureBinaries of this.#shadow.querySelectorAll('architecture-select')) {
             configureBinaries.removeEventListener(ARCHITECTURE_UPDATE_EVENT_TYPE, this.#onArchUpdate as EventListener)
         }
         removeChildNodes(this.#shadow)
+    }
+
+    #renderAssetsTable() {
+        const table = document.createElement('table')
+        table.id = 'binaries'
+        const {binaries} = this.#configuration.buildAssetsView()
+        table.insertAdjacentHTML('beforeend', `<tr class="cat"><th>Binaries</th></tr>`)
+        for (const os of OPERATING_SYSTEMS) {
+            table.insertAdjacentHTML('beforeend', `<tr class="os"><th>${os}</th></tr>`)
+            if (binaries[os].length) {
+                for (const bin of binaries[os]) {
+                    const arch = bin.arch ? bin.arch : `<architecture-select data-filename="${bin.filename}"></architecture-select>`
+                    table.insertAdjacentHTML('beforeend', `<tr class="bin"><td>${bin.filename}</td><td>${arch}</td></tr>`)
+                }
+            } else {
+                table.insertAdjacentHTML('beforeend', `<tr class="empty"><td>&nbsp;</td></tr>`)
+            }
+        }
+        for (const archSelect of table.querySelectorAll('architecture-select')) {
+            archSelect.addEventListener(ARCHITECTURE_UPDATE_EVENT_TYPE, this.#onArchUpdate as EventListener)
+        }
+        this.#shadow.appendChild(table)
     }
 
     #onArchUpdate = ({detail: {arch, filename}}: ArchitectureUpdateEvent) => {
