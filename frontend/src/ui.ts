@@ -2,6 +2,10 @@ import './ui.css'
 
 const triangleDiv = document.getElementById('triangle') as HTMLDivElement
 
+export function getPageGrid(): HTMLElement {
+    return document.getElementById('page-grid')!
+}
+
 export function toggleLandingElements(showOrHide?: boolean) {
     const fn = typeof showOrHide === 'undefined' ? 'toggle' : showOrHide ? 'remove' : 'add'
     document.documentElement.classList[fn]('out')

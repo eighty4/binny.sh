@@ -3,6 +3,7 @@ import createGitHubGraphApiClient from './createGitHubGraphApiClient.ts'
 import {logout} from './logout.ts'
 import html from './userPanel.html?raw'
 import './userPanel.css'
+import {getPageGrid} from './ui.ts'
 
 let userPanel: HTMLElement
 let userMenu: HTMLElement
@@ -15,8 +16,9 @@ export function initializeUserPanel() {
 }
 
 function createUserPanel(user: User) {
-    document.getElementById('grid')!.insertAdjacentHTML('beforeend', html)
-    userPanel = document.getElementById('user-panel')!
+    const grid = getPageGrid()
+    grid.insertAdjacentHTML('beforeend', html)
+    userPanel = grid.querySelector('#user-panel')!
     userAvatar = userPanel.querySelector('#user-avatar') as HTMLImageElement
     userAvatar.src = user.avatarUrl
     userLogin = userPanel.querySelector('#user-login') as HTMLElement

@@ -1,6 +1,6 @@
 import './login.css'
 import html from  './login.html?raw'
-import {toggleReaderMode} from './ui.ts'
+import {getPageGrid, toggleReaderMode} from './ui.ts'
 
 const LOGIN_LINK_MOVE_THRESHOLD = .075
 
@@ -85,7 +85,7 @@ function createLoginLink(): HTMLDivElement {
 }
 
 function showLoginPrompt() {
-    const grid = document.getElementById('grid')!
+    const grid = getPageGrid()
     grid.insertAdjacentHTML('beforeend', html)
     const loginPrompt = grid.querySelector('#login-prompt')!
     const redirectButton = loginPrompt.querySelector('#login-redirect') as HTMLButtonElement
