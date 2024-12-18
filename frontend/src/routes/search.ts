@@ -8,6 +8,7 @@ import RepositorySection from '../components/search/RepositorySection.ts'
 
 const searchDataCache = createSessionCache<SearchData>('search.data')
 
+// todo move view oriented code of route fn to component
 export function findProgramRepository() {
     showGraphPaper((graphPaper) => {
         graphPaper.classList.add('search-route')
@@ -31,7 +32,7 @@ export function findProgramRepository() {
             if (searchData.empty) {
                 showGuideOnEmptyProjects()
             } else {
-                graphPaper.innerHTML = `<h3 class="search-header">${gitHubUserCache.read()!.login}'s repos</h3>`
+                graphPaper.innerHTML = `<h3 class="search-header">${gitHubUserCache.read()!.login}</h3>`
                 if (searchData.releasesWithGeneratedScripts.length) {
                     graphPaper.appendChild(new RepositorySection('generated', searchData.releasesWithGeneratedScripts))
                 }

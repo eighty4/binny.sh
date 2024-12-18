@@ -8,7 +8,7 @@ export type RepoSectionType = 'generated' | 'released' | 'compatible' | 'incompa
 function repoSectionHeader(type: RepoSectionType): string {
     switch (type) {
         case 'generated':
-            return 'Your scripts'
+            return 'Your release scripts'
         case 'released':
             return 'With released binaries'
         case 'compatible':
