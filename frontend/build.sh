@@ -1,6 +1,7 @@
 #!/usr/bin/env sh
 set -e
 
+pnpm svg
 pnpm build:tsc
 pnpm build:vite
 

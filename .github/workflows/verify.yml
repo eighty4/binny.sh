@@ -59,6 +59,9 @@ jobs:
 
   verify-frontend:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -66,12 +69,8 @@ jobs:
         with:
           node-version: 22
           cache: pnpm
-      - name: verify
-        run: |
-          pnpm i
-          VITE_GITHUB_CLIENT_ID=ci pnpm build
-          pnpm svg
-        working-directory: frontend
+      - run: pnpm i
+      - run: VITE_GITHUB_CLIENT_ID=ci pnpm build
 
   verify-github:
     runs-on: ubuntu-latest
