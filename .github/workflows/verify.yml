@@ -66,10 +66,6 @@ jobs:
         with:
           node-version: 22
           cache: pnpm
-      - name: install brotli
-        run: |
-          sudo apt-get update -y
-          sudo apt-get install -y brotli
       - name: verify
         run: |
           pnpm i
