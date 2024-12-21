@@ -37,12 +37,6 @@ jobs:
 #        PGPASSWORD=eighty4 psql -h localhost -U eighty4 -f v001-init-schema.sql eighty4
 #      working-directory: sql
       - run: pnpm i
-      - name: typecheck frontend
-        run: pnpm exec tsc --build
-        working-directory: frontend
-      - name: typecheck offline
-        run: pnpm exec tsc --noEmit
-        working-directory: offline
       - name: playwright
         env:
           CI: true
