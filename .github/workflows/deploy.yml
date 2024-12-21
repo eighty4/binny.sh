@@ -1,0 +1,99 @@
+name: Deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      env:
+        description: Deploy to environment
+        required: true
+        type: choice
+        default: dev
+        options:
+          - dev
+          - prod
+      service:
+        description: Deploy app service
+        required: true
+        type: choice
+        options:
+          - frontend
+          - lambdas
+      version:
+        description: Deploy release version
+        required: true
+
+concurrency:
+  group: "deploy"
+  cancel-in-progress: false
+
+jobs:
+
+  deploy:
+    runs-on: ubuntu-latest
+    if: ${{ inputs.service == 'frontend' }}
+    env:
+      DEPLOY_ENV: ${{ inputs.env }}
+      DEPLOY_SERVICE: ${{ inputs.service }}
+      DEPLOY_VERSION: ${{ inputs.version }}
+    steps:
+      - name: AWS Configure
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+      - name: curl frontend.zip
+        run: |
+          RELEASE_URL="https://api.github.com/repos/eighty4/install.sh/releases/tags/$DEPLOY_VERSION"
+          ASSET_URL=$(curl -s "$RELEASE_URL" | jq -r '.assets[] | select(.name == "frontend.zip") | .url')
+          curl -H "Accept: application/octet-stream" -Ls $ASSET_URL > "frontend.zip"
+      - run: unzip frontend.zip -d frontend
+      - name: S3 sync
+        run: |
+          BUCKET="$AWS_S3_BUCKET_PREFIX-$DEPLOY_ENV-$DEPLOY_SERVICE-$DEPLOY_VERSION"
+          aws s3api create-bucket --bucket ${BUCKET}
+          aws s3 sync . ${BUCKET}
+        working-directory: frontend
+        env:
+          AWS_S3_BUCKET_PREFIX: ${{ secrets.AWS_S3_BUCKET_PREFIX }}
+      - name: lambda invoke-async
+        run: |
+          PAYLOAD="{\"env\":\"$DEPLOY_ENV\",\"service\":\"$DEPLOY_SERVICE\",\"version\":\"$DEPLOY_VERSION\"}"
+          aws lambda invoke-async --function-name $AWS_LAMBDA_FUNCTION_NAME --invoke-args $PAYLOAD
+        env:
+          AWS_LAMBDA_FUNCTION_NAME: ${{ secrets.AWS_LAMBDA_FUNCTION_NAME }}
+
+  deploy-lambdas:
+    runs-on: ubuntu-latest
+    if: ${{ inputs.service == 'lambdas' }}
+    env:
+      DEPLOY_ENV: ${{ inputs.env }}
+      DEPLOY_SERVICE: ${{ inputs.service }}
+      DEPLOY_VERSION: ${{ inputs.version }}
+    steps:
+      - name: AWS Configure
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+      - name: curl lambdas.zip
+        run: |
+          RELEASE_URL="https://api.github.com/repos/eighty4/install.sh/releases/tags/$DEPLOY_VERSION"
+          ASSET_URL=$(curl -s "$RELEASE_URL" | jq -r '.assets[] | select(.name == "lambdas.zip") | .url')
+          curl -H "Accept: application/octet-stream" -Ls $ASSET_URL > "lambdas.zip"
+      - run: unzip lambdas.zip -d lambdas
+      - name: S3 sync
+        run: |
+          BUCKET="$AWS_S3_BUCKET_PREFIX-$DEPLOY_ENV-$DEPLOY_SERVICE-$DEPLOY_VERSION"
+          aws s3api create-bucket --bucket ${BUCKET}
+          aws s3 sync . ${BUCKET}
+        working-directory: lambdas
+        env:
+          AWS_S3_BUCKET_PREFIX: ${{ secrets.AWS_S3_BUCKET_PREFIX }}
+      - name: lambda invoke-async
+        run: |
+          PAYLOAD="{\"env\":\"$DEPLOY_ENV\",\"service\":\"$DEPLOY_SERVICE\",\"version\":\"$DEPLOY_VERSION\"}"
+          aws lambda invoke-async --function-name $AWS_LAMBDA_FUNCTION_NAME --invoke-args $PAYLOAD
+        env:
+          AWS_LAMBDA_FUNCTION_NAME: ${{ secrets.AWS_LAMBDA_FUNCTION_NAME }}
