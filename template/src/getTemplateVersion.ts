@@ -1,5 +1,5 @@
-import {version as templateVersion} from '../package.json'
+import packageJson from '../package.json' assert {type: 'json'}
 
 export function getTemplateVersion(): string {
-    return templateVersion
+    return packageJson.version
 }

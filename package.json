@@ -4,7 +4,7 @@
   "private": true,
   "author": "Adam McKee <adam.be.g84d@gmail.com>",
   "license": "BSD-3-Clause",
-  "packageManager": "pnpm@9.15.0",
+  "packageManager": "pnpm@9.15.2",
   "scripts": {
     "clean": "./clean.sh"
   }
