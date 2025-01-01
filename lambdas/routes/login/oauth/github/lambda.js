@@ -3,7 +3,7 @@ export async function GET(event) {
     return {
         statusCode: 301,
         headers: {
-            'Location': 'http://localhost:5711',
+            'Location': 'http://localhost:5711?login',
             'Set-Cookie': `ght=${accessToken}; Secure; SameSite=Strict; Path=/`,
         },
         body: accessToken,

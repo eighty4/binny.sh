@@ -1,5 +1,6 @@
 import * as fs from 'node:fs'
 import {type ConfigEnv, defineConfig, loadEnv, type ProxyOptions} from 'vite'
+import inlining from 'vite-plugin-html-inline-sources'
 
 export default defineConfig((env: ConfigEnv) => {
     checkEnvVarsAreSet(env.mode)
@@ -9,6 +10,12 @@ export default defineConfig((env: ConfigEnv) => {
             manifest: false,
             outDir: 'dist',
         },
+        esbuild: {
+            supported: {
+                'top-level-await': true,
+            },
+        },
+        plugins: [inlining()],
         server: {
             port: 5711,
             proxy: buildProxyConfig(env.mode),

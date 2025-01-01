@@ -8,8 +8,8 @@ import DownloadPanel, {DOWNLOAD_SCRIPT_EVENT_TYPE, type DownloadScriptEvent} fro
 import ScriptConfiguration from './ScriptConfiguration.ts'
 import {saveGeneratedScript} from '../../api.ts'
 import {cloneTemplate, removeChildNodes} from '../../dom.ts'
-import {logout} from '../../logout.ts'
 import type {RepositoryWithScript} from '../../routes/searchData.ts'
+import {logout} from '../../session/logout.ts'
 
 // todo links to gh commit, repo and release pages
 // todo release date

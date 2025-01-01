@@ -1,5 +1,5 @@
 import {GitHubApiClient} from '@eighty4/install-github'
-import {gitHubTokenCache} from './sessionCache.ts'
+import {gitHubTokenCache} from './session/sessionCache.ts'
 
 export default function (): GitHubApiClient {
     const accessToken = gitHubTokenCache.read() as string

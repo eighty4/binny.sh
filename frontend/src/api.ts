@@ -1,6 +1,6 @@
 import {Unauthorized} from '@eighty4/install-github'
 import type {GeneratedScript} from '@eighty4/install-template'
-import {gitHubTokenCache} from './sessionCache.ts'
+import {gitHubTokenCache} from './session/sessionCache.ts'
 
 const GEN_SCRIPTS_URL = import.meta.env.VITE_INSTALL_API_BASE_URL + '/generated-scripts'
 

@@ -1,7 +1,7 @@
 .link {
     background: #111;
     border: 1px solid transparent;
-    color: var(--head-text-color);
+    color: var(--triangle-text-color);
     display: flex;
     flex-direction: column;
     gap: .75rem;

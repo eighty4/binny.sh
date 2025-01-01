@@ -3,7 +3,6 @@ import './graphPaper.css'
 import {removeChildNodes} from './dom.ts'
 
 let graphPaper: HTMLElement
-let appendedTriangle2 = false
 
 let clearGraphPaperFn: (() => void) | null
 
@@ -12,12 +11,10 @@ export function onClearGraphPaper(fn: () => void) {
 }
 
 export function showGraphPaper(readyFn?: (graphPaper: HTMLElement) => void): HTMLElement {
-    if (!appendedTriangle2) {
-        appendTriangle2()
-    }
     if (!graphPaper) {
         graphPaper = createGraphPaper()
         toggleLandingElements(false)
+        document.body.insertAdjacentHTML('beforeend', `<div id="triangle-ish"></div>`)
         if (readyFn) document.getElementById('triangle')!
             .addEventListener('transitionend', () => readyFn(graphPaper), {once: true})
     } else {
@@ -25,11 +22,6 @@ export function showGraphPaper(readyFn?: (graphPaper: HTMLElement) => void): HTM
         if (readyFn) readyFn(graphPaper)
     }
     return graphPaper
-}
-
-function appendTriangle2() {
-    document.body.insertAdjacentHTML('beforeend', `<div id="triangle2" class="triangle" aria-hidden=true></div>`)
-    appendedTriangle2 = true
 }
 
 function createGraphPaper(): HTMLElement {

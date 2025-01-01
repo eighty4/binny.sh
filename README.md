@@ -51,7 +51,10 @@ pnpm update --interactive --latest --recursive
 
 Here is a list of install scripts for popular applications that inspired Install.sh:
 
+- [Astral uv](https://docs.astral.sh/uv/getting-started/installation/)
+- [Astral ruff](https://docs.astral.sh/ruff/installation/)
 - [Homebrew](https://brew.sh/)
 - [pnpm](https://pnpm.io/installation/)
 - [rustup](https://rustup.rs/)
+- [Wasmtime](https://wasmtime.dev/)
 - [wasm-pack](https://rustwasm.github.io/wasm-pack/installer/)

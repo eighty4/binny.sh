@@ -1,6 +1,6 @@
 import './login.css'
 import html from  './login.html?raw'
-import {getPageGrid, toggleReaderMode} from './ui.ts'
+import {getPageGrid, toggleReaderMode} from '../ui.ts'
 
 const LOGIN_LINK_MOVE_THRESHOLD = .075
 
@@ -10,7 +10,7 @@ interface Point {
 }
 
 export function showLoginButton() {
-    let delaying = false
+    let delaying = true
     const loginLink = createLoginLink()
     let splitDistance = 0
     let splitSlope = 0
@@ -68,7 +68,7 @@ export function showLoginButton() {
 
     loginLink.addEventListener('animationend', () => {
         delaying = true
-        loginLink.classList.remove('moving')
+        loginLink.classList.remove('show', 'moving')
         setTimeout(() => delaying = false, 100)
     })
     window.addEventListener('mousemove', debounce(onMouseEvent, 84))
@@ -79,6 +79,7 @@ export function showLoginButton() {
 function createLoginLink(): HTMLDivElement {
     const loginLink = document.createElement('div')
     loginLink.id = 'login'
+    loginLink.classList.add('show')
     loginLink.innerText = 'Login'
     loginLink.onclick = () => toggleReaderMode(true).then(showLoginPrompt)
     return loginLink

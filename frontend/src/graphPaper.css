@@ -7,10 +7,6 @@ html.out:not(.reader) #triangle {
     transition-duration: .6s;
 }
 
-#triangle2 {
-    clip-path: polygon(0 0, 100% 0, 100% 10%, 90% 10%, 80% 20%, 20% 20%, 20% 80%, 10% 90%, 0 90%);
-}
-
 #graph-paper-grid {
     width: 100vw;
     display: grid;

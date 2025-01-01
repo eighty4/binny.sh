@@ -35,6 +35,9 @@ importers:
       vite:
         specifier: ^6.0.6
         version: 6.0.6(@types/node@22.10.2)
+      vite-plugin-html-inline-sources:
+        specifier: ^0.0.3
+        version: 0.0.3
 
   github:
     dependencies:
@@ -560,6 +563,10 @@ packages:
     resolution: {integrity: sha512-h5k/5U50IJJFpzfL6nO9jaaumfjO/f2NjK/oYB2Djzm4p9L+3T9qWpZqZ2hAbLPuuYq9wrU08WQyBTL5GbPk5Q==}
     engines: {node: '>=6'}
 
+  entities@4.5.0:
+    resolution: {integrity: sha512-V0hjH4dGPh9Ao5p0MoRY6BVqtwCjhz6vI5LT8AJ55H+4g9/4vbHx1I54fS0XuclLhDHArPQCiMjDxjaL8fPxhw==}
+    engines: {node: '>=0.12'}
+
   es-module-lexer@1.6.0:
     resolution: {integrity: sha512-qqnD1yMU6tk/jnaMosogGySTZP8YtUgAffA9nMN+E/rjxcfRQ6IEk7IiozUjgxKoFHBGjTLnrHB/YC45r/59EQ==}
 
@@ -613,6 +620,9 @@ packages:
     resolution: {integrity: sha512-eSRppjcPIatRIMC1U6UngP8XFcz8MQWGQdt1MTBQ7NaAmvXDfvNxbvWV3x2y6CdEUciCSsDHDQZbhYaB8QEo2g==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
+
+  parse5@7.2.1:
+    resolution: {integrity: sha512-BuBYQYlv1ckiPdQi/ohiivi9Sagc9JG+Ozs0r7b/0iK3sKmrb0b9FdWdBbOdx6hBCM/F9Ir82ofnBhtZOjCRPQ==}
 
   pathe@1.1.2:
     resolution: {integrity: sha512-whLdWMYL2TwI08hn8/ZqAbrVemu0LNaNNJZX73O6qaIdCTfXutsLhMkjdENX0qhsQ9uIimo4/aQOmXkoon2nDQ==}
@@ -686,6 +696,9 @@ packages:
     resolution: {integrity: sha512-uPAwSr57kYjAUux+8E2j0q0Fxpn8M9VoyfGiRI8Kfktz9NcYMCenwY5RnZxnF1WTu3TGiYipirIzacLL3VVGFg==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
+
+  vite-plugin-html-inline-sources@0.0.3:
+    resolution: {integrity: sha512-OFdx241Lz0XXth5k/AnS1yGthar3IaBMjQ1kEO4Jz2jgebu2tMGYiABJTxslU7gkZa39PFaRV4iV3Jahf0OwHw==}
 
   vite@5.4.2:
     resolution: {integrity: sha512-dDrQTRHp5C1fTFzcSaMxjk6vdpKvT+2/mIdE07Gw2ykehT49O0z/VHS3zZ8iV/Gh8BJJKHWOe5RjaNrW5xf/GA==}
@@ -1082,6 +1095,8 @@ snapshots:
 
   deep-eql@5.0.2: {}
 
+  entities@4.5.0: {}
+
   es-module-lexer@1.6.0: {}
 
   esbuild@0.21.5:
@@ -1168,6 +1183,10 @@ snapshots:
 
   nanoid@3.3.7: {}
 
+  parse5@7.2.1:
+    dependencies:
+      entities: 4.5.0
+
   pathe@1.1.2: {}
 
   pathval@2.0.0: {}
@@ -1252,6 +1271,12 @@ snapshots:
       - sugarss
       - supports-color
       - terser
+
+  vite-plugin-html-inline-sources@0.0.3:
+    dependencies:
+      esbuild: 0.24.2
+      magic-string: 0.30.17
+      parse5: 7.2.1
 
   vite@5.4.2(@types/node@22.10.2):
     dependencies:

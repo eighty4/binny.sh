@@ -3,8 +3,8 @@ import emptyHtml from './search.empty.html?raw'
 import errorHtml from './search.error.html?raw'
 import {fetchSearchData, type SearchData} from './searchData.ts'
 import {showGraphPaper} from '../graphPaper.ts'
-import {createSessionCache, gitHubUserCache} from '../sessionCache.ts'
 import RepositorySection from '../components/search/RepositorySection.ts'
+import {createSessionCache, gitHubUserCache} from '../session/sessionCache.ts'
 
 const searchDataCache = createSessionCache<SearchData>('search.data')
 

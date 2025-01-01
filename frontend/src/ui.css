@@ -2,7 +2,7 @@
     --out-transition-duration: 400ms;
 }
 
-#controls, #explain, #features *, #header, #login, #logo, #tagline {
+#controls, #login {
     transition: transform var(--out-transition-duration) ease-in-out, opacity 100ms ease-in-out var(--out-transition-duration);
 }
 
@@ -17,25 +17,10 @@ html.out {
         transform: translateY(0);
     }
 
-    & #features * {
-        opacity: 0;
-        transform: translateX(100vw);
-    }
-
     & #login {
         opacity: 0;
         pointer-events: none;
         transform: scale(50%);
-    }
-
-    & #header {
-        opacity: 0;
-        transform: translateY(-100vh);
-    }
-
-    & #explain, #logo, #tagline {
-        opacity: 0;
-        transform: translateX(-100vw);
     }
 }
 

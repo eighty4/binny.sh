@@ -1,5 +1,5 @@
 import type {User} from '@eighty4/install-github'
-import type {RepositoryWithScript} from './routes/searchData.ts'
+import type {RepositoryWithScript} from '../routes/searchData.ts'
 
 export interface SessionCache<T> {
     clear(): void

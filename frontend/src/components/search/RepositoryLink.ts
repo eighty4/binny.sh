@@ -3,10 +3,10 @@ import {OPERATING_SYSTEMS} from '@eighty4/install-template'
 import css from './RepositoryLink.css?inline'
 import html from './RepositoryLink.html?raw'
 import SystemLogo from '../SystemLogo.ts'
-import {configureRepoCache} from '../../sessionCache.ts'
 import {cloneTemplate} from '../../dom.ts'
 import {pushConfigureRoute} from '../../router.ts'
 import type {RepositoryWithScript} from '../../routes/searchData.ts'
+import {configureRepoCache} from '../../session/sessionCache.ts'
 
 export default class RepositoryLink extends HTMLElement {
 

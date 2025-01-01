@@ -1,5 +1,5 @@
 #controls {
-    color: var(--head-text-color);
+    color: var(--triangle-text-color);
     grid-area: 5 / 1 / 7 / 3;
     user-select: none;
     display: flex;
@@ -19,7 +19,7 @@
         & button {
             background: transparent;
             border: none;
-            color: var(--head-text-color);
+            color: var(--triangle-text-color);
             font-family: monospace;
             font-size: 1.5vh;
         }
@@ -42,7 +42,7 @@
     mask: url('/flip.svg') no-repeat 50%;
     mask-size: contain;
     mask-clip: no-clip;
-    background: var(--head-text-color);
+    background: var(--triangle-text-color);
     height: 2.75vh;
     aspect-ratio: 23 / 38;
     transform: rotate(40deg);

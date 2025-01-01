@@ -1,13 +1,14 @@
 import './customizations.css'
 import html from './customizations.html?raw'
 
+// todo move to component
 export function initializeCustomizationControls() {
     if (!localStorage.getItem('level')) {
         return
     }
-    const header = document.querySelector('#grid header')!
-    header.insertAdjacentHTML('beforeend', html)
-    initializeStyleControl(header.querySelector('#flip-input') as HTMLInputElement)
+    const pageGrid = document.querySelector('#page-grid')!
+    pageGrid.insertAdjacentHTML('beforeend', html)
+    initializeStyleControl(pageGrid.querySelector('#flip-input') as HTMLInputElement)
 }
 
 function initializeStyleControl(styleInput: HTMLInputElement) {

@@ -1,7 +1,5 @@
 import './ui.css'
 
-const triangleDiv = document.getElementById('triangle') as HTMLDivElement
-
 export function getPageGrid(): HTMLElement {
     return document.getElementById('page-grid')!
 }
@@ -12,6 +10,7 @@ export function toggleLandingElements(showOrHide?: boolean) {
 }
 
 export async function toggleReaderMode(openOrClose: boolean): Promise<void> {
+    const triangleDiv = document.getElementById('triangle')!
     toggleLandingElements(!openOrClose)
     document.documentElement.classList[openOrClose ? 'add' : 'remove']('reader')
     triangleDiv.classList.toggle(openOrClose ? 'shift' : 'unshift')

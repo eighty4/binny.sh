@@ -1,7 +1,7 @@
 import css from './UserPanel.css?inline'
 import html from './UserPanel.html?raw'
 import {cloneTemplate} from '../dom.ts'
-import {logout} from '../logout.ts'
+import {logout} from '../session/logout.ts'
 
 export default class UserPanel extends HTMLElement {
 
@@ -15,9 +15,6 @@ export default class UserPanel extends HTMLElement {
 
     constructor() {
         super()
-        this.style.position = 'fixed'
-        this.style.right = '1rem'
-        this.style.top = 'calc(15vh + 1rem)'
         this.#shadow = this.attachShadow({mode: 'open'})
         this.#shadow.appendChild(cloneTemplate(UserPanel.TEMPLATE_ID))
     }

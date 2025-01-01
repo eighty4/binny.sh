@@ -1,6 +1,6 @@
 #graph-paper.search-route {
     & .search-header {
-        color: var(--card-text-color);
+        color: var(--graph-paper-text-color);
         font-size: 1.8rem;
         font-weight: 700;
         letter-spacing: 2px;

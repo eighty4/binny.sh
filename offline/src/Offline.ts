@@ -21,7 +21,7 @@ app.get('/offline/github/oauth', (c) => {
     } else {
         c.res.headers.append('Set-Cookie', `ght=${accessToken}; Secure; SameSite=Strict; Path=/`)
     }
-    return c.redirect('http://localhost:5711', 302)
+    return c.redirect('http://localhost:5711?login', 302)
 })
 
 const generatedScripts: Array<any> = []

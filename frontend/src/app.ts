@@ -1,18 +1,18 @@
 import {Unauthorized, type User} from '@eighty4/install-github'
+import './app.css'
 import createGitHubGraphApiClient from './createGitHubGraphApiClient.ts'
 import {initializeCustomizationControls} from './customizations.ts'
-import {initializeExplainButton} from './explain.ts'
-import {showLoginButton} from './login.ts'
-import {logout} from './logout.ts'
 import {getCookie} from './parse.ts'
 import {handleCurrentRoute, subscribeRouterEvents} from './router.ts'
-import {gitHubTokenCache, gitHubUserCache} from './sessionCache.ts'
 import './components/define.ts'
+import {showLoginButton} from './session/login.ts'
+import {logout} from './session/logout.ts'
+import {gitHubTokenCache, gitHubUserCache} from './session/sessionCache.ts'
 
-if (document.readyState !== 'loading') {
+if (document.documentElement.classList.contains('app-ready')) {
     startApp()
 } else {
-    document.addEventListener('DOMContentLoaded', startApp)
+    document.documentElement.addEventListener('app-ready', startApp)
 }
 
 function startApp() {
@@ -38,15 +38,11 @@ function startApp() {
             return
         }
     }
-    startLandingSession()
-}
-
-function startLandingSession() {
-    initializeExplainButton()
     showLoginButton()
 }
 
 function startUserSession() {
+    document.documentElement.classList.add('authed')
     initializeUserPanel()
     subscribeRouterEvents()
     handleCurrentRoute()
@@ -57,6 +53,6 @@ export function initializeUserPanel() {
 }
 
 function createUserPanel(user: User) {
-    document.body.insertAdjacentHTML('beforeend',
+    document.getElementById('page-grid')!.insertAdjacentHTML('beforeend',
         `<user-panel avatar="${user.avatarUrl}" username="${user.login}"></user-panel>`)
 }
