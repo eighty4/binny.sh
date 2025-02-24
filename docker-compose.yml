@@ -1,7 +1,7 @@
 services:
   postgres:
-    container_name: install-postgres
-    image: postgres:16
+    container_name: binny-postgres
+    image: postgres:17
     ports:
       - "5432:5432"
     environment:
