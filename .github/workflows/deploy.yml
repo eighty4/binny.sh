@@ -1,0 +1,65 @@
+name: Deploy
+run-name: "Deploy: ${{ inputs.service }}:v${{ inputs.version }} to ${{ inputs.env }}"
+
+on:
+  workflow_dispatch:
+    inputs:
+      env:
+        description: Deploy to environment
+        required: true
+        type: choice
+        default: dev
+        options:
+          - dev
+          - prod
+      service:
+        description: Deploy app service
+        required: true
+        type: choice
+        options:
+          - frontend
+          - lambdas
+      version:
+        description: Deploy release version
+        required: true
+
+concurrency:
+  group: "deploy-${{ inputs.service }}"
+  cancel-in-progress: false
+
+jobs:
+
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      DEPLOY_ENV: ${{ inputs.env }}
+      DEPLOY_SERVICE: ${{ inputs.service }}
+      DEPLOY_VERSION: ${{ inputs.version }}
+    steps:
+      - name: AWS Configure
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+      - name: curl ${{ inputs.service }}.zip
+        run: |
+          RELEASE_URL="https://api.github.com/repos/eighty4/install.sh/releases/tags/$DEPLOY_VERSION"
+          ASSET_URL=$(curl -s "$RELEASE_URL" | jq -r '.assets[] | select(.name == "$DEPLOY_SERVICE.zip") | .url')
+          curl -H "Accept: application/octet-stream" -Ls $ASSET_URL > "$DEPLOY_SERVICE.zip"
+      - run: unzip "$DEPLOY_SERVICE.zip" -d "$DEPLOY_SERVICE"
+      - name: s3 sync
+        run: |
+          PAYLOAD="{\"env\":\"$DEPLOY_ENV\",\"service\":\"$DEPLOY_SERVICE\",\"version\":\"$DEPLOY_VERSION\",\"deploy\":\"${{ github.run_id }}\"}"
+          aws lambda invoke --function-name $LAMBDA_NAME --payload $(echo $PAYLOAD | base64) output.json
+          BUCKET=$(cat output.json | jq -r ".bucketName")
+          aws s3 sync . ${BUCKET}
+        env:
+          LAMBDA_NAME: ${{ secrets.AWS_PREP_PUSH_LAMBDA }}
+      - name: deploy
+        run: |
+          PAYLOAD="{\"env\":\"$DEPLOY_ENV\",\"service\":\"$DEPLOY_SERVICE\",\"version\":\"$DEPLOY_VERSION\",\"deploy\":\"${{ github.run_id }}\"}"
+          aws lambda invoke --function-name $LAMBDA_NAME --payload $(echo $PAYLOAD | base64) output.json
+        env:
+          LAMBDA_NAME: ${{ secrets.AWS_INIT_PUSH_LAMBDA }}
+
