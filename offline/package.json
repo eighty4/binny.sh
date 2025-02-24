@@ -11,11 +11,11 @@
   },
   "dependencies": {
     "@eighty4/install-github": "workspace:*",
-    "@hono/node-server": "^1.13.7",
-    "hono": "^4.6.15"
+    "@hono/node-server": "^1.13.8",
+    "hono": "^4.7.2"
   },
   "devDependencies": {
-    "@types/node": "^22.10.2",
-    "typescript": "^5.7.2"
+    "@types/node": "^22.13.5",
+    "typescript": "^5.7.3"
   }
 }
