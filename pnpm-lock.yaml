@@ -23,12 +23,18 @@ importers:
 
   frontend:
     dependencies:
-      '@eighty4/install-github':
+      '@eighty4/binny-github':
         specifier: workspace:^
         version: link:../github
-      '@eighty4/install-template':
+      '@eighty4/binny-template':
         specifier: workspace:^
         version: link:../template
+      '@fontsource/ibm-plex-mono':
+        specifier: ^5.1.1
+        version: 5.1.1
+      '@fontsource/inter':
+        specifier: ^5.1.1
+        version: 5.1.1
     devDependencies:
       '@minify-html/node':
         specifier: ^0.15.0
@@ -45,7 +51,7 @@ importers:
 
   github:
     dependencies:
-      '@eighty4/install-template':
+      '@eighty4/binny-template':
         specifier: workspace:^
         version: link:../template
     devDependencies:
@@ -55,7 +61,7 @@ importers:
 
   offline:
     dependencies:
-      '@eighty4/install-github':
+      '@eighty4/binny-github':
         specifier: workspace:*
         version: link:../github
       '@hono/node-server':
@@ -235,6 +241,12 @@ packages:
     engines: {node: '>=18'}
     cpu: [x64]
     os: [win32]
+
+  '@fontsource/ibm-plex-mono@5.1.1':
+    resolution: {integrity: sha512-1aayqPe/ZkD3MlvqpmOHecfA3f2B8g+fAEkgvcCd3lkPP0pS1T0xG5Zmn2EsJQqr1JURtugPUH+5NqvKyfFZMQ==}
+
+  '@fontsource/inter@5.1.1':
+    resolution: {integrity: sha512-weN3E+rq0Xb3Z93VHJ+Rc7WOQX9ETJPTAJ+gDcaMHtjft67L58sfS65rAjC5tZUXQ2FdZ/V1/sSzCwZ6v05kJw==}
 
   '@hono/node-server@1.13.8':
     resolution: {integrity: sha512-fsn8ucecsAXUoVxrUil0m13kOEq4mkX4/4QozCqmY+HpGfKl74OYSn8JcMA8GnG0ClfdRI4/ZSeG7zhFaVg+wg==}
@@ -709,6 +721,10 @@ snapshots:
 
   '@esbuild/win32-x64@0.24.2':
     optional: true
+
+  '@fontsource/ibm-plex-mono@5.1.1': {}
+
+  '@fontsource/inter@5.1.1': {}
 
   '@hono/node-server@1.13.8(hono@4.7.2)':
     dependencies:

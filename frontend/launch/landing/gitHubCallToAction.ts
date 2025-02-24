@@ -1,3 +1,5 @@
+import './githubCallToAction.css'
+
 let i = 0
 const bugPaths = [
     'M20 200C0 68 55 90 30 0',

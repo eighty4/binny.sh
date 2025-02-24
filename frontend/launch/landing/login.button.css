@@ -12,6 +12,13 @@
     --login-link-previous-position-percent: 50%;
     --login-link-moving-duration: 2s;
     --login-link-moving-ratio: 1;
+
+    &.hide {
+        opacity: 0;
+        pointer-events: none;
+        transform: scale(0);
+    }
+
     position: fixed;
     top: calc(var(--login-link-position-percent) - var(--login-link-center-y));
     right: calc(
@@ -29,8 +36,12 @@
     color: lawngreen;
     user-select: none;
     cursor: pointer;
-    transition: all calc(var(--login-link-moving-duration) / 4) ease-in-out;
-    transition-property: background, border-color, color;
+    transition:
+        background calc(var(--login-link-moving-duration) / 4) ease-in-out,
+        border-color calc(var(--login-link-moving-duration) / 4) ease-in-out,
+        color calc(var(--login-link-moving-duration) / 4) ease-in-out,
+        transform 400ms ease-in-out,
+        opacity 100ms ease-in-out;
 
     &.show {
         animation: login-show 500ms;
@@ -95,41 +106,5 @@
         right: calc(
             var(--login-link-position-percent) - var(--login-link-center-x)
         );
-    }
-}
-
-#login-prompt {
-    grid-area: 2 / 5 / -2 / -2;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    font-size: 5vh;
-    font-weight: 500;
-    line-height: 7.5vh;
-    text-wrap: balance;
-    gap: 3vh;
-    color: var(--graph-paper-text-color);
-
-    & button {
-        font-size: 3vh;
-        font-weight: 500;
-        padding: 1vh 2vw;
-        cursor: pointer;
-        border-radius: 2px;
-    }
-}
-
-#login-redirect {
-    border: 1px solid var(--graph-paper-text-color);
-}
-
-#login-cancel {
-    border: 1px solid transparent;
-    opacity: 0.8;
-    transition: all 100ms ease-in-out;
-
-    &:hover {
-        border: 1px solid #666;
-        opacity: 1;
     }
 }

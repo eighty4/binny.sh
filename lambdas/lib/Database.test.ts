@@ -14,7 +14,7 @@
 //             const userId = randomUserId()
 //             const newUser = await saveUserLogin(userId, 'adam@eighty4.tech', 'open sesame')
 //             expect(newUser).toBe(true)
-//             const result = await db.query('select * from install_sh.users where id = $1', [userId])
+//             const result = await db.query('select * from binny_sh.users where id = $1', [userId])
 //             expect(result.rows.length).toBe(1)
 //             expect(result.rows[0].email).toBe('adam@eighty4.tech')
 //             expect(result.rows[0].access_token).toBe('open sesame')
@@ -26,12 +26,12 @@
 //             const userId = randomUserId()
 //             let newUser = await saveUserLogin(userId, 'adam@eighty4.tech', 'accessToken0')
 //             expect(newUser).toBe(true)
-//             const result1 = await db.query('select * from install_sh.users where id = $1', [userId])
+//             const result1 = await db.query('select * from binny_sh.users where id = $1', [userId])
 //             expect(result1.rows[0].email).toBe('adam@eighty4.tech')
 //             expect(result1.rows[0].access_token).toBe('accessToken0')
 //             newUser = await saveUserLogin(userId, 'mckee@eighty4.tech', 'accessToken1')
 //             expect(newUser).toBe(false)
-//             const result2 = await db.query('select * from install_sh.users where id = $1', [userId])
+//             const result2 = await db.query('select * from binny_sh.users where id = $1', [userId])
 //             expect(result2.rows[0].email).toBe('mckee@eighty4.tech')
 //             expect(result2.rows[0].access_token).toBe('accessToken1')
 //             expect(result2.rows[0].authed_when).not.toStrictEqual(result1.rows[0].created_when)
@@ -49,9 +49,9 @@
 //
 //         it('retrieves generated scripts', async () => {
 //             const userId = randomUserId()
-//             await db.query('insert into install_sh.users (id, email, access_token) values ($1, $2, $3)', [userId, 'adam@eighty4.tech', 'open sesame'] as Array<any>)
-//             await db.query('insert into install_sh.scripts (user_id, repo_owner, repo_name, template_version) values ($1, $2, $3, $4)', [userId, 'eighty4', 'maestro', '1'] as Array<any>)
-//             await db.query('insert into install_sh.scripts (user_id, repo_owner, repo_name, template_version) values ($1, $2, $3, $4)', [userId, 'eighty4', 'cquill', '2'] as Array<any>)
+//             await db.query('insert into binny_sh.users (id, email, access_token) values ($1, $2, $3)', [userId, 'adam@eighty4.tech', 'open sesame'] as Array<any>)
+//             await db.query('insert into binny_sh.scripts (user_id, repo_owner, repo_name, template_version) values ($1, $2, $3, $4)', [userId, 'eighty4', 'maestro', '1'] as Array<any>)
+//             await db.query('insert into binny_sh.scripts (user_id, repo_owner, repo_name, template_version) values ($1, $2, $3, $4)', [userId, 'eighty4', 'cquill', '2'] as Array<any>)
 //             const result = await loadGeneratedScripts(userId)
 //             expect(result).toHaveLength(2)
 //             expect(result[0]).toStrictEqual({
@@ -75,10 +75,10 @@
 //
 //         it('saves generated script for new repository', async () => {
 //             const userId = randomUserId()
-//             await db.query('insert into install_sh.users (id, email, access_token) values ($1, $2, $3)', [userId, 'adam@eighty4.tech', 'open sesame'])
+//             await db.query('insert into binny_sh.users (id, email, access_token) values ($1, $2, $3)', [userId, 'adam@eighty4.tech', 'open sesame'])
 //             const repository = {owner: 'eighty4', name: 'maestro'}
 //             await saveTemplateVersion(userId, repository, '1')
-//             const result = await db.query('select * from install_sh.scripts where user_id = $1', [userId])
+//             const result = await db.query('select * from binny_sh.scripts where user_id = $1', [userId])
 //             expect(result.rows).toHaveLength(1)
 //             const {template_version, repo_name, repo_owner, created_when, generated_when} = result.rows[0]
 //             expect(repo_owner).toBe('eighty4')
@@ -89,12 +89,12 @@
 //
 //         it('updates generated script template version', async () => {
 //             const userId = randomUserId()
-//             await db.query('insert into install_sh.users (id, email, access_token) values ($1, $2, $3)', [userId, 'adam@eighty4.tech', 'open sesame'])
+//             await db.query('insert into binny_sh.users (id, email, access_token) values ($1, $2, $3)', [userId, 'adam@eighty4.tech', 'open sesame'])
 //             const repository = {owner: 'eighty4', name: 'maestro'}
 //             await saveTemplateVersion(userId, repository, '1')
 //             await new Promise((res) => setTimeout(res, 100))
 //             await saveTemplateVersion(userId, repository, '2')
-//             const result = await db.query('select * from install_sh.scripts where user_id = $1', [userId])
+//             const result = await db.query('select * from binny_sh.scripts where user_id = $1', [userId])
 //             expect(result.rows).toHaveLength(1)
 //             const {template_version, repo_name, repo_owner, created_when, generated_when} = result.rows[0]
 //             expect(repo_owner).toBe('eighty4')

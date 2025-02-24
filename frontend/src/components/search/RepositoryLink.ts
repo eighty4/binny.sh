@@ -1,5 +1,5 @@
-import type { OperatingSystem } from '@eighty4/install-template'
-import { OPERATING_SYSTEMS } from '@eighty4/install-template'
+import type { OperatingSystem } from '@eighty4/binny-template'
+import { OPERATING_SYSTEMS } from '@eighty4/binny-template'
 import css from './RepositoryLink.css?inline'
 import html from './RepositoryLink.html?raw'
 import SystemLogo from '../SystemLogo.ts'

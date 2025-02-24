@@ -14,7 +14,7 @@ export function openRepositoryConfig(repoOwner: string, repoName: string) {
             configureRepoCache.clear()
             showConfig(repository)
         } else {
-            graphPaper.innerHTML = '<spin-indicator/>'
+            graphPaper.innerHTML = '<spin-indicator></spin-indicator>'
             createGitHubGraphApiClient()
                 .queryLatestRelease(repoOwner, repoName)
                 .then(showConfig)

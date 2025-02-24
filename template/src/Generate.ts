@@ -156,7 +156,7 @@ function scriptTemplateFn(options: GenerateScriptOptions): string {
     return `#!/usr/bin/env sh
 set -e
 
-# Created by npm package @eighty4/install-template@${getTemplateVersion()} for https://github.com/${options.repository.owner}/${options.repository.name}
+# Created by npm package @eighty4/binny-template@${getTemplateVersion()} for https://github.com/${options.repository.owner}/${options.repository.name}
 
 binary_name="${binaryInstall.installAs}"
 repository_name="${options.repository.owner}/${options.repository.name}"
@@ -200,7 +200,7 @@ resolve_cpu() {
     armv6l | armv7l)   ${assignOrAbandon(architectures.includes('arm'), '_cpu', 'arm', '32-bit arm')} ;;
     x86_64 | amd64)    ${assignOrAbandon(architectures.includes('x86_64'), '_cpu', 'x86_64')} ;;
     aarch64 | arm64)   ${assignOrAbandon(architectures.includes('aarch64'), '_cpu', 'aarch64')} ;;
-    *)                 abandon_ship "cpu architecture $_cpu is unsupported. visit https://github.com/eighty4/install/issues to submit a PR." ;;
+    *)                 abandon_ship "cpu architecture $_cpu is unsupported. visit https://github.com/eighty4/binny.sh/issues to submit a PR." ;;
   esac
   echo "$_cpu"
 }
@@ -210,7 +210,7 @@ resolve_os() {
   case $(uname -o) in
     Darwin)            ${assignOrAbandon(oses.includes('MacOS'), '_os', 'MacOS')} ;;
     GNU/Linux)         ${assignOrAbandon(oses.includes('Linux'), '_os', 'Linux')} ;;
-    *)                 abandon_ship "operating system $_os is unsupported. visit https://github.com/eighty4/install/issues to submit a PR." ;;
+    *)                 abandon_ship "operating system $_os is unsupported. visit https://github.com/eighty4/binny.sh/issues to submit a PR." ;;
   esac
   echo "$_os"
 }
@@ -273,7 +273,7 @@ chmod +x "$install_dir/$binary_name"
 if ! grep .$binary_name/bin "$HOME/$shell_profile" >/dev/null 2>&1; then
   {
     echo "";
-    echo "# added by https://install.eighty4.tech";
+    echo "# added by https://binny.sh";
     echo "PATH=\\"\\$PATH:$install_dir"\\" >> "$HOME/$shell_profile";
   } >> "$HOME/$shell_profile"
 fi

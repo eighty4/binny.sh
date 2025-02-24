@@ -1,5 +1,5 @@
-import type { Repository } from '@eighty4/install-github'
-import type { GeneratedScript } from '@eighty4/install-template'
+import type { Repository } from '@eighty4/binny-github'
+import type { GeneratedScript } from '@eighty4/binny-template'
 import { fetchGeneratedScriptsKeyedByRepo } from '../api.ts'
 import createGitHubGraphApiClient from '../createGitHubGraphApiClient.ts'
 

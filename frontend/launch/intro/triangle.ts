@@ -1,3 +1,24 @@
+let triangleDiv: HTMLElement
+
+export function hideTriangle(): Promise<void> {
+    triangleDiv = document.body.querySelector('#triangle')!
+    triangleDiv.classList.add('hide')
+    return new Promise(res =>
+        triangleDiv.addEventListener('transitionend', () => res(), {
+            once: true,
+        }),
+    )
+}
+
+export function showTriangle(): Promise<void> {
+    triangleDiv.classList.remove('hide')
+    return new Promise(res =>
+        triangleDiv.addEventListener('transitionend', () => res(), {
+            once: true,
+        }),
+    )
+}
+
 function lerp(min: number, max: number, ratio: number): number {
     if (ratio < 0) {
         return min
@@ -173,9 +194,8 @@ class SizeAnimation implements AnimationSequence {
 }
 
 // resolves when triangle animation is complete and #triangle has been added to document
-export function animateTriangleIntro(): Promise<void> {
-    const duration = 2000
-    const halfDuration = duration / 2
+export function animateTriangleIntro(durationMs: number): Promise<void> {
+    const halfDurationMs = durationMs / 2
     const botRightCanvas = new BotRightAnimationCanvas(createCanvasElement())
     const topLeftCanvas = new TopLeftAnimationCanvas(createCanvasElement())
     const firstBotRightAnimation = new SizeAnimation(
@@ -202,16 +222,16 @@ export function animateTriangleIntro(): Promise<void> {
     return new Promise(res => {
         const update = () => {
             const elapsed = Date.now() - start
-            if (elapsed > halfDuration) {
-                const progress = elapsed / duration
+            if (elapsed > halfDurationMs) {
+                const progress = elapsed / durationMs
                 secondBotRightAnimation.update(progress)
                 secondTopLeftAnimation.update(progress)
             } else {
-                const progress = elapsed / (duration / 2)
+                const progress = elapsed / (durationMs / 2)
                 firstBotRightAnimation.update(progress)
                 firstTopLeftAnimation.update(progress)
             }
-            if (elapsed < duration) {
+            if (elapsed < durationMs) {
                 window.requestAnimationFrame(update)
             } else {
                 botRightCanvas.remove()

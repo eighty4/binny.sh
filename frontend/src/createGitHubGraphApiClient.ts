@@ -1,4 +1,4 @@
-import { GitHubApiClient } from '@eighty4/install-github'
+import { GitHubApiClient } from '@eighty4/binny-github'
 import { gitHubTokenCache } from './session/sessionCache.ts'
 
 export default function (): GitHubApiClient {

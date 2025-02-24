@@ -1,4 +1,4 @@
-# install.eighty4.tech (unfortunately not install.sh)
+# binny.sh
 
 ## Development
 
@@ -6,7 +6,7 @@ The frontend and lambdas packages will require environment variables
 with [GitHub client credentials for a GitHub OAuth application](https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/creating-an-oauth-app).
 See each package's .env file for environment variable names.
 
-Use these commands to run Install.sh locally:
+Use these commands to run Binny.sh locally:
 
 | Package  | Command  |
 | -------- | -------- |
@@ -36,7 +36,7 @@ These commands will stub API dependencies for offline development of the fronten
 | frontend | pnpm dev:offline |
 | offline  | pnpm start       |
 
-Selfies and #installsh tweets while developing on an airplane, on safari, or in a James Cameron-funded submersible
+Selfies and #binnysh tweets while developing on an airplane, on safari, or in a James Cameron-funded submersible
 expedition are appreciated!
 
 ### Interactive update with `pnpm`
@@ -49,7 +49,7 @@ pnpm update --interactive --latest --recursive
 
 ## Example install scripts in the wild
 
-Here is a list of install scripts for popular applications that inspired Install.sh:
+Here is a list of install scripts for popular applications that inspired Binny.sh:
 
 - [Astral uv](https://docs.astral.sh/uv/getting-started/installation/)
 - [Astral ruff](https://docs.astral.sh/ruff/installation/)

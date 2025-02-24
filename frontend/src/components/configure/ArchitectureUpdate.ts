@@ -1,4 +1,4 @@
-import type { Architecture } from '@eighty4/install-template'
+import type { Architecture } from '@eighty4/binny-template'
 
 export const ARCHITECTURE_UPDATE_EVENT_TYPE = 'architecture'
 

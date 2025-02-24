@@ -1,5 +1,5 @@
 {
-    "name": "@eighty4/install-offline",
+    "name": "@eighty4/binny-offline",
     "version": "0.0.1",
     "private": true,
     "author": "Adam McKee <adam.be.g84d@gmail.com>",
@@ -10,7 +10,7 @@
         "start:watch": "node --experimental-strip-types --watch --watch-path ./ --watch-path ../github --watch-path ../template src/Offline.ts"
     },
     "dependencies": {
-        "@eighty4/install-github": "workspace:*",
+        "@eighty4/binny-github": "workspace:*",
         "@hono/node-server": "^1.13.8",
         "hono": "^4.7.2"
     },

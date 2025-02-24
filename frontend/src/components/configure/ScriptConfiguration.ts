@@ -3,8 +3,8 @@ import type {
     Distribution,
     GenerateScriptOptions,
     OperatingSystem,
-} from '@eighty4/install-template'
-import type { Asset, Binary } from '@eighty4/install-github'
+} from '@eighty4/binny-template'
+import type { Asset, Binary } from '@eighty4/binny-github'
 import type { RepositoryWithScript } from '../../routes/searchData.ts'
 
 export default class ScriptConfiguration {

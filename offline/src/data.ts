@@ -1,4 +1,4 @@
-import type { Release, Repository } from '@eighty4/install-github'
+import type { Release, Repository } from '@eighty4/binny-github'
 import type {
     ReleaseAssetNode,
     ReleaseNode,
@@ -6,7 +6,7 @@ import type {
     RepositoryReleasesGraph,
     ViewerRepositoriesWithLatestReleaseGraph,
     ViewerUserGraph,
-} from '@eighty4/install-github/lib/graphApiTypes.js'
+} from '@eighty4/binny-github/lib/graphApiTypes.js'
 
 const fns: Array<(query: string) => any | undefined> = [
     lookupViewerUserGraph,

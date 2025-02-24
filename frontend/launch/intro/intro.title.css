@@ -1,0 +1,105 @@
+#intro-title {
+    /* set by title.ts */
+    --title-rotate-z: 0;
+
+    & .frame {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        & .title {
+            --b-ms: 250ms;
+            --animation-delay: calc(var(--b-ms, 0ms) * var(--b-nth, 0));
+            grid-area: 1 / 1;
+            font-size: 40vh;
+            letter-spacing: -1rem;
+            font-weight: 700;
+
+            &.b {
+                opacity: 0;
+                animation-name: bbb;
+                animation-duration: 1s;
+                animation-delay: var(--animation-delay);
+            }
+
+            &.binny-sh {
+                --title-opacity: 0;
+                animation-name: binnySh;
+                animation-duration: 1s;
+                animation-fill-mode: forwards;
+                animation-delay: var(--animation-delay);
+
+                & .hide {
+                    opacity: 0;
+                }
+
+                & .show {
+                    opacity: var(--title-opacity);
+                }
+
+                &.flip {
+                    animation-name: minimizeTitle;
+                    animation-duration: 1s;
+                    animation-fill-mode: forwards;
+                    animation-delay: var(--animation-delay);
+                }
+            }
+        }
+    }
+}
+
+@keyframes bbb {
+    0% {
+        opacity: 0;
+        transform: translateX(50vw) translateY(var(--start-y, -50vh))
+            scale(150%);
+    }
+    40% {
+        opacity: 1;
+    }
+    80% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(-50vw) translateY(0) scale(700%);
+    }
+}
+
+@keyframes binnySh {
+    0% {
+        --title-opacity: 0;
+        transform: translateX(50vw) scale(700%);
+    }
+    100% {
+        --title-opacity: 1;
+        transform: translateX(0) scale(100%);
+    }
+}
+
+@keyframes minimizeTitle {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(-30vw) translateY(-30vh) scale(0);
+    }
+}
+
+/* attempting to flip title on altitude of #triangle shape  */
+@keyframes flipAndScale {
+    0% {
+        /* transform: rotateY(0); */
+        /* transform: rotateZ(0); */
+    }
+    100% {
+        /* transform: rotateY(180deg); */
+        /* transform: rotateZ(var(--title-rotate-z)); */
+    }
+}

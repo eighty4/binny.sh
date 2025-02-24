@@ -1,4 +1,4 @@
-import type { User } from '@eighty4/install-github'
+import type { User } from '@eighty4/binny-github'
 import type { RepositoryWithScript } from '../routes/searchData.ts'
 
 export interface SessionCache<T> {

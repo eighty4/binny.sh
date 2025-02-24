@@ -25,15 +25,3 @@
     background: var(--triangle-bg-color);
     z-index: var(--triangle-z-index);
 }
-
-html.authed {
-    & #page-grid {
-        & #bot-left-ish {
-            grid-column-end: 2;
-        }
-
-        & #top-right-ish {
-            grid-column-start: -2;
-        }
-    }
-}

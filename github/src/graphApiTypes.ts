@@ -1,4 +1,4 @@
-import { resolveDistribution } from '@eighty4/install-template'
+import { resolveDistribution } from '@eighty4/binny-template'
 import type { Asset, Binary, Language, Release } from './Model.js'
 
 const compileBinaryLanguages = Object.freeze(['C', 'C++', 'Go', 'Rust', 'Zig'])

@@ -48,7 +48,7 @@ export async function POST(event) {
     return { statusCode: 200 }
 }
 
-// todo use client in @eighty4/install-github
+// todo use client in @eighty4/binny-github
 async function fetchUserId(accessToken) {
     const response = await fetch('https://api.github.com/user', {
         headers: {

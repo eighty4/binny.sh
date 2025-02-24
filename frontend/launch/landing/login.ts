@@ -1,8 +1,9 @@
-import './login.css'
-import html from './login.html?raw'
-import { getPageGrid, toggleReaderMode } from '../ui.ts'
+import './login.button.css'
+import './login.prompt.css'
 
 const LOGIN_LINK_MOVE_THRESHOLD = 0.075
+
+let loginLink: HTMLElement
 
 interface Point {
     x: number
@@ -11,7 +12,7 @@ interface Point {
 
 export function showLoginButton() {
     let delaying = true
-    const loginLink = createLoginLink()
+    loginLink = createLoginLink()
     let splitDistance = 0
     let splitSlope = 0
     let splitYIntercept = 0
@@ -97,7 +98,6 @@ export function showLoginButton() {
             '--login-link-position-percent',
             `${clampedPositionPercent}%`,
         )
-        console.log(positionPercent, clampedPositionPercent)
         loginLink.style.setProperty(
             '--login-link-moving-duration',
             `${(pixelsMoved / splitDistance) * 2}s`,
@@ -122,14 +122,18 @@ function createLoginLink(): HTMLDivElement {
     loginLink.id = 'login'
     loginLink.classList.add('show')
     loginLink.innerText = 'Login'
-    loginLink.onclick = () => toggleReaderMode(true).then(showLoginPrompt)
+    loginLink.onclick = showLoginPrompt
     return loginLink
 }
 
+function toggleLoginLink() {
+    loginLink.classList.toggle('hide')
+}
+
 function showLoginPrompt() {
-    const grid = getPageGrid()
-    grid.insertAdjacentHTML('beforeend', html)
-    const loginPrompt = grid.querySelector('#login-prompt')!
+    toggleLoginLink()
+    const loginPrompt = document.getElementById('login-prompt')!
+    loginPrompt.classList.add('show')
     const redirectButton = loginPrompt.querySelector(
         '#login-redirect',
     ) as HTMLButtonElement
@@ -141,14 +145,14 @@ function showLoginPrompt() {
 
     function redirectToLogin() {
         loginPrompt.innerHTML = '<spin-indicator></spin-indicator>'
-        document.location = import.meta.env.VITE_GITHUB_OAUTH_ADDRESS
+        location.assign(import.meta.env.VITE_GITHUB_OAUTH_ADDRESS)
     }
 
     function closeLoginPrompt() {
+        toggleLoginLink()
         redirectButton.removeEventListener('click', redirectToLogin)
         cancelButton.removeEventListener('click', closeLoginPrompt)
-        grid.removeChild(loginPrompt)
-        toggleReaderMode(false).then()
+        loginPrompt.classList.remove('show')
     }
 }
 

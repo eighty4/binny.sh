@@ -1,11 +1,10 @@
-import { Unauthorized, type User } from '@eighty4/install-github'
+import { Unauthorized, type User } from '@eighty4/binny-github'
 import './app.css'
 import createGitHubGraphApiClient from './createGitHubGraphApiClient.ts'
 import { initializeCustomizationControls } from './customizations.ts'
 import { getCookie } from './parse.ts'
 import { handleCurrentRoute, subscribeRouterEvents } from './router.ts'
 import './components/define.ts'
-import { showLoginButton } from './session/login.ts'
 import { logout } from './session/logout.ts'
 import { gitHubTokenCache, gitHubUserCache } from './session/sessionCache.ts'
 
@@ -19,7 +18,6 @@ function startApp() {
     initializeCustomizationControls()
     if (gitHubUserCache.hasValue()) {
         startUserSession()
-        return
     } else {
         const ght = getCookie('ght')
         if (ght) {
@@ -36,10 +34,8 @@ function startApp() {
                         throw e
                     }
                 })
-            return
         }
     }
-    showLoginButton()
 }
 
 function startUserSession() {

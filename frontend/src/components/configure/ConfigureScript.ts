@@ -1,9 +1,9 @@
-import { type Asset, type Binary, Unauthorized } from '@eighty4/install-github'
+import { type Asset, type Binary, Unauthorized } from '@eighty4/binny-github'
 import {
     generateScript,
     OPERATING_SYSTEMS,
     type OperatingSystem,
-} from '@eighty4/install-template'
+} from '@eighty4/binny-template'
 import {
     ARCHITECTURE_UPDATE_EVENT_TYPE,
     type ArchitectureUpdateEvent,

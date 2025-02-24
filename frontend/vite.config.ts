@@ -3,12 +3,19 @@ import { type ConfigEnv, defineConfig, loadEnv, type ProxyOptions } from 'vite'
 import inlining from 'vite-plugin-html-inline-sources'
 
 export default defineConfig((env: ConfigEnv) => {
-    checkEnvVarsAreSet(env.mode)
+    checkEnvVarsAreSet(env)
     return {
         build: {
             emptyOutDir: true,
             manifest: false,
             outDir: 'dist',
+            rollupOptions: {
+                input: {
+                    binny: 'index.html',
+                    launch: 'launch/init.ts',
+                    app: 'src/app.ts',
+                },
+            },
         },
         esbuild: {
             supported: {
@@ -23,17 +30,17 @@ export default defineConfig((env: ConfigEnv) => {
     }
 })
 
-function checkEnvVarsAreSet(mode: string): undefined | never {
-    if (mode === 'offline') {
+function checkEnvVarsAreSet(env: ConfigEnv): undefined | never {
+    if (env.mode === 'offline' || env.isPreview) {
         return
     }
-    const { VITE_GITHUB_CLIENT_ID } = loadEnv(mode, process.cwd())
-    if (!VITE_GITHUB_CLIENT_ID || !VITE_GITHUB_CLIENT_ID.length) {
+    const { VITE_GITHUB_CLIENT_ID } = loadEnv(env.mode, process.cwd())
+    if (!VITE_GITHUB_CLIENT_ID?.length) {
         console.error(
-            'Install.sh requires a `VITE_GITHUB_CLIENT_ID` environment variable for running Vite in dev or build modes.',
+            'Binny.sh requires a `VITE_GITHUB_CLIENT_ID` environment variable for running Vite in dev or build modes.',
         )
         console.error(
-            'Try `VITE_GITHUB_CLIENT_ID=my_client_id pnpm build` or creating a `.env.development` file.',
+            `Try \`VITE_GITHUB_CLIENT_ID=my_client_id pnpm build\` or creating a \`.env.${env.mode}\` file.`,
         )
         process.exit(1)
     }
@@ -64,7 +71,7 @@ function getApiGatewayApiId(): string | never {
             'Unable to read Amazon Gateway API id from `//lambdas/.l3/aws/api`.',
         )
         console.error(
-            `Run \`l3 sync\` from \`//lambdas\` before running the Install.sh frontend development Vite server.`,
+            `Run \`l3 sync\` from \`//lambdas\` before running the Binny.sh frontend development Vite server.`,
         )
         console.error(
             'There is more information about local development in `//README.md`.',

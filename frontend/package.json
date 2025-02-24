@@ -1,5 +1,5 @@
 {
-    "name": "@eighty4/install-frontend",
+    "name": "@eighty4/binny-frontend",
     "version": "0.0.1",
     "private": true,
     "author": "Adam McKee <adam.be.g84d@gmail.com>",
@@ -7,16 +7,17 @@
     "type": "module",
     "scripts": {
         "build": "pnpm build:dist",
-        "build:dist": "./build.sh",
+        "build:dist": "./build.sh --minify",
         "build:tsc": "tsc --build --clean && tsc --build",
         "build:vite": "vite build",
         "dev": "vite",
-        "dev:offline": "vite --mode offline",
-        "svg": "npx -y svgo@latest -f assets/svg -o public -r"
+        "dev:offline": "vite --mode offline"
     },
     "dependencies": {
-        "@eighty4/install-github": "workspace:^",
-        "@eighty4/install-template": "workspace:^"
+        "@eighty4/binny-github": "workspace:^",
+        "@eighty4/binny-template": "workspace:^",
+        "@fontsource/ibm-plex-mono": "^5.1.1",
+        "@fontsource/inter": "^5.1.1"
     },
     "devDependencies": {
         "@minify-html/node": "^0.15.0",

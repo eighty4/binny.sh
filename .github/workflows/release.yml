@@ -62,10 +62,10 @@ jobs:
             --method POST \
             -H "Accept: application/vnd.github+json" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
-            /repos/eighty4/install.sh/releases \
+            /repos/eighty4/binny.sh/releases \
             -f tag_name="$TAG_NAME" \
             -f name="${{ inputs.service }} $VERSION" \
-            -f body="https://github.com/eighty4/install.sh/tree/$TAG_NAME" \
+            -f body="https://github.com/eighty4/binny.sh/tree/$TAG_NAME" \
             -F draft=false \
             -F prerelease=false \
             -F generate_release_notes=false)

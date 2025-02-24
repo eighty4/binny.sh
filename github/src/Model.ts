@@ -1,4 +1,4 @@
-import type { Architecture, OperatingSystem } from '@eighty4/install-template'
+import type { Architecture, OperatingSystem } from '@eighty4/binny-template'
 
 export type Language = 'C++' | 'C' | 'Go' | 'Rust' | 'Zig'
 

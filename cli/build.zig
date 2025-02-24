@@ -12,8 +12,8 @@ pub fn build(b: *std.Build) void {
     });
 
     const options = b.addOptions();
-    options.addOption([4]u8, "install_sh_ip", .{ 127, 0, 0, 1 });
-    options.addOption(u16, "install_sh_port", 2506);
+    options.addOption([4]u8, "binny_sh_ip", .{ 127, 0, 0, 1 });
+    options.addOption(u16, "binny_sh_port", 2506);
     exe.addOptions("build_options", options);
 
     b.installArtifact(exe);

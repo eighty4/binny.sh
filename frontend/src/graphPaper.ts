@@ -1,4 +1,3 @@
-import { toggleLandingElements } from './ui.ts'
 import './graphPaper.css'
 import { removeChildNodes } from './dom.ts'
 
@@ -15,21 +14,10 @@ export function showGraphPaper(
 ): HTMLElement {
     if (!graphPaper) {
         graphPaper = createGraphPaper()
-        toggleLandingElements(false)
-        document.body.insertAdjacentHTML(
-            'beforeend',
-            `<div id="triangle-ish"></div>`,
-        )
-        if (readyFn)
-            document
-                .getElementById('triangle')!
-                .addEventListener('transitionend', () => readyFn(graphPaper), {
-                    once: true,
-                })
     } else {
         clearGraphPaper(graphPaper)
-        if (readyFn) readyFn(graphPaper)
     }
+    if (readyFn) readyFn(graphPaper)
     return graphPaper
 }
 

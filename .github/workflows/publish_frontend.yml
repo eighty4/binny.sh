@@ -45,5 +45,5 @@ jobs:
             -H "Authorization: Bearer $GH_TOKEN"\
             -H "X-GitHub-Api-Version: 2022-11-28" \
             -H "Content-Type: $(file dist.zip -b --mime-type)" \
-            https://$UPLOAD_HOSTNAME/repos/eighty4/install.sh/releases/$RELEASE_ID/assets?name=frontend.zip \
+            https://$UPLOAD_HOSTNAME/repos/eighty4/binny.sh/releases/$RELEASE_ID/assets?name=frontend.zip \
             --data-binary "@dist.zip"

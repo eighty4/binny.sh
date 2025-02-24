@@ -1,5 +1,5 @@
 {
-    "name": "@eighty4/install-template",
+    "name": "@eighty4/binny-template",
     "version": "0.0.1",
     "author": "Adam McKee <adam.be.g84d@gmail.com>",
     "license": "BSD-3-Clause",
@@ -8,7 +8,7 @@
     "types": "lib/Template.d.ts",
     "scripts": {
         "build": "tsc --build --clean && tsc --build",
-        "test": "pnpm test:unit && pnpm test:gold && pnpm test:integration",
+        "test": "pnpm test:unit && pnpm test:gold",
         "test:gold": "vitest run --mode=gold",
         "test:gold:update": "UPDATE_GOLD=1 pnpm test:gold",
         "test:integration": "./gold/integration_test.sh",

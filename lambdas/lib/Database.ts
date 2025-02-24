@@ -12,7 +12,7 @@
 //     const result = await connectionPool.query({
 //         name: 'save-user',
 //         text: `
-//             insert into install_sh.users (id, email, access_token)
+//             insert into binny_sh.users (id, email, access_token)
 //             values ($1, $2, $3)
 //             on conflict (id) do update
 //                 set email        = excluded.email,
@@ -30,7 +30,7 @@
 //         name: 'select-scripts',
 //         text: `
 //             select *
-//             from install_sh.scripts
+//             from binny_sh.scripts
 //             where user_id = $1
 //             order by generated_when desc
 //         `,
@@ -55,7 +55,7 @@
 //     await connectionPool.query({
 //         name: 'save-template-version',
 //         text: `
-//             insert into install_sh.scripts (user_id, repo_owner, repo_name, template_version)
+//             insert into binny_sh.scripts (user_id, repo_owner, repo_name, template_version)
 //             values ($1, $2, $3, $4)
 //             on conflict on constraint script_user_repo_key do update
 //                 set template_version = excluded.template_version,

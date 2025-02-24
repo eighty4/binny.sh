@@ -19,6 +19,6 @@ function initializeStyleControl(styleInput: HTMLInputElement) {
     }
     styleInput.addEventListener('click', () => {
         const flipped = document.documentElement.classList.toggle('flipped')
-        localStorage.setItem('theme-flip', flipped ? '1' : '0')
+        localStorage.setItem('benny.theme.flip', flipped ? '1' : '0')
     })
 }

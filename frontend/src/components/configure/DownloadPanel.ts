@@ -1,4 +1,4 @@
-import { type OperatingSystem } from '@eighty4/install-template'
+import { type OperatingSystem } from '@eighty4/binny-template'
 import css from './DownloadPanel.css?inline'
 import html from './DownloadPanel.html?raw'
 import { cloneTemplate, removeChildNodes } from '../../dom.ts'

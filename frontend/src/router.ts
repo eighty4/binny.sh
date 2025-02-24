@@ -1,7 +1,6 @@
-import type { Repository } from '@eighty4/install-github'
+import type { Repository } from '@eighty4/binny-github'
 import { openRepositoryConfig } from './routes/configure.ts'
 import { findProgramRepository } from './routes/search.ts'
-import { toggleReaderMode } from './ui.ts'
 
 export function subscribeRouterEvents() {
     window.addEventListener('hashchange', handleCurrentRoute)
@@ -24,22 +23,17 @@ export function pushConfigureRoute(repo: any) {
 
 export function handleCurrentRoute() {
     console.log('handle route', location.hash)
-    if (location.hash.startsWith('#page/')) {
-        toggleReaderMode(true).then(/* todo use links to docs */)
-    } else if (location.hash.startsWith('#configure/')) {
+    if (location.hash.startsWith('#configure/')) {
         const hashParts = location.hash.split('/')
         if (hashParts.length !== 3) {
             alert('wtf ' + location.hash)
-            // @ts-ignore
-            location = location.protocol + '//' + location.host
+            location.assign(location.protocol + '//' + location.host)
         }
         const [_, repoOwner, repoName] = hashParts
         openRepositoryConfig(repoOwner, repoName)
     } else if (location.hash === '#search') {
         findProgramRepository()
-    } else if (location.hash === '') {
-        replaceCurrentRoute('#search')
     } else {
-        console.error('wtf')
+        replaceCurrentRoute('#search')
     }
 }

@@ -1,4 +1,4 @@
-import { type Architecture, ARCHITECTURES } from '@eighty4/install-template'
+import { type Architecture, ARCHITECTURES } from '@eighty4/binny-template'
 import css from './ArchitectureSelect.css?inline'
 import html from './ArchitectureSelect.html?raw'
 import { createArchitectureUpdate } from './ArchitectureUpdate.ts'

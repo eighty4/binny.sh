@@ -17,7 +17,7 @@ export function findProgramRepository() {
         if (searchData) {
             showSearchData(searchData)
         } else {
-            graphPaper.innerHTML = '<spin-indicator/>'
+            graphPaper.innerHTML = '<spin-indicator></spin-indicator>'
         }
 
         fetchSearchData().then(onSearchData).catch(onExceptionalCondition)

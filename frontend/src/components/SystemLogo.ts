@@ -1,4 +1,4 @@
-import type { OperatingSystem } from '@eighty4/install-template'
+import type { OperatingSystem } from '@eighty4/binny-template'
 
 interface SystemLogoOptions {
     color: string

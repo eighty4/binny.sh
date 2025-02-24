@@ -1,0 +1,61 @@
+#intro-br {
+    --duration: 6s;
+    --path: 'M0,0';
+    color: var(--graph-paper-text-color);
+
+    &.one {
+        --circle-origin-x: 0;
+        --circle-origin-y: 0;
+        --circle-radius: 0;
+
+        & .support-logo {
+            --logo-transform-move-from-br: translate(
+                calc(
+                    var(--logo-offset-x) + var(--logo-tangency-x) +
+                        var(--logo-midpoint-x) - var(--circle-origin-x)
+                ),
+                calc(
+                    var(--logo-offset-y) + var(--logo-tangency-y) +
+                        var(--logo-midpoint-x) - var(--circle-origin-y)
+                )
+            );
+            --logo-transform-circle-tangency: translate(
+                calc(var(--logo-offset-x) + var(--logo-tangency-x)),
+                calc(var(--logo-offset-y) + var(--logo-tangency-y))
+            );
+            position: fixed;
+            top: var(--circle-origin-y);
+            left: var(--circle-origin-x);
+            transform: var(--logo-transform-circle-tangency);
+            opacity: 0;
+            animation: oneShowLogo calc(0.75s / var(--intro-animation-speed));
+            animation-delay: calc(0.25s / var(--intro-animation-speed));
+            animation-fill-mode: forwards;
+            /*animation: oneMoveLogo var(--duration) linear;*/
+            /*animation-fill-mode: forwards;*/
+            /*offset-anchor: center;*/
+            /*offset-path: path(var(--path));*/
+            /*offset-rotate: 0deg;*/
+        }
+    }
+}
+
+@keyframes oneShowLogo {
+    0% {
+        opacity: 0;
+        transform: var(--logo-transform-move-from-br);
+    }
+    100% {
+        opacity: 1;
+        transform: var(--logo-transform-circle-tangency);
+    }
+}
+
+@keyframes oneMoveLogo {
+    0% {
+        offset-distance: 0;
+    }
+    100% {
+        offset-distance: 100%;
+    }
+}

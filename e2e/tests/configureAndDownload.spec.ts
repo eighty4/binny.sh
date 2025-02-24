@@ -1,5 +1,5 @@
-import { readFileSync } from 'node:fs'
 import { type Download, expect, test } from '@playwright/test'
+import { readFileSync } from 'node:fs'
 
 test('#configure/eighty4/maestro download script ', async ({ page }) => {
     await page.goto('/')
@@ -37,4 +37,4 @@ async function verifyScript(download: Download, filename: string) {
 const SCRIPT_HEADER = `#!/usr/bin/env sh
 set -e
 
-# Created by npm package @eighty4/install-template@`
+# Created by npm package @eighty4/binny-template@`

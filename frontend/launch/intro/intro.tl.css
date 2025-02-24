@@ -1,0 +1,161 @@
+#intro-tl {
+    color: var(--triangle-text-color);
+
+    & .compile.cmd {
+        background: #090909;
+        color: #def;
+    }
+
+    &.zero {
+        --circle-origin-x: 0;
+        --circle-origin-y: 0;
+        --circle-radius: 0;
+
+        & .compile.cmd {
+            background: #090909;
+            color: #def;
+            position: fixed;
+            top: var(--circle-origin-y);
+            left: var(--circle-origin-x);
+            transform: translate(-50%, calc(-200% - var(--circle-radius)));
+
+            &.current {
+                display: inline-block;
+            }
+        }
+
+        & .support-logo {
+            --logo-show-delay-increment: 0.15s;
+            --logo-show-duration: calc(0.75s / var(--intro-animation-speed));
+            --logo-hide-delay-increment: 0.75s;
+            --logo-hide-duration: calc(0.5s / var(--intro-animation-speed));
+            --logo-tangency-x: 0;
+            --logo-tangency-y: 0;
+            --logo-midpoint-x: 0;
+            --logo-midpoint-y: 0;
+            --logo-transform-circle-origin: translate(
+                var(--logo-offset-x),
+                var(--logo-offset-y)
+            );
+            --logo-transform-circle-tangency: translate(
+                calc(var(--logo-offset-x) + var(--logo-tangency-x)),
+                calc(var(--logo-offset-y) + var(--logo-tangency-y))
+            );
+            --logo-transform-move-to-br: translate(
+                calc(
+                    var(--logo-offset-x) + var(--logo-tangency-x) +
+                        var(--logo-midpoint-x) - var(--circle-origin-x)
+                ),
+                calc(
+                    var(--logo-offset-y) + var(--logo-tangency-y) +
+                        var(--logo-midpoint-x) - var(--circle-origin-y)
+                )
+            );
+            position: fixed;
+            top: var(--circle-origin-y);
+            left: var(--circle-origin-x);
+            transform: var(--logo-transform-circle-origin);
+            opacity: 0;
+            animation: zeroLogoMoveFromOriginToTangency
+                var(--logo-show-duration);
+            animation-delay: calc(
+                (var(--logo-show-delay-increment) * var(--logo-delay-order)) /
+                    var(--intro-animation-speed)
+            );
+            animation-fill-mode: forwards;
+
+            &.zeroToOne {
+                opacity: 1;
+                transform: var(--logo-transform-circle-tangency);
+                animation: zeroLogoMoveToOne var(--logo-hide-duration);
+                animation-delay: calc(
+                    (
+                            var(--logo-hide-delay-increment) *
+                                var(--logo-delay-order)
+                        ) /
+                        var(--intro-animation-speed)
+                );
+                animation-fill-mode: forwards;
+            }
+
+            &[data-logo='go'] {
+                --logo-delay-order: 1;
+            }
+
+            &[data-logo='linux'] {
+                --logo-delay-order: 2;
+            }
+
+            &[data-logo='rust'] {
+                --logo-delay-order: 3;
+            }
+
+            &[data-logo='zig'] {
+                --logo-delay-order: 4;
+            }
+
+            &[data-logo='mac'] {
+                --logo-delay-order: 5;
+            }
+
+            &[data-logo='win'] {
+                --logo-delay-order: 6;
+            }
+
+            &[data-logo='cpp'] {
+                --logo-delay-order: 7;
+            }
+        }
+    }
+
+    &.two {
+    }
+}
+
+@keyframes highlightStep {
+    0% {
+        background: var(--alt-color);
+        color: var(--triangle-bg-color);
+    }
+    48% {
+        background: var(--alt-color);
+        color: var(--triangle-bg-color);
+    }
+    50% {
+        background: transparent;
+        color: var(--triangle-text-color);
+    }
+    98% {
+        background: transparent;
+        color: var(--triangle-text-color);
+    }
+    100% {
+        background: var(--alt-color);
+        color: var(--triangle-bg-color);
+    }
+}
+
+@keyframes zeroLogoMoveFromOriginToTangency {
+    0% {
+        opacity: 0;
+        transform: var(--logo-transform-circle-origin);
+    }
+    100% {
+        opacity: 1;
+        transform: var(--logo-transform-circle-tangency);
+    }
+}
+
+@keyframes zeroLogoMoveToOne {
+    0% {
+        opacity: 1;
+        transform: var(--logo-transform-circle-tangency);
+    }
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 0;
+        transform: var(--logo-transform-move-to-br);
+    }
+}
