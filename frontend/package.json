@@ -1,29 +1,27 @@
 {
-  "name": "@eighty4/install-frontend",
-  "version": "0.0.1",
-  "private": true,
-  "author": "Adam McKee <adam.be.g84d@gmail.com>",
-  "license": "BSD-3-Clause",
-  "type": "module",
-  "main": "lib/Domain.js",
-  "types": "lib/Domain.d.ts",
-  "scripts": {
-    "build": "pnpm build:dist",
-    "build:dist": "./build.sh",
-    "build:tsc": "tsc --build --clean && tsc --build",
-    "build:vite": "vite build",
-    "dev": "vite",
-    "dev:offline": "vite --mode offline",
-    "svg": "npx -y svgo@latest -f assets/svg -o public -r"
-  },
-  "dependencies": {
-    "@eighty4/install-github": "workspace:^",
-    "@eighty4/install-template": "workspace:^"
-  },
-  "devDependencies": {
-    "@minify-html/node": "^0.15.0",
-    "typescript": "^5.7.3",
-    "vite": "^6.1.1",
-    "vite-plugin-html-inline-sources": "^0.0.3"
-  }
+    "name": "@eighty4/install-frontend",
+    "version": "0.0.1",
+    "private": true,
+    "author": "Adam McKee <adam.be.g84d@gmail.com>",
+    "license": "BSD-3-Clause",
+    "type": "module",
+    "scripts": {
+        "build": "pnpm build:dist",
+        "build:dist": "./build.sh",
+        "build:tsc": "tsc --build --clean && tsc --build",
+        "build:vite": "vite build",
+        "dev": "vite",
+        "dev:offline": "vite --mode offline",
+        "svg": "npx -y svgo@latest -f assets/svg -o public -r"
+    },
+    "dependencies": {
+        "@eighty4/install-github": "workspace:^",
+        "@eighty4/install-template": "workspace:^"
+    },
+    "devDependencies": {
+        "@minify-html/node": "^0.15.0",
+        "typescript": "^5.7.3",
+        "vite": "^6.1.1",
+        "vite-plugin-html-inline-sources": "^0.0.3"
+    }
 }

@@ -7,32 +7,32 @@ jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
-#    services:
-#      postgres:
-#        image: postgres:16
-#        ports:
-#          - 5432:5432
-#        env:
-#          POSTGRES_DB: eighty4
-#          POSTGRES_USER: eighty4
-#          POSTGRES_PASSWORD: eighty4
-#        options: >-
-#          --health-cmd pg_isready
-#          --health-interval 5s
-#          --health-timeout 5s
-#          --health-retries 10
+    #    services:
+    #      postgres:
+    #        image: postgres:16
+    #        ports:
+    #          - 5432:5432
+    #        env:
+    #          POSTGRES_DB: eighty4
+    #          POSTGRES_USER: eighty4
+    #          POSTGRES_PASSWORD: eighty4
+    #        options: >-
+    #          --health-cmd pg_isready
+    #          --health-interval 5s
+    #          --health-timeout 5s
+    #          --health-retries 10
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 23
           cache: pnpm
-#    - name: sql
-#      run: |
-#        sudo apt-get install -y postgresql-client
-#        PGPASSWORD=eighty4 psql -h localhost -U eighty4 -f v001-init-schema.sql eighty4
-#      working-directory: sql
+      #    - name: sql
+      #      run: |
+      #        sudo apt-get install -y postgresql-client
+      #        PGPASSWORD=eighty4 psql -h localhost -U eighty4 -f v001-init-schema.sql eighty4
+      #      working-directory: sql
       - run: pnpm i
       - name: playwright
         env:

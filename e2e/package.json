@@ -1,16 +1,16 @@
 {
-  "name": "@eighty4/install-e2e",
-  "version": "0.0.1",
-  "private": true,
-  "author": "Adam McKee <adam.be.g84d@gmail.com>",
-  "license": "BSD-3-Clause",
-  "type": "module",
-  "scripts": {
-    "test:ui": "playwright test --ui",
-    "test": "playwright test"
-  },
-  "devDependencies": {
-    "@playwright/test": "^1.50.1",
-    "@types/node": "^22.13.5"
-  }
+    "name": "@eighty4/install-e2e",
+    "version": "0.0.1",
+    "private": true,
+    "author": "Adam McKee <adam.be.g84d@gmail.com>",
+    "license": "BSD-3-Clause",
+    "type": "module",
+    "scripts": {
+        "test:ui": "playwright test --ui",
+        "test": "playwright test"
+    },
+    "devDependencies": {
+        "@playwright/test": "^1.50.1",
+        "@types/node": "^22.13.5"
+    }
 }

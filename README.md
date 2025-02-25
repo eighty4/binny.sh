@@ -8,14 +8,14 @@ See each package's .env file for environment variable names.
 
 Use these commands to run Install.sh locally:
 
-| Package  | Command          |
-|----------|------------------|
-| lambdas  | l3 sync          |
-| frontend | pnpm dev         |
+| Package  | Command  |
+| -------- | -------- |
+| lambdas  | l3 sync  |
+| frontend | pnpm dev |
 
 APIs are deployed to AWS Lambdas with [eighty4/l3](https://github.com/eighty4/l3).
 For development, Vite will proxy API requests to AWS Lambda.
-`l3 sync` must be run before starting the frontend Vite server. 
+`l3 sync` must be run before starting the frontend Vite server.
 
 Database features are currently disabled to migrate the backend to a serverless deployment.
 Unit tests, however, are still ran against Postgres.
@@ -32,7 +32,7 @@ Data for offline mode is stubbed out in [//offline/src/data.ts](offline/src/data
 These commands will stub API dependencies for offline development of the frontend:
 
 | Package  | Command          |
-|----------|------------------|
+| -------- | ---------------- |
 | frontend | pnpm dev:offline |
 | offline  | pnpm start       |
 

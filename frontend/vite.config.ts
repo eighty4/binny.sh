@@ -1,5 +1,5 @@
 import * as fs from 'node:fs'
-import {type ConfigEnv, defineConfig, loadEnv, type ProxyOptions} from 'vite'
+import { type ConfigEnv, defineConfig, loadEnv, type ProxyOptions } from 'vite'
 import inlining from 'vite-plugin-html-inline-sources'
 
 export default defineConfig((env: ConfigEnv) => {
@@ -27,15 +27,21 @@ function checkEnvVarsAreSet(mode: string): undefined | never {
     if (mode === 'offline') {
         return
     }
-    const {VITE_GITHUB_CLIENT_ID} = loadEnv(mode, process.cwd())
+    const { VITE_GITHUB_CLIENT_ID } = loadEnv(mode, process.cwd())
     if (!VITE_GITHUB_CLIENT_ID || !VITE_GITHUB_CLIENT_ID.length) {
-        console.error('Install.sh requires a `VITE_GITHUB_CLIENT_ID` environment variable for running Vite in dev or build modes.')
-        console.error('Try `VITE_GITHUB_CLIENT_ID=my_client_id pnpm build` or creating a `.env.development` file.')
+        console.error(
+            'Install.sh requires a `VITE_GITHUB_CLIENT_ID` environment variable for running Vite in dev or build modes.',
+        )
+        console.error(
+            'Try `VITE_GITHUB_CLIENT_ID=my_client_id pnpm build` or creating a `.env.development` file.',
+        )
         process.exit(1)
     }
 }
 
-function buildProxyConfig(mode: string): Record<string, string | ProxyOptions> | undefined {
+function buildProxyConfig(
+    mode: string,
+): Record<string, string | ProxyOptions> | undefined {
     switch (mode) {
         case 'production':
             return
@@ -54,9 +60,15 @@ function getApiGatewayApiId(): string | never {
     try {
         return fs.readFileSync('../lambdas/.l3/aws/api').toString().trim()
     } catch (e) {
-        console.error('Unable to read Amazon Gateway API id from `//lambdas/.l3/aws/api`.')
-        console.error(`Run \`l3 sync\` from \`//lambdas\` before running the Install.sh frontend development Vite server.`)
-        console.error('There is more information about local development in `//README.md`.')
+        console.error(
+            'Unable to read Amazon Gateway API id from `//lambdas/.l3/aws/api`.',
+        )
+        console.error(
+            `Run \`l3 sync\` from \`//lambdas\` before running the Install.sh frontend development Vite server.`,
+        )
+        console.error(
+            'There is more information about local development in `//README.md`.',
+        )
         process.exit(1)
     }
 }

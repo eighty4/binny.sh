@@ -1,21 +1,21 @@
 {
-  "name": "@eighty4/install-offline",
-  "version": "0.0.1",
-  "private": true,
-  "author": "Adam McKee <adam.be.g84d@gmail.com>",
-  "license": "BSD-3-Clause",
-  "type": "module",
-  "scripts": {
-    "start": "node --experimental-strip-types src/Offline.ts",
-    "start:watch": "node --experimental-strip-types --watch --watch-path ./ --watch-path ../github --watch-path ../template src/Offline.ts"
-  },
-  "dependencies": {
-    "@eighty4/install-github": "workspace:*",
-    "@hono/node-server": "^1.13.8",
-    "hono": "^4.7.2"
-  },
-  "devDependencies": {
-    "@types/node": "^22.13.5",
-    "typescript": "^5.7.3"
-  }
+    "name": "@eighty4/install-offline",
+    "version": "0.0.1",
+    "private": true,
+    "author": "Adam McKee <adam.be.g84d@gmail.com>",
+    "license": "BSD-3-Clause",
+    "type": "module",
+    "scripts": {
+        "start": "node --experimental-strip-types src/Offline.ts",
+        "start:watch": "node --experimental-strip-types --watch --watch-path ./ --watch-path ../github --watch-path ../template src/Offline.ts"
+    },
+    "dependencies": {
+        "@eighty4/install-github": "workspace:*",
+        "@hono/node-server": "^1.13.8",
+        "hono": "^4.7.2"
+    },
+    "devDependencies": {
+        "@types/node": "^22.13.5",
+        "typescript": "^5.7.3"
+    }
 }

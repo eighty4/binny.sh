@@ -3,8 +3,8 @@ html.out:not(.reader) #triangle {
     transform-origin: top left;
     transition-property: transform;
     transition-timing-function: ease;
-    transition-delay: .25s;
-    transition-duration: .6s;
+    transition-delay: 0.25s;
+    transition-duration: 0.6s;
 }
 
 #graph-paper-grid {

@@ -8,7 +8,9 @@ export function initializeCustomizationControls() {
     }
     const pageGrid = document.querySelector('#page-grid')!
     pageGrid.insertAdjacentHTML('beforeend', html)
-    initializeStyleControl(pageGrid.querySelector('#flip-input') as HTMLInputElement)
+    initializeStyleControl(
+        pageGrid.querySelector('#flip-input') as HTMLInputElement,
+    )
 }
 
 function initializeStyleControl(styleInput: HTMLInputElement) {

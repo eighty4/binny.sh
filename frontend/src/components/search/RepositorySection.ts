@@ -1,9 +1,13 @@
 import RepositoryLink from './RepositoryLink.ts'
 import css from './RepositorySection.css?inline'
-import {cloneTemplate, removeChildNodes} from '../../dom.ts'
-import type {RepositoryWithScript} from '../../routes/searchData.ts'
+import { cloneTemplate, removeChildNodes } from '../../dom.ts'
+import type { RepositoryWithScript } from '../../routes/searchData.ts'
 
-export type RepoSectionType = 'generated' | 'released' | 'compatible' | 'incompatible'
+export type RepoSectionType =
+    | 'generated'
+    | 'released'
+    | 'compatible'
+    | 'incompatible'
 
 function repoSectionHeader(type: RepoSectionType): string {
     switch (type) {
@@ -19,7 +23,6 @@ function repoSectionHeader(type: RepoSectionType): string {
 }
 
 export default class RepositorySection extends HTMLElement {
-
     private static readonly TEMPLATE_ID = 'tmpl-repo-section'
 
     static templateHTML(): string {
@@ -39,7 +42,7 @@ export default class RepositorySection extends HTMLElement {
 
     constructor(type: RepoSectionType, repos: Array<RepositoryWithScript>) {
         super()
-        this.#shadow = this.attachShadow({mode: 'open'})
+        this.#shadow = this.attachShadow({ mode: 'open' })
         this.#shadow.appendChild(cloneTemplate(RepositorySection.TEMPLATE_ID))
         this.#shadow.querySelector('h3')!.innerText = repoSectionHeader(type)
         this.#reposDiv = this.#shadow.querySelector('.repos')!

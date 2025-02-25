@@ -1,16 +1,16 @@
 {
-  "compilerOptions": {
-    "target": "ESNext",
-    "module": "NodeNext",
-    "composite": true,
-    "forceConsistentCasingInFileNames": true,
-    "skipLibCheck": true,
+    "compilerOptions": {
+        "target": "ESNext",
+        "module": "NodeNext",
+        "composite": true,
+        "forceConsistentCasingInFileNames": true,
+        "skipLibCheck": true,
 
-    /* Linting */
-    "noFallthroughCasesInSwitch": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "strict": true,
-    "verbatimModuleSyntax": true,
-  },
+        /* Linting */
+        "noFallthroughCasesInSwitch": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "strict": true,
+        "verbatimModuleSyntax": true
+    }
 }

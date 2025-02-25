@@ -1,7 +1,7 @@
-import {readFileSync} from 'node:fs'
-import {type Download, expect, test} from '@playwright/test'
+import { readFileSync } from 'node:fs'
+import { type Download, expect, test } from '@playwright/test'
 
-test('#configure/eighty4/maestro download script ', async ({page}) => {
+test('#configure/eighty4/maestro download script ', async ({ page }) => {
     await page.goto('/')
     await page.click('#login')
     await page.waitForSelector('#login-redirect')
@@ -14,7 +14,9 @@ test('#configure/eighty4/maestro download script ', async ({page}) => {
     await expect(page.getByText('MacOS & Linux')).toBeEnabled()
 
     await new Promise((res, rej) => {
-        page.on('download', (download) => verifyScript(download, 'install_maestro.sh').then(res).catch(rej))
+        page.on('download', download =>
+            verifyScript(download, 'install_maestro.sh').then(res).catch(rej),
+        )
         page.getByText('MacOS & Linux').click().then().catch(rej)
     })
 
@@ -25,7 +27,11 @@ test('#configure/eighty4/maestro download script ', async ({page}) => {
 
 async function verifyScript(download: Download, filename: string) {
     expect(download.suggestedFilename()).toBe(filename)
-    expect(readFileSync(await download.path()).toString().startsWith(SCRIPT_HEADER)).toBe(true)
+    expect(
+        readFileSync(await download.path())
+            .toString()
+            .startsWith(SCRIPT_HEADER),
+    ).toBe(true)
 }
 
 const SCRIPT_HEADER = `#!/usr/bin/env sh

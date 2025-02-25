@@ -1,4 +1,4 @@
-import type {OperatingSystem} from '@eighty4/install-template'
+import type { OperatingSystem } from '@eighty4/install-template'
 
 interface SystemLogoOptions {
     color: string
@@ -7,7 +7,6 @@ interface SystemLogoOptions {
 }
 
 export default class SystemLogo extends HTMLElement {
-
     static observedAttributes = ['color', 'os', 'size']
 
     constructor(opts?: Partial<SystemLogoOptions>) {

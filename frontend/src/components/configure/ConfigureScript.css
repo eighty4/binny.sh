@@ -10,8 +10,9 @@
     font-weight: 600;
 }
 
-#version, #commit {
-    margin-top: .3rem;
+#version,
+#commit {
+    margin-top: 0.3rem;
 }
 
 table {
@@ -19,7 +20,7 @@ table {
         text-align: left;
 
         & td {
-            padding: .5rem 0;
+            padding: 0.5rem 0;
         }
 
         &.file {

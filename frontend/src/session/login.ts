@@ -1,8 +1,8 @@
 import './login.css'
-import html from  './login.html?raw'
-import {getPageGrid, toggleReaderMode} from '../ui.ts'
+import html from './login.html?raw'
+import { getPageGrid, toggleReaderMode } from '../ui.ts'
 
-const LOGIN_LINK_MOVE_THRESHOLD = .075
+const LOGIN_LINK_MOVE_THRESHOLD = 0.075
 
 interface Point {
     x: number
@@ -16,23 +16,36 @@ export function showLoginButton() {
     let splitSlope = 0
     let splitYIntercept = 0
     let proximitySlope = 0
-    let previousIntersectionPoint: Point = {x: document.body.clientWidth / 2, y: document.body.clientHeight / 2}
-    let previousPositionRatio = .15
+    let previousIntersectionPoint: Point = {
+        x: document.body.clientWidth / 2,
+        y: document.body.clientHeight / 2,
+    }
+    let previousPositionRatio = 0.15
 
     function onResize() {
-        const {clientHeight, clientWidth} = document.body
-        splitDistance = calculateDistanceBetweenPoints({
-            x: 0,
-            y: document.body.clientHeight,
-        }, {
-            x: document.body.clientWidth,
-            y: 0,
-        })
-        splitSlope = -1 * document.body.clientHeight / document.body.clientWidth
+        const { clientHeight, clientWidth } = document.body
+        splitDistance = calculateDistanceBetweenPoints(
+            {
+                x: 0,
+                y: document.body.clientHeight,
+            },
+            {
+                x: document.body.clientWidth,
+                y: 0,
+            },
+        )
+        splitSlope =
+            (-1 * document.body.clientHeight) / document.body.clientWidth
         splitYIntercept = document.body.clientHeight
         proximitySlope = calculateInverseReciprocal(splitSlope)
-        document.documentElement.style.setProperty('--diagonal-length-px', `${splitDistance}px`)
-        document.documentElement.style.setProperty('--diagonal-rotate-rad', `${Math.atan(clientHeight / clientWidth) * -1}rad`)
+        document.documentElement.style.setProperty(
+            '--diagonal-length-px',
+            `${splitDistance}px`,
+        )
+        document.documentElement.style.setProperty(
+            '--diagonal-rotate-rad',
+            `${Math.atan(clientHeight / clientWidth) * -1}rad`,
+        )
     }
 
     onResize()
@@ -42,25 +55,53 @@ export function showLoginButton() {
         if (loginLink.classList.contains('moving') || delaying) {
             return
         }
-        const proximityPoint = {x: e.clientX, y: e.clientY}
-        const proximityYIntercept = calculateYInterceptForLine(proximityPoint, proximitySlope)
-        const intersectionPoint = calculateIntersectionPointOfTwoLines(splitSlope, splitYIntercept, proximitySlope, proximityYIntercept)
-        const intersectionPointDistance = calculateDistanceBetweenPoints(intersectionPoint, {
-            x: document.body.clientWidth,
-            y: 0,
-        })
+        const proximityPoint = { x: e.clientX, y: e.clientY }
+        const proximityYIntercept = calculateYInterceptForLine(
+            proximityPoint,
+            proximitySlope,
+        )
+        const intersectionPoint = calculateIntersectionPointOfTwoLines(
+            splitSlope,
+            splitYIntercept,
+            proximitySlope,
+            proximityYIntercept,
+        )
+        const intersectionPointDistance = calculateDistanceBetweenPoints(
+            intersectionPoint,
+            {
+                x: document.body.clientWidth,
+                y: 0,
+            },
+        )
         const positionRatio = intersectionPointDistance / splitDistance
-        const positionRatioDeltaWithPreviousRatio = Math.abs(positionRatio - previousPositionRatio)
+        const positionRatioDeltaWithPreviousRatio = Math.abs(
+            positionRatio - previousPositionRatio,
+        )
         if (positionRatioDeltaWithPreviousRatio < LOGIN_LINK_MOVE_THRESHOLD) {
             return
         }
-        const pixelsMoved = calculateDistanceBetweenPoints(intersectionPoint, previousIntersectionPoint)
-        loginLink.style.setProperty('--login-link-previous-position-percent', loginLink.style.getPropertyValue('--login-link-position-percent'))
+        const pixelsMoved = calculateDistanceBetweenPoints(
+            intersectionPoint,
+            previousIntersectionPoint,
+        )
+        loginLink.style.setProperty(
+            '--login-link-previous-position-percent',
+            loginLink.style.getPropertyValue('--login-link-position-percent'),
+        )
         const positionPercent = positionRatio * 100
-        const clampedPositionPercent = positionPercent < 50 ? Math.max(positionPercent, 12) : Math.min(positionPercent, 88)
-        loginLink.style.setProperty('--login-link-position-percent', `${clampedPositionPercent}%`)
+        const clampedPositionPercent =
+            positionPercent < 50
+                ? Math.max(positionPercent, 12)
+                : Math.min(positionPercent, 88)
+        loginLink.style.setProperty(
+            '--login-link-position-percent',
+            `${clampedPositionPercent}%`,
+        )
         console.log(positionPercent, clampedPositionPercent)
-        loginLink.style.setProperty('--login-link-moving-duration', `${(pixelsMoved / splitDistance) * 2}s`)
+        loginLink.style.setProperty(
+            '--login-link-moving-duration',
+            `${(pixelsMoved / splitDistance) * 2}s`,
+        )
         previousIntersectionPoint = intersectionPoint
         previousPositionRatio = positionRatio
         loginLink.classList.add('moving')
@@ -69,7 +110,7 @@ export function showLoginButton() {
     loginLink.addEventListener('animationend', () => {
         delaying = true
         loginLink.classList.remove('show', 'moving')
-        setTimeout(() => delaying = false, 100)
+        setTimeout(() => (delaying = false), 100)
     })
     window.addEventListener('mousemove', debounce(onMouseEvent, 84))
 
@@ -89,8 +130,12 @@ function showLoginPrompt() {
     const grid = getPageGrid()
     grid.insertAdjacentHTML('beforeend', html)
     const loginPrompt = grid.querySelector('#login-prompt')!
-    const redirectButton = loginPrompt.querySelector('#login-redirect') as HTMLButtonElement
-    const cancelButton = loginPrompt.querySelector('#login-cancel') as HTMLButtonElement
+    const redirectButton = loginPrompt.querySelector(
+        '#login-redirect',
+    ) as HTMLButtonElement
+    const cancelButton = loginPrompt.querySelector(
+        '#login-cancel',
+    ) as HTMLButtonElement
     redirectButton.addEventListener('click', redirectToLogin)
     cancelButton.addEventListener('click', closeLoginPrompt)
 
@@ -110,17 +155,22 @@ function showLoginPrompt() {
 function calculateDistanceBetweenPoints(p1: Point, p2: Point): number {
     const xd = p2.x - p1.x
     const yd = p2.y - p1.y
-    return Math.sqrt((xd * xd) + (yd * yd))
+    return Math.sqrt(xd * xd + yd * yd)
 }
 
 function calculateYInterceptForLine(p: Point, m: number): number {
-    return p.y - (m * p.x)
+    return p.y - m * p.x
 }
 
-function calculateIntersectionPointOfTwoLines(m1: number, yi1: number, m2: number, yi2: number): Point {
+function calculateIntersectionPointOfTwoLines(
+    m1: number,
+    yi1: number,
+    m2: number,
+    yi2: number,
+): Point {
     const x = (yi1 - yi2) / (m2 - m1)
     const y = m2 * x + yi2
-    return {x, y}
+    return { x, y }
 }
 
 function calculateInverseReciprocal(m: number) {

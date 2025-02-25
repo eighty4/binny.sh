@@ -1,9 +1,9 @@
-import type {RepositoryWithScript} from './searchData.ts'
+import type { RepositoryWithScript } from './searchData.ts'
 import createGitHubGraphApiClient from '../createGitHubGraphApiClient.ts'
-import {showGraphPaper} from '../graphPaper.ts'
-import {removeChildNodes} from '../dom.ts'
+import { showGraphPaper } from '../graphPaper.ts'
+import { removeChildNodes } from '../dom.ts'
 import ConfigureScript from '../components/configure/ConfigureScript.ts'
-import {configureRepoCache} from '../session/sessionCache.ts'
+import { configureRepoCache } from '../session/sessionCache.ts'
 
 // todo error handling
 export function openRepositoryConfig(repoOwner: string, repoName: string) {

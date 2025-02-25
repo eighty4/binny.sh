@@ -1,6 +1,6 @@
-import {toggleLandingElements} from './ui.ts'
+import { toggleLandingElements } from './ui.ts'
 import './graphPaper.css'
-import {removeChildNodes} from './dom.ts'
+import { removeChildNodes } from './dom.ts'
 
 let graphPaper: HTMLElement
 
@@ -10,13 +10,22 @@ export function onClearGraphPaper(fn: () => void) {
     clearGraphPaperFn = fn
 }
 
-export function showGraphPaper(readyFn?: (graphPaper: HTMLElement) => void): HTMLElement {
+export function showGraphPaper(
+    readyFn?: (graphPaper: HTMLElement) => void,
+): HTMLElement {
     if (!graphPaper) {
         graphPaper = createGraphPaper()
         toggleLandingElements(false)
-        document.body.insertAdjacentHTML('beforeend', `<div id="triangle-ish"></div>`)
-        if (readyFn) document.getElementById('triangle')!
-            .addEventListener('transitionend', () => readyFn(graphPaper), {once: true})
+        document.body.insertAdjacentHTML(
+            'beforeend',
+            `<div id="triangle-ish"></div>`,
+        )
+        if (readyFn)
+            document
+                .getElementById('triangle')!
+                .addEventListener('transitionend', () => readyFn(graphPaper), {
+                    once: true,
+                })
     } else {
         clearGraphPaper(graphPaper)
         if (readyFn) readyFn(graphPaper)
@@ -25,7 +34,10 @@ export function showGraphPaper(readyFn?: (graphPaper: HTMLElement) => void): HTM
 }
 
 function createGraphPaper(): HTMLElement {
-    document.body.insertAdjacentHTML('beforeend', `<main id="graph-paper-grid"><div id="graph-paper-header"><back-button></back-button></div><div id="graph-paper"></div></main>`)
+    document.body.insertAdjacentHTML(
+        'beforeend',
+        `<main id="graph-paper-grid"><div id="graph-paper-header"><back-button></back-button></div><div id="graph-paper"></div></main>`,
+    )
     return document.getElementById('graph-paper')!
 }
 

@@ -9,7 +9,10 @@ export function downloadScript(filename: string, content: string) {
 }
 
 function downloadBlob(filename: string, content: string) {
-    downloadFile(filename, URL.createObjectURL(new Blob([content], {type: 'text/plain'})))
+    downloadFile(
+        filename,
+        URL.createObjectURL(new Blob([content], { type: 'text/plain' })),
+    )
 }
 
 // todo evaluate downloadBlob vs downloadText methods

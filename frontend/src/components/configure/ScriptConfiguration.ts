@@ -1,6 +1,11 @@
-import type {Architecture, Distribution, GenerateScriptOptions, OperatingSystem} from '@eighty4/install-template'
-import type {Asset, Binary} from '@eighty4/install-github'
-import type {RepositoryWithScript} from '../../routes/searchData.ts'
+import type {
+    Architecture,
+    Distribution,
+    GenerateScriptOptions,
+    OperatingSystem,
+} from '@eighty4/install-template'
+import type { Asset, Binary } from '@eighty4/install-github'
+import type { RepositoryWithScript } from '../../routes/searchData.ts'
 
 export default class ScriptConfiguration {
     readonly #repo: RepositoryWithScript
@@ -17,8 +22,13 @@ export default class ScriptConfiguration {
             }
         }
         if (repo.script?.spec.explicitArchitectures) {
-            for (const filename of Object.keys(repo.script.spec.explicitArchitectures)) {
-                this.resolveArchitecture(filename, repo.script.spec.explicitArchitectures[filename])
+            for (const filename of Object.keys(
+                repo.script.spec.explicitArchitectures,
+            )) {
+                this.resolveArchitecture(
+                    filename,
+                    repo.script.spec.explicitArchitectures[filename],
+                )
             }
         }
     }
@@ -45,7 +55,10 @@ export default class ScriptConfiguration {
         }
     }
 
-    buildAssetsView(): { binaries: Record<OperatingSystem, Array<Binary>>, additionalAssets: Array<Asset> } {
+    buildAssetsView(): {
+        binaries: Record<OperatingSystem, Array<Binary>>
+        additionalAssets: Array<Asset>
+    } {
         const binaries: Record<OperatingSystem, Array<Binary>> = {
             Linux: [],
             MacOS: [],
@@ -64,10 +77,14 @@ export default class ScriptConfiguration {
 
     buildGenerateScriptOptions(): GenerateScriptOptions {
         return {
-            binaryInstalls: [{
-                installAs: this.#repo.name,
-                binaries: this.#repo.latestRelease!.binaries.map(binary => binary.filename),
-            }],
+            binaryInstalls: [
+                {
+                    installAs: this.#repo.name,
+                    binaries: this.#repo.latestRelease!.binaries.map(
+                        binary => binary.filename,
+                    ),
+                },
+            ],
             explicitArchitectures: this.#resolved,
             repository: this.#repo,
             resolvedDistributions: this.#collectResolvedDistributions(),

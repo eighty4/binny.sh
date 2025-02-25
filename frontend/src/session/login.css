@@ -14,7 +14,9 @@
     --login-link-moving-ratio: 1;
     position: fixed;
     top: calc(var(--login-link-position-percent) - var(--login-link-center-y));
-    right: calc(var(--login-link-position-percent) - var(--login-link-center-x));
+    right: calc(
+        var(--login-link-position-percent) - var(--login-link-center-x)
+    );
     z-index: calc(var(--grid-z-index) + 1);
     width: var(--login-link-width);
     height: var(--login-link-height);
@@ -22,7 +24,7 @@
     justify-content: center;
     align-items: center;
     font-size: 2vmin;
-    border: .5vmin solid hotpink;
+    border: 0.5vmin solid hotpink;
     background: var(--black);
     color: lawngreen;
     user-select: none;
@@ -62,11 +64,11 @@
     }
 
     40% {
-        transform: rotate(var(--diagonal-rotate-rad)) scaleY(.7) scaleX(1.1);
+        transform: rotate(var(--diagonal-rotate-rad)) scaleY(0.7) scaleX(1.1);
     }
 
     60% {
-        transform: rotate(var(--diagonal-rotate-rad)) scaleY(.7) scaleX(1.1);
+        transform: rotate(var(--diagonal-rotate-rad)) scaleY(0.7) scaleX(1.1);
     }
 
     100% {
@@ -76,13 +78,23 @@
 
 @keyframes login-slide {
     0% {
-        top: calc(var(--login-link-previous-position-percent) - var(--login-link-center-y));
-        right: calc(var(--login-link-previous-position-percent) - var(--login-link-center-x));
+        top: calc(
+            var(--login-link-previous-position-percent) -
+                var(--login-link-center-y)
+        );
+        right: calc(
+            var(--login-link-previous-position-percent) -
+                var(--login-link-center-x)
+        );
     }
 
     100% {
-        top: calc(var(--login-link-position-percent) - var(--login-link-center-y));
-        right: calc(var(--login-link-position-percent) - var(--login-link-center-x));
+        top: calc(
+            var(--login-link-position-percent) - var(--login-link-center-y)
+        );
+        right: calc(
+            var(--login-link-position-percent) - var(--login-link-center-x)
+        );
     }
 }
 
@@ -113,7 +125,7 @@
 
 #login-cancel {
     border: 1px solid transparent;
-    opacity: .8;
+    opacity: 0.8;
     transition: all 100ms ease-in-out;
 
     &:hover {

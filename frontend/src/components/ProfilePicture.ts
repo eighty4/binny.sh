@@ -1,7 +1,6 @@
-import {removeChildNodes} from '../dom.ts'
+import { removeChildNodes } from '../dom.ts'
 
 export default class ProfilePicture extends HTMLElement {
-
     static readonly SIZE = 30
 
     static observedAttributes = ['owner']
@@ -26,7 +25,11 @@ export default class ProfilePicture extends HTMLElement {
         removeChildNodes(this)
     }
 
-    attributeChangedCallback(_name: string, _oldValue: string, newValue: string) {
+    attributeChangedCallback(
+        _name: string,
+        _oldValue: string,
+        newValue: string,
+    ) {
         this.setImgProps(newValue)
     }
 

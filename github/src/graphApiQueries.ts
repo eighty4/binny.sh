@@ -35,7 +35,10 @@ query {
   }
 }`
 
-export const queryUserRepositoriesQuery = (reposPerPage: number, cursor?: string) => `
+export const queryUserRepositoriesQuery = (
+    reposPerPage: number,
+    cursor?: string,
+) => `
 {
   viewer {
     repositories(

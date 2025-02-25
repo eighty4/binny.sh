@@ -4,7 +4,7 @@ function lerp(min: number, max: number, ratio: number): number {
     } else if (ratio > 1) {
         return max
     } else {
-        return (ratio * (max - min)) + min
+        return ratio * (max - min) + min
     }
 }
 
@@ -72,11 +72,11 @@ class BotRightAnimationCanvas extends AnimationCanvas {
     }
 
     boxPosX(cx: number, boxW: number): number {
-        return this.width - boxW - (cx * boxW)
+        return this.width - boxW - cx * boxW
     }
 
     boxPosY(ry: number, boxH: number): number {
-        return this.height - boxH - (ry * boxH)
+        return this.height - boxH - ry * boxH
     }
 
     clipPath(): Path2D {
@@ -178,12 +178,28 @@ export function animateTriangleIntro(): Promise<void> {
     const halfDuration = duration / 2
     const botRightCanvas = new BotRightAnimationCanvas(createCanvasElement())
     const topLeftCanvas = new TopLeftAnimationCanvas(createCanvasElement())
-    const firstBotRightAnimation = new SizeAnimation(botRightCanvas, '#eee', '#111')
-    const secondBotRightAnimation = new SizeAnimation(botRightCanvas, '#111', '#eee')
-    const firstTopLeftAnimation = new SizeAnimation(topLeftCanvas, '#111', '#eee')
-    const secondTopLeftAnimation = new SizeAnimation(topLeftCanvas, '#eee', '#111')
+    const firstBotRightAnimation = new SizeAnimation(
+        botRightCanvas,
+        '#eee',
+        '#111',
+    )
+    const secondBotRightAnimation = new SizeAnimation(
+        botRightCanvas,
+        '#111',
+        '#eee',
+    )
+    const firstTopLeftAnimation = new SizeAnimation(
+        topLeftCanvas,
+        '#111',
+        '#eee',
+    )
+    const secondTopLeftAnimation = new SizeAnimation(
+        topLeftCanvas,
+        '#eee',
+        '#111',
+    )
     const start = Date.now()
-    return new Promise((res) => {
+    return new Promise(res => {
         const update = () => {
             const elapsed = Date.now() - start
             if (elapsed > halfDuration) {

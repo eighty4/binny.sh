@@ -1,6 +1,6 @@
-import {expect, test} from '@playwright/test'
+import { expect, test } from '@playwright/test'
 
-test('#search to #configure/eighty4/maestro', async ({page}) => {
+test('#search to #configure/eighty4/maestro', async ({ page }) => {
     await page.goto('/')
     await page.click('#login')
     await page.waitForSelector('#login-redirect')

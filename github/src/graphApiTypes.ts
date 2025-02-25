@@ -1,5 +1,5 @@
-import {resolveDistribution} from '@eighty4/install-template'
-import type {Asset, Binary, Language, Release} from './Model.js'
+import { resolveDistribution } from '@eighty4/install-template'
+import type { Asset, Binary, Language, Release } from './Model.js'
 
 const compileBinaryLanguages = Object.freeze(['C', 'C++', 'Go', 'Rust', 'Zig'])
 
@@ -76,16 +76,20 @@ export interface ReleaseAssetNode {
 export function mapLanguageNodes(nodes: Array<LanguageNode>): Array<Language> {
     return nodes
         .map(languageNode => languageNode.name)
-        .filter(language => compileBinaryLanguages.includes(language)) as Array<Language>
+        .filter(language =>
+            compileBinaryLanguages.includes(language),
+        ) as Array<Language>
 }
 
 export function mapReleaseNode(release: ReleaseNode): Release {
     if (release.releaseAssets.pageInfo.hasNextPage) {
-        throw new Error(`release ${release.tagName} has more than 100 release assets and exceeding amount will not be processed bc paging is not yet supported`)
+        throw new Error(
+            `release ${release.tagName} has more than 100 release assets and exceeding amount will not be processed bc paging is not yet supported`,
+        )
     }
     const binaries: Array<Binary> = []
     const otherAssets: Array<Asset> = []
-    for (const {name: filename, contentType} of release.releaseAssets.nodes) {
+    for (const { name: filename, contentType } of release.releaseAssets.nodes) {
         const distribution = resolveDistribution(filename, contentType)
         if (distribution) {
             binaries.push({
@@ -95,10 +99,10 @@ export function mapReleaseNode(release: ReleaseNode): Release {
                 os: distribution.os,
             })
         } else {
-            otherAssets.push({filename, contentType})
+            otherAssets.push({ filename, contentType })
         }
     }
-    const {createdAt, updatedAt, url} = release
+    const { createdAt, updatedAt, url } = release
     return {
         commitHash: release.tagCommit.abbreviatedOid,
         tag: release.tagName,

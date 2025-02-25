@@ -1,4 +1,8 @@
-import {defineConfig, devices, type PlaywrightTestConfig} from '@playwright/test'
+import {
+    defineConfig,
+    devices,
+    type PlaywrightTestConfig,
+} from '@playwright/test'
 
 // https://playwright.dev/docs/test-configuration
 
@@ -16,24 +20,26 @@ export default defineConfig({
     projects: [
         {
             name: 'chromium',
-            use: {...devices['Desktop Chrome']},
+            use: { ...devices['Desktop Chrome'] },
         },
 
         {
             name: 'firefox',
-            use: {...devices['Desktop Firefox']},
+            use: { ...devices['Desktop Firefox'] },
         },
 
         {
             name: 'webkit',
-            use: {...devices['Desktop Safari']},
+            use: { ...devices['Desktop Safari'] },
         },
     ],
 
     webServer: createWebServerConfig(),
 })
 
-function createWebServerConfig(): (PlaywrightTestConfig['webServer']) | undefined {
+function createWebServerConfig():
+    | PlaywrightTestConfig['webServer']
+    | undefined {
     if (process.env.CI) {
         return {
             command: './start_app.sh',

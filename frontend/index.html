@@ -1,37 +1,71 @@
 <!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8"/>
-    <link rel="preload" href="/inter.woff2" as="font" type="font/woff2" crossorigin="anonymous"/>
-    <link rel="preload" href="/github.svg" as="image" type="image/svg+xml" crossorigin="anonymous"/>
-    <link rel="preload" href="/logo_sh.svg" as="image" type="image/svg+xml" crossorigin="anonymous"/>
-    <link rel="preload" href="/languages/rust.svg" as="image" type="image/svg+xml" crossorigin="anonymous"/>
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <meta name="description" content="Generate install scripts for C++, Golang, Rust and Zig binaries"/>
+  <head>
+    <meta charset="UTF-8" />
+    <link
+      rel="preload"
+      href="/inter.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="preload"
+      href="/github.svg"
+      as="image"
+      type="image/svg+xml"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="preload"
+      href="/logo_sh.svg"
+      as="image"
+      type="image/svg+xml"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="preload"
+      href="/languages/rust.svg"
+      as="image"
+      type="image/svg+xml"
+      crossorigin="anonymous"
+    />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Generate install scripts for C++, Golang, Rust and Zig binaries"
+    />
     <title>Install.sh</title>
-    <link vite-inline href="./launch/init.css" rel="stylesheet"/>
-</head>
-<body>
-<div id="triangle"></div>
-<header id="page-grid">
-    <div id="bot-left-ish" class="ish"></div>
-    <div id="top-right-ish" class="ish"></div>
-    <div id="eighty4">
-        <a href="http://localhost:5711/">an <img id="eighty4-logo" src="/eighty4.svg" alt="eighty4.tech logo"/> app</a>
-    </div>
-    <div id="github">
+    <link vite-inline href="./launch/init.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div id="triangle"></div>
+    <header id="page-grid">
+      <div id="bot-left-ish" class="ish"></div>
+      <div id="top-right-ish" class="ish"></div>
+      <div id="eighty4">
+        <a href="http://localhost:5711/"
+          >an
+          <img id="eighty4-logo" src="/eighty4.svg" alt="eighty4.tech logo" />
+          app</a
+        >
+      </div>
+      <div id="github">
         <a href="https://github.com/eighty4/install.sh">
-            <span class="call-to-action current">read source</span>
-            <span class="call-to-action">contribute</span>
-            <span class="call-to-action" data-infested="true">report bugs</span>
-            <div id="github-logo" role="img"
-                 aria-label="GitHub logo link to https://github.com/eighty4/install.sh"></div>
-            <div id="bug" aria-hidden="true" style="opacity: 0;"></div>
+          <span class="call-to-action current">read source</span>
+          <span class="call-to-action">contribute</span>
+          <span class="call-to-action" data-infested="true">report bugs</span>
+          <div
+            id="github-logo"
+            role="img"
+            aria-label="GitHub logo link to https://github.com/eighty4/install.sh"
+          ></div>
+          <div id="bug" aria-hidden="true" style="opacity: 0"></div>
         </a>
-    </div>
-</header>
-<script vite-inline src="./launch/init.ts" type="module"></script>
-<script type="module" src="/src/app.ts" async></script>
-</body>
+      </div>
+    </header>
+    <script vite-inline src="./launch/init.ts" type="module"></script>
+    <script type="module" src="/src/app.ts" async></script>
+  </body>
 </html>

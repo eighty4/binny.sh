@@ -16,8 +16,8 @@
         border: 1px solid #ddd;
         font-family: monospace;
         text-align: center;
-        padding: .5rem 1rem;
-        margin: .5rem auto;
+        padding: 0.5rem 1rem;
+        margin: 0.5rem auto;
         width: max-content;
         max-width: 7vw;
         text-overflow: ellipsis;
@@ -27,14 +27,14 @@
 
     & #logout {
         margin: 0 auto;
-        padding: .5rem;
+        padding: 0.5rem;
         display: block;
         cursor: pointer;
         border: none;
         background: #eee;
         font-family: monospace;
         text-align: center;
-        transition: all .05s ease-in-out;
+        transition: all 0.05s ease-in-out;
 
         &:hover {
             background: #111;

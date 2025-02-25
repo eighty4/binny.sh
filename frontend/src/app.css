@@ -10,7 +10,18 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    clip-path: polygon(0 0, 0 90%, 10% 90%, 20% 80%, 20% 20%, 80% 20%, 90% 10%, 100% 10%, 100% 0, 0 0);
+    clip-path: polygon(
+        0 0,
+        0 90%,
+        10% 90%,
+        20% 80%,
+        20% 20%,
+        80% 20%,
+        90% 10%,
+        100% 10%,
+        100% 0,
+        0 0
+    );
     background: var(--triangle-bg-color);
     z-index: var(--triangle-z-index);
 }

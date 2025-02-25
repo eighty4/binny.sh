@@ -1,9 +1,8 @@
 import css from './BackButton.css?inline'
 import html from './BackButton.html?raw'
-import {cloneTemplate} from '../dom.ts'
+import { cloneTemplate } from '../dom.ts'
 
 export default class BackButton extends HTMLElement {
-
     private static readonly TEMPLATE_ID = 'tmpl-back-button'
 
     static templateHTML(): string {
@@ -26,7 +25,7 @@ export default class BackButton extends HTMLElement {
 
     constructor() {
         super()
-        this.#shadow = this.attachShadow({mode: 'open'})
+        this.#shadow = this.attachShadow({ mode: 'open' })
         this.#shadow.appendChild(cloneTemplate(BackButton.TEMPLATE_ID))
         this.#div = this.#shadow.querySelector('div')!
     }

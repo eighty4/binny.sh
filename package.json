@@ -1,11 +1,15 @@
 {
-  "name": "@eighty4/install-root",
-  "version": "0.0.1",
-  "private": true,
-  "author": "Adam McKee <adam.be.g84d@gmail.com>",
-  "license": "BSD-3-Clause",
-  "packageManager": "pnpm@9.15.3",
-  "scripts": {
-    "clean": "./clean.sh"
-  }
+    "name": "@eighty4/install-root",
+    "version": "0.0.1",
+    "private": true,
+    "author": "Adam McKee <adam.be.g84d@gmail.com>",
+    "license": "BSD-3-Clause",
+    "type": "module",
+    "packageManager": "pnpm@9.15.3",
+    "scripts": {
+        "clean": "./clean.sh"
+    },
+    "devDependencies": {
+        "prettier": "^3.5.2"
+    }
 }

@@ -1,4 +1,4 @@
-name: "Publish: frontend"
+name: 'Publish: frontend'
 
 on:
   workflow_call:
@@ -14,7 +14,6 @@ on:
         type: string
 
 jobs:
-
   publish-frontend:
     runs-on: ubuntu-latest
     defaults:
@@ -28,7 +27,7 @@ jobs:
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 23
           cache: pnpm
       - run: pnpm i
       - run: pnpm build

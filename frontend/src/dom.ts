@@ -1,5 +1,7 @@
 export function cloneTemplate(id: string): Node {
-    return (document.getElementById(id) as HTMLTemplateElement).content.cloneNode(true)
+    return (
+        document.getElementById(id) as HTMLTemplateElement
+    ).content.cloneNode(true)
 }
 
 export function removeChildNodes(elem: Node): void {

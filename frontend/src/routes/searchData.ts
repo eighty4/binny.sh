@@ -1,6 +1,6 @@
-import type {Repository} from '@eighty4/install-github'
-import type {GeneratedScript} from '@eighty4/install-template'
-import {fetchGeneratedScriptsKeyedByRepo} from '../api.ts'
+import type { Repository } from '@eighty4/install-github'
+import type { GeneratedScript } from '@eighty4/install-template'
+import { fetchGeneratedScriptsKeyedByRepo } from '../api.ts'
 import createGitHubGraphApiClient from '../createGitHubGraphApiClient.ts'
 
 export type RepositoryWithScript = Repository & { script?: GeneratedScript }
@@ -14,7 +14,8 @@ export interface SearchData {
 }
 
 export async function fetchSearchData(): Promise<SearchData> {
-    const repositories = await createGitHubGraphApiClient().collectUserRepositories()
+    const repositories =
+        await createGitHubGraphApiClient().collectUserRepositories()
     const generatedScripts = await fetchGeneratedScriptsKeyedByRepo()
     const releasesWithGeneratedScripts: Array<RepositoryWithScript> = []
     const releasesWithBinaries: Array<Repository> = []
@@ -23,7 +24,7 @@ export async function fetchSearchData(): Promise<SearchData> {
     for (const repo of repositories) {
         const script = generatedScripts[`${repo.owner}/${repo.name}`]
         if (script) {
-            releasesWithGeneratedScripts.push({...repo, script})
+            releasesWithGeneratedScripts.push({ ...repo, script })
         } else if (repo.latestRelease?.binaries?.length) {
             releasesWithBinaries.push(repo)
         } else if (repo.languages.length) {

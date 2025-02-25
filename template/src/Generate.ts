@@ -1,5 +1,9 @@
-import type {Architecture, Distribution, OperatingSystem} from './Distrubtions.js'
-import {getTemplateVersion} from './getTemplateVersion.js'
+import type {
+    Architecture,
+    Distribution,
+    OperatingSystem,
+} from './Distrubtions.js'
+import { getTemplateVersion } from './getTemplateVersion.js'
 
 export interface Repository {
     owner: string
@@ -49,13 +53,22 @@ function validateOptions(options: GenerateScriptOptions) {
     } else if (!options.binaryInstalls || !options.binaryInstalls.length) {
         throw new Error('options.binaryInstalls param is required')
     } else if (options.binaryInstalls.length !== 1) {
-        throw new Error('options.binaryInstalls only supports one binary install with an install script')
+        throw new Error(
+            'options.binaryInstalls only supports one binary install with an install script',
+        )
     } else {
         options.binaryInstalls.forEach((binaryInstall, i) => {
             if (!binaryInstall.installAs || !binaryInstall.installAs.length) {
-                throw new Error(`options.binaryInstallInstalls[${i}].installAs param is required`)
-            } else if (!binaryInstall.binaries || !Object.keys(binaryInstall.binaries).length) {
-                throw new Error(`options.binaryInstalls[${i}].binaries param is required`)
+                throw new Error(
+                    `options.binaryInstallInstalls[${i}].installAs param is required`,
+                )
+            } else if (
+                !binaryInstall.binaries ||
+                !Object.keys(binaryInstall.binaries).length
+            ) {
+                throw new Error(
+                    `options.binaryInstalls[${i}].binaries param is required`,
+                )
             }
         })
     }
@@ -66,7 +79,9 @@ interface DistributionSupport {
     oses: Array<OperatingSystem>
 }
 
-function collectDistributionSupport(options: GenerateScriptOptions): DistributionSupport {
+function collectDistributionSupport(
+    options: GenerateScriptOptions,
+): DistributionSupport {
     const resolvedDistributions = Object.values(options.resolvedDistributions)
     const explicitArchitectures = Object.values(options.explicitArchitectures)
     const architectures: Array<Architecture> = []
@@ -86,11 +101,14 @@ function collectDistributionSupport(options: GenerateScriptOptions): Distributio
             architectures.push(architecture)
         }
     }
-    return {architectures, oses}
+    return { architectures, oses }
 }
 
-function collectBinaryDistributions(options: GenerateScriptOptions): Record<string, Distribution> {
-    const {binaryInstalls, explicitArchitectures, resolvedDistributions} = options
+function collectBinaryDistributions(
+    options: GenerateScriptOptions,
+): Record<string, Distribution> {
+    const { binaryInstalls, explicitArchitectures, resolvedDistributions } =
+        options
     const result: Record<string, Distribution> = {}
     for (const binaryInstall of binaryInstalls) {
         for (const binary of binaryInstall.binaries) {
@@ -101,7 +119,9 @@ function collectBinaryDistributions(options: GenerateScriptOptions): Record<stri
                 } else {
                     const explicitArchitecture = explicitArchitectures[binary]
                     if (!explicitArchitecture) {
-                        throw new Error(`binary ${binary} does not have a resolved or explicit architecture`)
+                        throw new Error(
+                            `binary ${binary} does not have a resolved or explicit architecture`,
+                        )
                     }
                     result[binary] = {
                         arch: explicitArchitecture,
@@ -114,7 +134,9 @@ function collectBinaryDistributions(options: GenerateScriptOptions): Record<stri
     return result
 }
 
-export function generateScript(options: GenerateScriptOptions): GeneratedScript {
+export function generateScript(
+    options: GenerateScriptOptions,
+): GeneratedScript {
     validateOptions(options)
     return {
         repository: options.repository,
@@ -123,13 +145,13 @@ export function generateScript(options: GenerateScriptOptions): GeneratedScript 
         spec: {
             binaryInstalls: options.binaryInstalls,
             explicitArchitectures: options.explicitArchitectures,
-        }
+        },
     }
 }
 
 function scriptTemplateFn(options: GenerateScriptOptions): string {
     const binaryInstall = options.binaryInstalls[0]
-    const {architectures, oses} = collectDistributionSupport(options)
+    const { architectures, oses } = collectDistributionSupport(options)
     const binaryDistributions = collectBinaryDistributions(options)
     return `#!/usr/bin/env sh
 set -e
@@ -266,7 +288,12 @@ echo "  $binary_name"
 `
 }
 
-function assignOrAbandon(check: boolean, variable: string, assignment: string, label?: string) {
+function assignOrAbandon(
+    check: boolean,
+    variable: string,
+    assignment: string,
+    label?: string,
+) {
     if (check) {
         return `${variable}="${assignment}"`
     } else {
@@ -281,7 +308,9 @@ function resolveFilenameFunction(files: Record<string, Distribution>) {
     chunks.push(`    _filename="${filenames[0]}"`)
     if (filenames.length > 1) {
         for (const filename of filenames.splice(1)) {
-            chunks.push(`  elif ${renderCheckDistribution(files[filename])}; then`)
+            chunks.push(
+                `  elif ${renderCheckDistribution(files[filename])}; then`,
+            )
             chunks.push(`    _filename="${filename}"`)
         }
     }
@@ -297,6 +326,6 @@ ${chunks.join('\n')}
 }`
 }
 
-function renderCheckDistribution({arch, os}: Distribution): string {
+function renderCheckDistribution({ arch, os }: Distribution): string {
     return `test "$_cpu" = "${arch}" && test "$_os" = "${os}"`
 }

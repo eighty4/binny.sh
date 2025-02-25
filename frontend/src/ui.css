@@ -2,8 +2,11 @@
     --out-transition-duration: 400ms;
 }
 
-#controls, #login {
-    transition: transform var(--out-transition-duration) ease-in-out, opacity 100ms ease-in-out var(--out-transition-duration);
+#controls,
+#login {
+    transition:
+        transform var(--out-transition-duration) ease-in-out,
+        opacity 100ms ease-in-out var(--out-transition-duration);
 }
 
 #controls {
@@ -28,7 +31,8 @@ html.out {
  *  UI Reader mode
  */
 
-#eighty4, #github {
+#eighty4,
+#github {
     transition: transform var(--out-transition-duration) ease-in-out;
     transition-delay: 150ms;
 }
@@ -52,7 +56,9 @@ html.out {
     }
 
     &.shifted {
-        transform: rotate(var(--triangle-shift-rotate-degs)) scale(var(--triangle-shift-scale-percent)) translateX(var(--triangle-shift-translate-x));
+        transform: rotate(var(--triangle-shift-rotate-degs))
+            scale(var(--triangle-shift-scale-percent))
+            translateX(var(--triangle-shift-translate-x));
     }
 }
 
@@ -77,10 +83,14 @@ html.reader {
     }
 
     50% {
-        transform: rotate(var(--triangle-shift-rotate-degs)) scale(var(--triangle-shift-scale-percent)) translateX(0vw) translateY(0vh);
+        transform: rotate(var(--triangle-shift-rotate-degs))
+            scale(var(--triangle-shift-scale-percent)) translateX(0vw)
+            translateY(0vh);
     }
 
     100% {
-        transform: rotate(var(--triangle-shift-rotate-degs)) scale(var(--triangle-shift-scale-percent)) translateX(var(--triangle-shift-translate-x));
+        transform: rotate(var(--triangle-shift-rotate-degs))
+            scale(var(--triangle-shift-scale-percent))
+            translateX(var(--triangle-shift-translate-x));
     }
 }

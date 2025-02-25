@@ -1,4 +1,4 @@
-import type {Release, Repository} from '@eighty4/install-github'
+import type { Release, Repository } from '@eighty4/install-github'
 import type {
     ReleaseAssetNode,
     ReleaseNode,
@@ -30,17 +30,23 @@ function lookupViewerUserGraph(query: string): ViewerUserGraph | undefined {
             viewer: {
                 login: 'eighty4',
                 email: '',
-                avatarUrl: 'data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=',
+                avatarUrl:
+                    'data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=',
                 id: '1234',
             },
         }
     }
 }
 
-function lookupRepositoryReleasesGraph(query: string): RepositoryReleasesGraph | undefined {
-    const matches = /repository\(owner:\s"(?<owner>[a-z0-9-]+)",\sname:\s"(?<name>[a-z0-9-]+)"\)/.exec(query)
+function lookupRepositoryReleasesGraph(
+    query: string,
+): RepositoryReleasesGraph | undefined {
+    const matches =
+        /repository\(owner:\s"(?<owner>[a-z0-9-]+)",\sname:\s"(?<name>[a-z0-9-]+)"\)/.exec(
+            query,
+        )
     if (matches && matches.groups) {
-        const {owner, name} = matches.groups
+        const { owner, name } = matches.groups
         const repoKey = `${owner}/${name}`
         if (repositories[repoKey]) {
             return {
@@ -50,12 +56,16 @@ function lookupRepositoryReleasesGraph(query: string): RepositoryReleasesGraph |
     }
 }
 
-function lookupViewerRepositoriesWithLatestReleaseGraph(query: string): ViewerRepositoriesWithLatestReleaseGraph | undefined {
+function lookupViewerRepositoriesWithLatestReleaseGraph(
+    query: string,
+): ViewerRepositoriesWithLatestReleaseGraph | undefined {
     if (/^\s*{\s*viewer\s*{\s*repositories\(/.test(query)) {
         return {
             viewer: {
                 repositories: {
-                    nodes: Object.keys(repositories).map(repoName => repositories[repoName]).map(mapRepository),
+                    nodes: Object.keys(repositories)
+                        .map(repoName => repositories[repoName])
+                        .map(mapRepository),
                     pageInfo: {
                         endCursor: 'asdf',
                         hasNextPage: false,
@@ -73,7 +83,7 @@ function mapRepository(repository: Repository): RepositoryNode {
             login: repository.owner,
         },
         languages: {
-            nodes: repository.languages.map(name => ({name})),
+            nodes: repository.languages.map(name => ({ name })),
         },
         releases: {
             nodes: mapRelease(repository.latestRelease),
@@ -98,19 +108,21 @@ function mapRelease(release?: Release): Array<ReleaseNode> {
                 name: asset.filename,
             })
         }
-        return [{
-            createdAt: release.createdAt,
-            updatedAt: release.updatedAt,
-            url: release.url,
-            tagCommit: {abbreviatedOid: 'bbb3b25'},
-            tagName: release.tag,
-            releaseAssets: {
-                nodes: assets,
-                pageInfo: {
-                    hasNextPage: false,
+        return [
+            {
+                createdAt: release.createdAt,
+                updatedAt: release.updatedAt,
+                url: release.url,
+                tagCommit: { abbreviatedOid: 'bbb3b25' },
+                tagName: release.tag,
+                releaseAssets: {
+                    nodes: assets,
+                    pageInfo: {
+                        hasNextPage: false,
+                    },
                 },
             },
-        }]
+        ]
     }
 }
 
@@ -122,36 +134,44 @@ export const repositories: Record<string, Repository> = {
         latestRelease: {
             commitHash: 'bbb3b25',
             createdAt: '2024-01-01',
-            binaries: [{
-                arch: 'aarch64',
-                contentType: 'application/x-executable',
-                filename: 'maestro-linux-arm64',
-                os: 'Linux',
-            }, {
-                arch: 'x86_64',
-                contentType: 'application/x-executable',
-                filename: 'maestro-linux-amd64',
-                os: 'Linux',
-            }, {
-                arch: 'x86_64',
-                contentType: 'application/x-mach-binary',
-                filename: 'maestro-darwin-amd64',
-                os: 'MacOS',
-            }, {
-                arch: 'aarch64',
-                contentType: 'application/x-mach-binary',
-                filename: 'maestro-darwin-arm64',
-                os: 'MacOS',
-            }, {
-                arch: 'x86_64',
-                contentType: 'application/x-dosexec',
-                filename: 'maestro-windows-amd64.exe',
-                os: 'Windows',
-            }],
-            otherAssets: [{
-                filename: 'README.md',
-                contentType: 'text/plain',
-            }],
+            binaries: [
+                {
+                    arch: 'aarch64',
+                    contentType: 'application/x-executable',
+                    filename: 'maestro-linux-arm64',
+                    os: 'Linux',
+                },
+                {
+                    arch: 'x86_64',
+                    contentType: 'application/x-executable',
+                    filename: 'maestro-linux-amd64',
+                    os: 'Linux',
+                },
+                {
+                    arch: 'x86_64',
+                    contentType: 'application/x-mach-binary',
+                    filename: 'maestro-darwin-amd64',
+                    os: 'MacOS',
+                },
+                {
+                    arch: 'aarch64',
+                    contentType: 'application/x-mach-binary',
+                    filename: 'maestro-darwin-arm64',
+                    os: 'MacOS',
+                },
+                {
+                    arch: 'x86_64',
+                    contentType: 'application/x-dosexec',
+                    filename: 'maestro-windows-amd64.exe',
+                    os: 'Windows',
+                },
+            ],
+            otherAssets: [
+                {
+                    filename: 'README.md',
+                    contentType: 'text/plain',
+                },
+            ],
             tag: '1.0.1',
             updatedAt: '2024-02-01',
             url: 'https://github.com/eighty4/maestro',
@@ -164,11 +184,13 @@ export const repositories: Record<string, Repository> = {
         latestRelease: {
             commitHash: 'bbb3b25',
             createdAt: '2024-01-01',
-            binaries: [{
-                contentType: 'application/x-executable',
-                filename: 'maestro-linux',
-                os: 'Linux',
-            }],
+            binaries: [
+                {
+                    contentType: 'application/x-executable',
+                    filename: 'maestro-linux',
+                    os: 'Linux',
+                },
+            ],
             otherAssets: [],
             tag: '1.0.1',
             updatedAt: '2024-02-01',

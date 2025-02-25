@@ -1,15 +1,18 @@
-import {Unauthorized} from '@eighty4/install-github'
-import type {GeneratedScript} from '@eighty4/install-template'
-import {gitHubTokenCache} from './session/sessionCache.ts'
+import { Unauthorized } from '@eighty4/install-github'
+import type { GeneratedScript } from '@eighty4/install-template'
+import { gitHubTokenCache } from './session/sessionCache.ts'
 
-const GEN_SCRIPTS_URL = import.meta.env.VITE_INSTALL_API_BASE_URL + '/generated-scripts'
+const GEN_SCRIPTS_URL =
+    import.meta.env.VITE_INSTALL_API_BASE_URL + '/generated-scripts'
 
-export async function saveGeneratedScript(generatedScript: GeneratedScript): Promise<void> {
+export async function saveGeneratedScript(
+    generatedScript: GeneratedScript,
+): Promise<void> {
     const authToken = gitHubTokenCache.read()
     const response = await fetch(GEN_SCRIPTS_URL, {
         method: 'POST',
         headers: {
-            'authorization': 'Bearer ' + authToken,
+            authorization: 'Bearer ' + authToken,
             'content-type': 'application/json',
         },
         body: JSON.stringify({
@@ -36,7 +39,7 @@ export async function fetchGeneratedScripts(): Promise<Array<GeneratedScript>> {
     const response = await fetch(GEN_SCRIPTS_URL, {
         method: 'GET',
         headers: {
-            'authorization': 'Bearer ' + authToken,
+            authorization: 'Bearer ' + authToken,
         },
     })
     if (response.status !== 200) {
@@ -50,11 +53,15 @@ export async function fetchGeneratedScripts(): Promise<Array<GeneratedScript>> {
     return response.json()
 }
 
-export async function fetchGeneratedScriptsKeyedByRepo(): Promise<Record<string, GeneratedScript>> {
+export async function fetchGeneratedScriptsKeyedByRepo(): Promise<
+    Record<string, GeneratedScript>
+> {
     const generatedScripts = await fetchGeneratedScripts()
     const result: Record<string, GeneratedScript> = {}
     for (const generatedScript of generatedScripts) {
-        result[`${generatedScript.repository.owner}/${generatedScript.repository.name}`] = generatedScript
+        result[
+            `${generatedScript.repository.owner}/${generatedScript.repository.name}`
+        ] = generatedScript
     }
     return result
 }

@@ -1,7 +1,7 @@
-import {initializeGitHubCallToAction} from './gitHubCallToAction.js'
+import { initializeGitHubCallToAction } from './gitHubCallToAction.js'
 import './theme.js'
-import {animateTriangleIntro} from './triangle.js'
-import {getCookie} from '../src/parse.js'
+import { animateTriangleIntro } from './triangle.js'
+import { getCookie } from '../src/parse.js'
 
 const SKIP_ANIMATION = 'ish.skip_launch_animation'
 
@@ -26,7 +26,7 @@ if (location.search === '?login') {
 async function playAnimationIntro() {
     if (document.hidden) {
         await new Promise(res => {
-            document.addEventListener('visibilitychange', res, {once: true})
+            document.addEventListener('visibilitychange', res, { once: true })
         })
     }
     await animateTriangleIntro()

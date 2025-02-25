@@ -1,7 +1,7 @@
-import type {Repository} from '@eighty4/install-github'
-import {openRepositoryConfig} from './routes/configure.ts'
-import {findProgramRepository} from './routes/search.ts'
-import {toggleReaderMode} from './ui.ts'
+import type { Repository } from '@eighty4/install-github'
+import { openRepositoryConfig } from './routes/configure.ts'
+import { findProgramRepository } from './routes/search.ts'
+import { toggleReaderMode } from './ui.ts'
 
 export function subscribeRouterEvents() {
     window.addEventListener('hashchange', handleCurrentRoute)

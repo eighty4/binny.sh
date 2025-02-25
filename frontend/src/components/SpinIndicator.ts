@@ -1,7 +1,6 @@
-import {cloneTemplate, removeChildNodes} from '../dom.ts'
+import { cloneTemplate, removeChildNodes } from '../dom.ts'
 
 export default class SpinIndicator extends HTMLElement {
-
     private static readonly TEMPLATE_ID = 'tmpl-spin-indicator'
 
     static templateHTML(): string {
@@ -30,7 +29,7 @@ export default class SpinIndicator extends HTMLElement {
 
     constructor() {
         super()
-        this.attachShadow({mode: 'open'})
+        this.attachShadow({ mode: 'open' })
     }
 
     connectedCallback() {

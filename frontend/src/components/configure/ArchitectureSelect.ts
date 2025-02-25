@@ -1,10 +1,9 @@
-import {type Architecture, ARCHITECTURES} from '@eighty4/install-template'
+import { type Architecture, ARCHITECTURES } from '@eighty4/install-template'
 import css from './ArchitectureSelect.css?inline'
 import html from './ArchitectureSelect.html?raw'
-import {createArchitectureUpdate} from './ArchitectureUpdate.ts'
+import { createArchitectureUpdate } from './ArchitectureUpdate.ts'
 
 export default class ArchitectureSelect extends HTMLElement {
-
     private static readonly TEMPLATE_ID = 'tmpl-architecture-select'
 
     static templateHTML(): string {
@@ -20,8 +19,9 @@ export default class ArchitectureSelect extends HTMLElement {
     }
 
     connectedCallback() {
-        this.#select.innerHTML = '<option value=""></option>'
-            + ARCHITECTURES.map(arch => `<option>${arch}</option>`).join('')
+        this.#select.innerHTML =
+            '<option value=""></option>' +
+            ARCHITECTURES.map(arch => `<option>${arch}</option>`).join('')
         this.#select.addEventListener('input', this.#onArchUpdate)
         this.appendChild(this.#select)
     }
@@ -34,6 +34,8 @@ export default class ArchitectureSelect extends HTMLElement {
     #onArchUpdate = () => {
         this.#select.querySelector('option[value=""]')?.remove()
         const arch = this.#select.value as Architecture
-        this.dispatchEvent(createArchitectureUpdate(arch, this.getAttribute('data-filename')!))
+        this.dispatchEvent(
+            createArchitectureUpdate(arch, this.getAttribute('data-filename')!),
+        )
     }
 }
