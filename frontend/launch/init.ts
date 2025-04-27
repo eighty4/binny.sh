@@ -6,7 +6,7 @@ import './launch.css'
 
 if (location.search === '?login') {
     history.replaceState(null, '', '/')
-    triggerAppStart()
+    triggerAppStart('login')
 } else if (location.hash.length) {
     triggerAppStart()
 } else if (willSkipAnimation()) {
@@ -25,10 +25,15 @@ function triggerLoginLanding() {
     showLoginButton()
 }
 
-function triggerAppStart() {
+function triggerAppStart(mode?: 'login') {
     cleanupLandingAfterIntro()
     document.getElementById('triangle')!.remove()
     document.getElementById('binny-intro-header')!.remove()
     document.documentElement.classList.add('app-ready')
-    document.documentElement.dispatchEvent(new Event('app-ready'))
+    if (mode === 'login') {
+        document.documentElement.classList.add('login')
+    }
+    document.documentElement.dispatchEvent(
+        new CustomEvent('app-ready', { detail: { mode } }),
+    )
 }

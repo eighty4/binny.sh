@@ -9,12 +9,22 @@ import { logout } from './session/logout.ts'
 import { gitHubTokenCache, gitHubUserCache } from './session/sessionCache.ts'
 
 if (document.documentElement.classList.contains('app-ready')) {
-    startApp()
+    const mode = document.documentElement.classList.contains('login')
+        ? 'login'
+        : undefined
+    startApp(mode)
 } else {
-    document.documentElement.addEventListener('app-ready', startApp)
+    document.documentElement.addEventListener(
+        'app-ready',
+        ((e: CustomEvent<{ mode?: 'login' }>) => {
+            startApp(e.detail.mode)
+        }) as EventListener,
+        { once: true },
+    )
 }
 
-function startApp() {
+function startApp(mode?: 'login') {
+    console.log(mode || 'returning user')
     initializeCustomizationControls()
     if (gitHubUserCache.hasValue()) {
         startUserSession()
