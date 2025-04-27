@@ -34,4 +34,5 @@ echo '\n*** e2e ***'
 pnpm test
 cd ..
 
-pnpm exec prettier --check .
+pnpm fmtcheck
+

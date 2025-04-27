@@ -7,7 +7,9 @@
     "type": "module",
     "packageManager": "pnpm@9.15.3",
     "scripts": {
-        "clean": "./clean.sh"
+        "clean": "./clean.sh",
+        "fmt": "prettier --write .",
+        "fmtcheck": "prettier --check ."
     },
     "devDependencies": {
         "prettier": "^3.5.2"
