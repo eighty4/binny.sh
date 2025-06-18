@@ -9,10 +9,8 @@ if [ "$1" == "--minify" ]; then
 
     pnpm exec minify-html \
       --minify-css \
-      --minify-js \
-      --do-not-minify-doctype \
-      --ensure-spec-compliant-unquoted-attribute-values \
-      --keep-spaces-between-attributes \
+      --allow-noncompliant-unquoted-attribute-values \
+      --allow-removing-spaces-between-attributes \
       --output dist/index.html \
       dist/original.html
 

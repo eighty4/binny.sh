@@ -16,13 +16,13 @@
     "dependencies": {
         "@eighty4/binny-github": "workspace:^",
         "@eighty4/binny-template": "workspace:^",
-        "@fontsource/ibm-plex-mono": "^5.1.1",
-        "@fontsource/inter": "^5.1.1"
+        "@fontsource/ibm-plex-mono": "^5.2.6",
+        "@fontsource/inter": "^5.2.6"
     },
     "devDependencies": {
-        "@minify-html/node": "^0.15.0",
-        "typescript": "^5.7.3",
-        "vite": "^6.1.1",
-        "vite-plugin-html-inline-sources": "^0.0.3"
+        "@minify-html/node": "^0.16.4",
+        "typescript": "^5.8.3",
+        "vite": "^6.3.5",
+        "vite-plugin-html-inline-sources": "0.0.4"
     }
 }

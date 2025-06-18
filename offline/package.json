@@ -11,11 +11,11 @@
     },
     "dependencies": {
         "@eighty4/binny-github": "workspace:*",
-        "@hono/node-server": "^1.13.8",
-        "hono": "^4.7.2"
+        "@hono/node-server": "^1.14.4",
+        "hono": "^4.8.0"
     },
     "devDependencies": {
-        "@types/node": "^22.13.5",
-        "typescript": "^5.7.3"
+        "@types/node": "^24.0.3",
+        "typescript": "^5.8.3"
     }
 }
