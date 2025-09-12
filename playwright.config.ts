@@ -6,12 +6,14 @@ import {
 
 // https://playwright.dev/docs/test-configuration
 
+const isCI = process.env.CI === 'true'
+
 export default defineConfig({
     testDir: './tests',
     fullyParallel: true,
-    forbidOnly: !!process.env.CI,
-    retries: process.env.CI ? 2 : 0,
-    workers: process.env.CI ? 1 : undefined,
+    forbidOnly: isCI,
+    retries: isCI ? 2 : 0,
+    workers: isCI ? 1 : undefined,
     reporter: 'html',
     use: {
         baseURL: 'http://localhost:5711',
@@ -22,29 +24,33 @@ export default defineConfig({
             name: 'chromium',
             use: { ...devices['Desktop Chrome'] },
         },
-
         {
             name: 'firefox',
             use: { ...devices['Desktop Firefox'] },
         },
-
         {
             name: 'webkit',
             use: { ...devices['Desktop Safari'] },
         },
     ],
-
     webServer: createWebServerConfig(),
 })
 
-function createWebServerConfig():
-    | PlaywrightTestConfig['webServer']
-    | undefined {
-    if (process.env.CI) {
-        return {
-            command: './start_app.sh',
-            url: 'http://localhost:5711',
-            reuseExistingServer: false,
-        }
-    }
+function createWebServerConfig(): PlaywrightTestConfig['webServer'] {
+    return [
+        {
+            name: 'frontend',
+            command: 'pnpm dev:offline',
+            cwd: 'frontend',
+            port: 5711,
+            reuseExistingServer: !isCI,
+        },
+        {
+            name: 'offline',
+            command: 'pnpm start',
+            cwd: 'offline',
+            port: 7411,
+            reuseExistingServer: !isCI,
+        },
+    ]
 }

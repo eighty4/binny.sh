@@ -8,18 +8,15 @@ importers:
 
   .:
     devDependencies:
-      prettier:
-        specifier: ^3.5.3
-        version: 3.5.3
-
-  e2e:
-    devDependencies:
       '@playwright/test':
         specifier: ^1.53.0
         version: 1.53.0
       '@types/node':
         specifier: ^24.0.3
         version: 24.0.3
+      prettier:
+        specifier: ^3.5.3
+        version: 3.5.3
 
   frontend:
     dependencies:

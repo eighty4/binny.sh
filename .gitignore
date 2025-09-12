@@ -3,14 +3,7 @@
 node_modules
 tsconfig.tsbuildinfo
 
-backend/lib
-backend/public
-backend/.env.development
 contract/lib
-e2e/blob-report
-e2e/playwright/.cache
-e2e/playwright-report
-e2e/test-results
 frontend/.env.development
 frontend/.env.production
 frontend/dist
@@ -19,3 +12,9 @@ github/lib
 lambdas/.l3
 offline/lib
 template/lib
+
+# playwright tests
+blob-report
+playwright/.cache
+playwright-report
+test-results

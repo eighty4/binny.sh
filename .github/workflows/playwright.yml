@@ -34,16 +34,16 @@ jobs:
       #        PGPASSWORD=eighty4 psql -h localhost -U eighty4 -f v001-init-schema.sql eighty4
       #      working-directory: sql
       - run: pnpm i
+      - run: pnpm -r --filter '!@eighty4/binny-frontend' build
       - name: playwright
         env:
           CI: true
         run: |
           pnpm exec playwright install --with-deps
           pnpm exec playwright test
-        working-directory: e2e
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: playwright-report
-          path: e2e/playwright-report/
+          path: playwright-report/
           retention-days: 30

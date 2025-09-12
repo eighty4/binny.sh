@@ -60,31 +60,19 @@ fi
 #  exit 1
 #fi
 
+echo '\n*** tsc ***'
+pnpm -r --filter '!@eighty4/binny-frontend' build
+pnpm -r --filter '@eighty4/binny-frontend' build:tsc
+
 cd frontend
 echo '\n*** frontend ***'
 VITE_GITHUB_CLIENT_ID=ci pnpm build
 cd ..
 
-cd template
-echo '\n*** template ***'
-pnpm build
+echo '\n*** unit tests ***'
+pnpm -r test
+
+echo '\n*** e2e tests ***'
 pnpm test
-cd ..
-
-if ! curl -s http://localhost:5711 -o /dev/null ; then
-  echo "\n\033[0;31mci verify error:\033[0m frontend is not running locally for e2e tests\n\n    run \`pnpm dev:offline\` from ./frontend\n"
-  exit 1
-fi
-
-if ! curl -s http://localhost:7411 -o /dev/null ; then
-  echo "\n\033[0;31mci verify error:\033[0m offline api stub is not running locally for e2e tests\n\n    run \`pnpm start\` from ./offline\n"
-  exit 1
-fi
-
-cd e2e
-echo '\n*** e2e ***'
-pnpm test
-cd ..
 
 pnpm fmtcheck
-

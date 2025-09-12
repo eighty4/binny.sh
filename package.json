@@ -1,5 +1,5 @@
 {
-    "name": "@eighty4/binny-root",
+    "name": "@eighty4/binny.sh",
     "version": "0.0.1",
     "private": true,
     "author": "Adam McKee <adam.be.g84d@gmail.com>",
@@ -9,9 +9,12 @@
     "scripts": {
         "clean": "./clean.sh",
         "fmt": "prettier --write .",
-        "fmtcheck": "prettier --check ."
+        "fmtcheck": "prettier --check .",
+        "test": "playwright test"
     },
     "devDependencies": {
+        "@playwright/test": "^1.53.0",
+        "@types/node": "^24.0.3",
         "prettier": "^3.5.3"
     }
 }
