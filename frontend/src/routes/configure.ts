@@ -1,9 +1,12 @@
+import { GitHubApiClient } from '@eighty4/binny-github'
 import type { RepositoryWithScript } from './searchData.ts'
-import createGitHubGraphApiClient from '../createGitHubGraphApiClient.ts'
 import { showGraphPaper } from '../graphPaper.ts'
 import { removeChildNodes } from '../dom.ts'
 import ConfigureScript from '../components/configure/ConfigureScript.ts'
-import { configureRepoCache } from '../session/sessionCache.ts'
+import {
+    configureRepoCache,
+    gitHubTokenCache,
+} from '../session/sessionCache.ts'
 
 // todo error handling
 export function openRepositoryConfig(repoOwner: string, repoName: string) {
@@ -15,7 +18,7 @@ export function openRepositoryConfig(repoOwner: string, repoName: string) {
             showConfig(repository)
         } else {
             graphPaper.innerHTML = '<spin-indicator></spin-indicator>'
-            createGitHubGraphApiClient()
+            new GitHubApiClient(gitHubTokenCache.read()!)
                 .queryLatestRelease(repoOwner, repoName)
                 .then(showConfig)
                 .catch(console.error)

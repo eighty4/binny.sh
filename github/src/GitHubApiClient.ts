@@ -23,10 +23,7 @@ interface QueryUserRepositoriesResponse {
 export class Unauthorized {}
 
 export class GitHubApiClient {
-    constructor(
-        private readonly ghAccessToken: string,
-        private readonly ghGraphApiUrl: string = 'https://api.github.com/graphql',
-    ) {}
+    constructor(private readonly ghAccessToken: string) {}
 
     async queryUser(): Promise<User> {
         const result =
@@ -105,7 +102,7 @@ export class GitHubApiClient {
     private async internalDoGraphApiQuery<T>(
         query: string,
     ): Promise<{ data: T }> {
-        const response = await fetch(this.ghGraphApiUrl, {
+        const response = await fetch('https://api.github.com/graphql', {
             method: 'POST',
             headers: {
                 Authorization: 'Bearer ' + this.ghAccessToken,

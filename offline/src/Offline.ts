@@ -1,17 +1,11 @@
 import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
 import { logger } from 'hono/logger'
-import { handleGraphQuery } from './data.ts'
 
 const HTTP_PORT = 7411
 
 const app = new Hono()
 app.use(logger())
-
-app.post('/offline/github/graph', async c => {
-    const json = await c.req.json()
-    return c.json({ data: handleGraphQuery(json.query) })
-})
 
 app.get('/offline/github/oauth', c => {
     const accessToken = '1234'

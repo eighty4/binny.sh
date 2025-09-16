@@ -73,6 +73,6 @@ echo '\n*** unit tests ***'
 pnpm -r test
 
 echo '\n*** e2e tests ***'
-pnpm test
+pnpm test:e2e
 
 pnpm fmtcheck

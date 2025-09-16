@@ -3,7 +3,8 @@
     "compilerOptions": {
         "outDir": "lib",
         "rootDir": "src",
-        "allowImportingTsExtensions": true
+        "allowImportingTsExtensions": true,
+        "noEmit": true
     },
     "include": ["src/**/*.ts"],
     "references": [

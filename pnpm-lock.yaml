@@ -63,7 +63,7 @@ importers:
         version: link:../github
       '@hono/node-server':
         specifier: ^1.19.2
-        version: 1.19.2(hono@4.9.7)
+        version: 1.19.3(hono@4.9.7)
       hono:
         specifier: ^4.9.7
         version: 4.9.7
@@ -401,8 +401,8 @@ packages:
   '@fontsource/inter@5.2.6':
     resolution: {integrity: sha512-CZs9S1CrjD0jPwsNy9W6j0BhsmRSQrgwlTNkgQXTsAeDRM42LBRLo3eo9gCzfH4GvV7zpyf78Ozfl773826csw==}
 
-  '@hono/node-server@1.19.2':
-    resolution: {integrity: sha512-lndWsd9De/btN998Aiv6gkeMVV2h9Cc0AR0qwFTmxx/YFh/PbrjgoxTpHaNaRn6F4GAkPiVJwI0W0gQF4Wn8EA==}
+  '@hono/node-server@1.19.3':
+    resolution: {integrity: sha512-Fjyxfux0rMPXMSob79OmddfpK5ArJa2xLkLCV+zamHkbeXQtSNKOi0keiBKyHZ/hCRKjigjmKGp4AJnDFq8PUw==}
     engines: {node: '>=18.14.1'}
     peerDependencies:
       hono: ^4
@@ -1027,7 +1027,7 @@ snapshots:
 
   '@fontsource/inter@5.2.6': {}
 
-  '@hono/node-server@1.19.2(hono@4.9.7)':
+  '@hono/node-server@1.19.3(hono@4.9.7)':
     dependencies:
       hono: 4.9.7
 

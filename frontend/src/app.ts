@@ -1,6 +1,5 @@
-import { Unauthorized, type User } from '@eighty4/binny-github'
+import { GitHubApiClient, Unauthorized, type User } from '@eighty4/binny-github'
 import './app.css'
-import createGitHubGraphApiClient from './createGitHubGraphApiClient.ts'
 import { initializeCustomizationControls } from './customizations.ts'
 import { getCookie } from './parse.ts'
 import { handleCurrentRoute, subscribeRouterEvents } from './router.ts'
@@ -32,7 +31,7 @@ function startApp(mode?: 'login') {
         const ght = getCookie('ght')
         if (ght) {
             gitHubTokenCache.write(ght)
-            createGitHubGraphApiClient()
+            new GitHubApiClient(ght)
                 .queryUser()
                 .then(user => gitHubUserCache.write(user))
                 .then(startUserSession)
@@ -56,7 +55,9 @@ function startUserSession() {
 }
 
 export function initializeUserPanel() {
-    createGitHubGraphApiClient().queryUser().then(createUserPanel)
+    new GitHubApiClient(gitHubTokenCache.read()!)
+        .queryUser()
+        .then(createUserPanel)
 }
 
 function createUserPanel(user: User) {

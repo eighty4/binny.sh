@@ -1,7 +1,7 @@
-import type { Repository } from '@eighty4/binny-github'
+import { GitHubApiClient, type Repository } from '@eighty4/binny-github'
 import type { GeneratedScript } from '@eighty4/binny-template'
 import { fetchGeneratedScriptsKeyedByRepo } from '../api.ts'
-import createGitHubGraphApiClient from '../createGitHubGraphApiClient.ts'
+import { gitHubTokenCache } from '../session/sessionCache.ts'
 
 export type RepositoryWithScript = Repository & { script?: GeneratedScript }
 
@@ -14,8 +14,9 @@ export interface SearchData {
 }
 
 export async function fetchSearchData(): Promise<SearchData> {
-    const repositories =
-        await createGitHubGraphApiClient().collectUserRepositories()
+    const repositories = await new GitHubApiClient(
+        gitHubTokenCache.read()!,
+    ).collectUserRepositories()
     const generatedScripts = await fetchGeneratedScriptsKeyedByRepo()
     const releasesWithGeneratedScripts: Array<RepositoryWithScript> = []
     const releasesWithBinaries: Array<Repository> = []

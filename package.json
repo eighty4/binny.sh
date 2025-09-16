@@ -10,7 +10,7 @@
         "clean": "./clean.sh",
         "fmt": "prettier --write .",
         "fmtcheck": "prettier --check .",
-        "test": "playwright test"
+        "test:e2e": "playwright test"
     },
     "devDependencies": {
         "@playwright/test": "^1.55.0",
