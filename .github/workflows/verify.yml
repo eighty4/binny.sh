@@ -28,7 +28,7 @@ jobs:
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 23
+          node-version: 24
           cache: pnpm
       - run: pnpm i
       - run: pnpm fmtcheck
@@ -82,22 +82,22 @@ jobs:
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 23
+          node-version: 24
           cache: pnpm
       - run: pnpm i
-      - run: VITE_GITHUB_CLIENT_ID=ci pnpm build
+      - run: pnpm build
 
   verify-github:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: github
+        working-directory: libs/github
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 23
+          node-version: 24
           cache: pnpm
       - run: pnpm i
       - run: pnpm build
@@ -106,13 +106,13 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: template
+        working-directory: libs/template
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 23
+          node-version: 24
           cache: pnpm
       - run: pnpm i
       - run: pnpm build

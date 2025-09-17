@@ -10,10 +10,10 @@
     "include": ["src/**/*.ts"],
     "references": [
         {
-            "path": "../github"
+            "path": "../libs/github"
         },
         {
-            "path": "../template"
+            "path": "../libs/template"
         }
     ]
 }

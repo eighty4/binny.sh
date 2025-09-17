@@ -26,7 +26,7 @@ jobs:
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 23
+          node-version: 24
           cache: pnpm
       #    - name: sql
       #      run: |
@@ -35,6 +35,8 @@ jobs:
       #      working-directory: sql
       - run: pnpm i
       - run: pnpm -r --filter '!@eighty4/binny-frontend' build
+      # --env-file-if-exists does not seem to work in this env
+      - run: touch lambdas/.env.local
       - name: playwright
         env:
           CI: true

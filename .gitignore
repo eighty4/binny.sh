@@ -3,14 +3,13 @@
 node_modules
 tsconfig.tsbuildinfo
 
-frontend/.env.development
 frontend/.env.production
 frontend/dist
 frontend/dist.zip
-github/lib
+libs/github/lib
+libs/template/lib
 lambdas/.l3
 lambdas/.env.local
-template/lib
 
 # playwright tests
 blob-report
