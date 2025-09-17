@@ -3,14 +3,13 @@
 node_modules
 tsconfig.tsbuildinfo
 
-contract/lib
 frontend/.env.development
 frontend/.env.production
 frontend/dist
 frontend/dist.zip
 github/lib
 lambdas/.l3
-offline/lib
+lambdas/.env.local
 template/lib
 
 # playwright tests

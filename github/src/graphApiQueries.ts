@@ -70,6 +70,10 @@ export const queryUserRepositoriesQuery = (
                   name
                   contentType
                 }
+                pageInfo {
+                  endCursor
+                  hasNextPage
+                }
               }
             }
           }

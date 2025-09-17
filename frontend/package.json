@@ -10,8 +10,7 @@
         "build:dist": "./build.sh --minify",
         "build:tsc": "tsc --build --clean && tsc --build",
         "build:vite": "vite build",
-        "dev": "vite",
-        "dev:offline": "vite --mode offline"
+        "dev": "vite"
     },
     "dependencies": {
         "@eighty4/binny-github": "workspace:^",

@@ -82,8 +82,8 @@ export function mapLanguageNodes(nodes: Array<LanguageNode>): Array<Language> {
 }
 
 export function mapReleaseNode(release: ReleaseNode): Release {
-    if (release.releaseAssets.pageInfo.hasNextPage) {
-        throw new Error(
+    if (release.releaseAssets.pageInfo?.hasNextPage) {
+        console.warn(
             `release ${release.tagName} has more than 100 release assets and exceeding amount will not be processed bc paging is not yet supported`,
         )
     }

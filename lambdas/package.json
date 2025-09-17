@@ -1,4 +1,7 @@
 {
     "name": "@eighty4/binny-lambdas",
-    "type": "module"
+    "type": "module",
+    "scripts": {
+        "dev": "node --env-file-if-exists .env.local --watch local.ts"
+    }
 }

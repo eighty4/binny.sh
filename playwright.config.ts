@@ -40,15 +40,15 @@ function createWebServerConfig(): PlaywrightTestConfig['webServer'] {
     return [
         {
             name: 'frontend',
-            command: 'pnpm dev:offline',
+            command: 'pnpm dev',
             cwd: 'frontend',
             port: 5711,
             reuseExistingServer: !isCI,
         },
         {
-            name: 'offline',
-            command: 'pnpm start',
-            cwd: 'offline',
+            name: 'lambdas',
+            command: 'pnpm dev',
+            cwd: 'lambdas',
             port: 7411,
             reuseExistingServer: !isCI,
         },

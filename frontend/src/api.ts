@@ -24,7 +24,7 @@ export async function saveGeneratedScript(
             templateVersion: generatedScript.templateVersion,
         }),
     })
-    if (response.status !== 200) {
+    if (response.status !== 201) {
         switch (response.status) {
             case 401:
                 throw new Unauthorized()

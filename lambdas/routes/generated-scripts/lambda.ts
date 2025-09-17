@@ -1,6 +1,7 @@
 const generatedScripts = {}
 
 export async function GET(event) {
+    console.log(event.headers.Authorization)
     if (
         !event.headers['Authorization'] ||
         !event.headers['Authorization'].startsWith('Bearer ')
@@ -45,11 +46,11 @@ export async function POST(event) {
     generatedScripts[userId].push(JSON.parse(event.body))
     // todo validate
     // todo save to db
-    return { statusCode: 200 }
+    return { statusCode: 201 }
 }
 
 // todo use client in @eighty4/binny-github
-async function fetchUserId(accessToken) {
+async function fetchUserId(accessToken: string) {
     const response = await fetch('https://api.github.com/user', {
         headers: {
             Authorization: 'Bearer ' + accessToken,

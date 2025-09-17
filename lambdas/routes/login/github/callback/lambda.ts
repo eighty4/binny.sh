@@ -6,11 +6,10 @@ export async function GET(event) {
             Location: 'http://localhost:5711?login',
             'Set-Cookie': `ght=${accessToken}; Secure; SameSite=Strict; Path=/`,
         },
-        body: accessToken,
     }
 }
 
-async function fetchAccessToken(code) {
+async function fetchAccessToken(code: string) {
     const response = await fetch(
         'https://github.com/login/oauth/access_token',
         {

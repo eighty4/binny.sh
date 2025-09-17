@@ -145,7 +145,9 @@ function showLoginPrompt() {
 
     function redirectToLogin() {
         loginPrompt.innerHTML = '<spin-indicator></spin-indicator>'
-        location.assign(import.meta.env.VITE_GITHUB_OAUTH_ADDRESS)
+        location.assign(
+            import.meta.env.VITE_BINNY_API_BASE_URL + '/login/github/redirect',
+        )
     }
 
     function closeLoginPrompt() {

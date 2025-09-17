@@ -66,7 +66,7 @@ pnpm -r --filter '@eighty4/binny-frontend' build:tsc
 
 cd frontend
 echo '\n*** frontend ***'
-VITE_GITHUB_CLIENT_ID=ci pnpm build
+VITE_BINNY_API_BASE_URL=ci pnpm build
 cd ..
 
 echo '\n*** unit tests ***'

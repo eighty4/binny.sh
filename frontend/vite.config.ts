@@ -31,16 +31,16 @@ export default defineConfig((env: ConfigEnv) => {
 })
 
 function checkEnvVarsAreSet(env: ConfigEnv): undefined | never {
-    if (env.mode === 'offline' || env.isPreview) {
+    if (env.isPreview) {
         return
     }
-    const { VITE_GITHUB_CLIENT_ID } = loadEnv(env.mode, process.cwd())
-    if (!VITE_GITHUB_CLIENT_ID?.length) {
+    const { VITE_BINNY_API_BASE_URL } = loadEnv(env.mode, process.cwd())
+    if (!VITE_BINNY_API_BASE_URL?.length) {
         console.error(
-            'Binny.sh requires a `VITE_GITHUB_CLIENT_ID` environment variable for running Vite in dev or build modes.',
+            'Binny.sh requires a `VITE_BINNY_API_BASE_URL` environment variable for running Vite in dev or build modes.',
         )
         console.error(
-            `Try \`VITE_GITHUB_CLIENT_ID=my_client_id pnpm build\` or creating a \`.env.${env.mode}\` file.`,
+            `Try \`VITE_BINNY_API_BASE_URL=XYZ pnpm build\` or creating a \`.env.${env.mode}\` file.`,
         )
         process.exit(1)
     }
@@ -51,14 +51,16 @@ function buildProxyConfig(
 ): Record<string, string | ProxyOptions> | undefined {
     switch (mode) {
         case 'production':
-            return
-        case 'offline':
+        case 'development':
             return {
-                '/offline': 'http://localhost:7411',
+                '/api': {
+                    target: 'http://localhost:7411',
+                    rewrite: path => path.replace(/^\/api/, ''),
+                },
             }
         default:
             return {
-                '/login': `https://${getApiGatewayApiId()}.execute-api.us-east-2.amazonaws.com/development`,
+                '/api': `https://${getApiGatewayApiId()}.execute-api.us-east-2.amazonaws.com/development`,
             }
     }
 }
