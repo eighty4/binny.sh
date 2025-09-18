@@ -1,0 +1,21 @@
+{
+    "extends": "../../tsconfig.json",
+    "compilerOptions": {
+        "lib": ["DOM"],
+        "outDir": "lib",
+        "rootDir": "src",
+        "emitDeclarationOnly": true
+    },
+    "include": ["src/**/*.ts"],
+    "references": [
+        {
+            "path": "../dom"
+        },
+        {
+            "path": "../github"
+        },
+        {
+            "path": "../template"
+        }
+    ]
+}

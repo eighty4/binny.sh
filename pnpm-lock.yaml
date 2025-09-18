@@ -20,6 +20,12 @@ importers:
 
   frontend:
     dependencies:
+      '@eighty4/binny-components':
+        specifier: workspace:^
+        version: link:../libs/components
+      '@eighty4/binny-dom':
+        specifier: workspace:^
+        version: link:../libs/dom
       '@eighty4/binny-github':
         specifier: workspace:^
         version: link:../libs/github
@@ -45,6 +51,35 @@ importers:
       vite-plugin-html-inline-sources:
         specifier: 0.0.4
         version: 0.0.4
+
+  libs/components:
+    dependencies:
+      '@eighty4/binny-dom':
+        specifier: workspace:^
+        version: link:../dom
+      '@eighty4/binny-github':
+        specifier: workspace:^
+        version: link:../github
+      '@eighty4/binny-template':
+        specifier: workspace:^
+        version: link:../template
+    devDependencies:
+      typescript:
+        specifier: ^5.9.2
+        version: 5.9.2
+
+  libs/dom:
+    dependencies:
+      '@eighty4/binny-github':
+        specifier: workspace:^
+        version: link:../github
+      '@eighty4/binny-template':
+        specifier: workspace:^
+        version: link:../template
+    devDependencies:
+      typescript:
+        specifier: ^5.9.2
+        version: 5.9.2
 
   libs/github:
     dependencies:

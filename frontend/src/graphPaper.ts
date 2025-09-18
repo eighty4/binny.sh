@@ -1,5 +1,5 @@
+import removeChildNodes from '@eighty4/binny-dom/removeChildNodes'
 import './graphPaper.css'
-import { removeChildNodes } from './dom.ts'
 
 let graphPaper: HTMLElement
 

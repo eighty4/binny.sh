@@ -1,7 +1,7 @@
+import removeChildNodes from '@eighty4/binny-dom/removeChildNodes'
 import { GitHubApiClient } from '@eighty4/binny-github'
 import type { RepositoryWithScript } from './searchData.ts'
 import { showGraphPaper } from '../graphPaper.ts'
-import { removeChildNodes } from '../dom.ts'
 import ConfigureScript from '../components/configure/ConfigureScript.ts'
 import {
     configureRepoCache,

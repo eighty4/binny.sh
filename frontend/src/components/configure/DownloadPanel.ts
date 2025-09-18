@@ -1,7 +1,8 @@
+import cloneTemplate from '@eighty4/binny-dom/cloneTemplate'
+import removeChildNodes from '@eighty4/binny-dom/removeChildNodes'
 import { type OperatingSystem } from '@eighty4/binny-template'
 import css from './DownloadPanel.css?inline'
 import html from './DownloadPanel.html?raw'
-import { cloneTemplate, removeChildNodes } from '../../dom.ts'
 import type ScriptConfiguration from './ScriptConfiguration.ts'
 
 export const DOWNLOAD_SCRIPT_EVENT_TYPE = 'download-script'

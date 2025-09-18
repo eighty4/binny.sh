@@ -1,6 +1,6 @@
+import cloneTemplate from '@eighty4/binny-dom/cloneTemplate'
 import css from './BackButton.css?inline'
 import html from './BackButton.html?raw'
-import { cloneTemplate } from '../dom.ts'
 
 export default class BackButton extends HTMLElement {
     private static readonly TEMPLATE_ID = 'tmpl-back-button'

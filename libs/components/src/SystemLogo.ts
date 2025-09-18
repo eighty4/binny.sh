@@ -42,3 +42,5 @@ export default class SystemLogo extends HTMLElement {
         return os
     }
 }
+
+customElements.define('system-logo', SystemLogo)

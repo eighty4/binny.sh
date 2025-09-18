@@ -7,8 +7,18 @@
         "allowImportingTsExtensions": true,
         "noEmit": true
     },
-    "include": ["src/**/*.ts"],
+    "include": [
+        "src/**/*.ts",
+        "../libs/components/src/SystemLogo.ts",
+        "../libs/components/src/SpinIndicator.ts"
+    ],
     "references": [
+        {
+            "path": "../libs/components"
+        },
+        {
+            "path": "../libs/dom"
+        },
         {
             "path": "../libs/github"
         },

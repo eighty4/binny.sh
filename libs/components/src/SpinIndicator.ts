@@ -1,4 +1,5 @@
-import { cloneTemplate, removeChildNodes } from '../dom.ts'
+import cloneTemplate from '@eighty4/binny-dom/cloneTemplate'
+import removeChildNodes from '@eighty4/binny-dom/removeChildNodes'
 
 export default class SpinIndicator extends HTMLElement {
     private static readonly TEMPLATE_ID = 'tmpl-spin-indicator'
@@ -40,3 +41,6 @@ export default class SpinIndicator extends HTMLElement {
         removeChildNodes(this.shadowRoot!)
     }
 }
+
+customElements.define('spin-indicator', SpinIndicator)
+document.head.insertAdjacentHTML('beforeend', SpinIndicator.templateHTML())

@@ -1,4 +1,4 @@
-import { removeChildNodes } from '../dom.ts'
+import removeChildNodes from '@eighty4/binny-dom/removeChildNodes'
 
 export default class ProfilePicture extends HTMLElement {
     static readonly SIZE = 30
@@ -38,3 +38,5 @@ export default class ProfilePicture extends HTMLElement {
         this.#img.src = `https://github.com/${owner}.png?size=${ProfilePicture.SIZE}`
     }
 }
+
+customElements.define('profile-picture', ProfilePicture)

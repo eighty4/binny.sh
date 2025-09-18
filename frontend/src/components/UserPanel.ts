@@ -1,6 +1,6 @@
+import cloneTemplate from '@eighty4/binny-dom/cloneTemplate'
 import css from './UserPanel.css?inline'
 import html from './UserPanel.html?raw'
-import { cloneTemplate } from '../dom.ts'
 import { logout } from '../session/logout.ts'
 
 export default class UserPanel extends HTMLElement {

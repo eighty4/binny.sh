@@ -1,6 +1,7 @@
+import cloneTemplate from '@eighty4/binny-dom/cloneTemplate'
+import removeChildNodes from '@eighty4/binny-dom/removeChildNodes'
 import RepositoryLink from './RepositoryLink.ts'
 import css from './RepositorySection.css?inline'
-import { cloneTemplate, removeChildNodes } from '../../dom.ts'
 import type { RepositoryWithScript } from '../../routes/searchData.ts'
 
 export type RepoSectionType =

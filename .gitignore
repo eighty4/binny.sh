@@ -6,8 +6,7 @@ tsconfig.tsbuildinfo
 frontend/.env.production
 frontend/dist
 frontend/dist.zip
-libs/github/lib
-libs/template/lib
+libs/*/lib
 lambdas/.l3
 lambdas/.env.local
 

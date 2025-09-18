@@ -1,3 +1,5 @@
+import cloneTemplate from '@eighty4/binny-dom/cloneTemplate'
+import removeChildNodes from '@eighty4/binny-dom/removeChildNodes'
 import { type Asset, type Binary, Unauthorized } from '@eighty4/binny-github'
 import {
     generateScript,
@@ -17,7 +19,6 @@ import DownloadPanel, {
 } from './DownloadPanel.ts'
 import ScriptConfiguration from './ScriptConfiguration.ts'
 import { saveGeneratedScript } from '../../api.ts'
-import { cloneTemplate, removeChildNodes } from '../../dom.ts'
 import type { RepositoryWithScript } from '../../routes/searchData.ts'
 import { logout } from '../../session/logout.ts'
 

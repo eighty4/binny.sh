@@ -13,6 +13,8 @@
         "dev": "vite"
     },
     "dependencies": {
+        "@eighty4/binny-components": "workspace:^",
+        "@eighty4/binny-dom": "workspace:^",
         "@eighty4/binny-github": "workspace:^",
         "@eighty4/binny-template": "workspace:^",
         "@fontsource/ibm-plex-mono": "^5.2.6",
