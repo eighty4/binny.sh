@@ -1,4 +1,6 @@
-export async function GET() {
+import type { LambdaHttpResponse } from '../../../../api.js'
+
+export async function GET(): Promise<LambdaHttpResponse> {
     return {
         statusCode: 301,
         headers: {

@@ -1,4 +1,8 @@
-export async function GET(event) {
+import type { LambdaHttpRequest, LambdaHttpResponse } from '../../../../aws.ts'
+
+export async function GET(
+    event: LambdaHttpRequest,
+): Promise<LambdaHttpResponse> {
     const accessToken = await fetchAccessToken(event.queryStringParameters.code)
     return {
         statusCode: 301,

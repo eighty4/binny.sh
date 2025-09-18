@@ -1,15 +1,19 @@
-const generatedScripts = {}
+import {
+    getHeader,
+    type LambdaHttpRequest,
+    type LambdaHttpResponse,
+} from '../../aws.ts'
 
-export async function GET(event) {
-    console.log(event.headers.Authorization)
-    if (
-        !event.headers['Authorization'] ||
-        !event.headers['Authorization'].startsWith('Bearer ')
-    ) {
+const generatedScripts: Record<string, Array<string>> = {}
+
+export async function GET(
+    event: LambdaHttpRequest,
+): Promise<LambdaHttpResponse> {
+    const authHV = getHeader(event, 'Authorization')
+    if (!authHV?.startsWith('Bearer ')) {
         return { statusCode: 401 }
     }
-    const accessToken = event.headers['Authorization'].substring(7)
-    const userId = await fetchUserId(accessToken)
+    const userId = await fetchUserId(authHV.substring(7))
     if (!userId) {
         return { statusCode: 401 }
     }
@@ -22,21 +26,20 @@ export async function GET(event) {
     }
 }
 
-export async function POST(event) {
-    if (
-        !event.headers['Authorization'] ||
-        !event.headers['Authorization'].startsWith('Bearer ')
-    ) {
+export async function POST(
+    event: LambdaHttpRequest,
+): Promise<LambdaHttpResponse> {
+    const authHV = getHeader(event, 'Authorization')
+    if (authHV === null || !authHV.startsWith('Bearer ')) {
         return { statusCode: 401 }
     }
-    const accessToken = event.headers['Authorization'].substring(7)
-    const userId = await fetchUserId(accessToken)
+    const userId = await fetchUserId(authHV.substring(7))
     if (!userId) {
         return { statusCode: 401 }
     }
     if (
-        !event.headers['Content-Type'] ||
-        !event.headers['Content-Type'].includes('application/json')
+        !getHeader(event, 'Content-Type')?.includes('application/json') ||
+        !event.body
     ) {
         return { statusCode: 400 }
     }
@@ -50,6 +53,7 @@ export async function POST(event) {
 }
 
 // todo use client in @eighty4/binny-github
+// todo graphql viewer request might be faster than retrieving the entire /user payload
 async function fetchUserId(accessToken: string) {
     const response = await fetch('https://api.github.com/user', {
         headers: {
