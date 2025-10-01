@@ -1,0 +1,19 @@
+[[lambda]]
+name = "binny-generated-scripts-get"
+source = "routes/generated-scripts/lambda.ts"
+handler = "GET"
+
+[[lambda]]
+name = "binny-generated-scripts-post"
+source = "routes/generated-scripts/lambda.ts"
+handler = "POST"
+
+[[lambda]]
+name = "binny-login-github-redirect-get"
+source = "routes/login/github/redirect/lambda.ts"
+handler = "GET"
+
+[[lambda]]
+name = "binny-login-github-callback-get"
+source = "routes/login/github/callback/lambda.ts"
+handler = "GET"

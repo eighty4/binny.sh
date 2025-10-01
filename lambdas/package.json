@@ -1,7 +1,9 @@
 {
     "name": "@eighty4/binny-lambdas",
     "type": "module",
+    "private": true,
     "scripts": {
+        "build": "l3 build",
         "dev": "node --env-file-if-exists .env.local --watch local.ts"
     }
 }

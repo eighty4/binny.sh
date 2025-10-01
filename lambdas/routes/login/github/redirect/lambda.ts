@@ -1,4 +1,4 @@
-import type { LambdaHttpResponse } from '../../../../api.js'
+import type { LambdaHttpResponse } from '../../../../aws.ts'
 
 export async function GET(): Promise<LambdaHttpResponse> {
     return {
