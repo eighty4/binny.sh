@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+        "rootDir": ".",
+        "target": "ESNext",
+        "module": "NodeNext",
+        "composite": true,
+        "forceConsistentCasingInFileNames": true,
+        "skipLibCheck": true,
+
+        "allowImportingTsExtensions": true,
+        "noEmit": true,
+
+        /* Linting */
+        "noFallthroughCasesInSwitch": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "strict": true,
+        "verbatimModuleSyntax": true
+    },
+    "include": ["**/*.ts"]
+}

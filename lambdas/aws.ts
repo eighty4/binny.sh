@@ -22,3 +22,19 @@ export function getHeader(
     }
     return null
 }
+
+export function getCookie(
+    event: LambdaHttpRequest,
+    name: string,
+): string | null {
+    const cookieHV = getHeader(event, 'cookie')
+    if (cookieHV?.length) {
+        for (const cookie of document.cookie.split(';')) {
+            const [key, value] = cookie.split('=')
+            if (key.trim() === name) {
+                return value.trim()
+            }
+        }
+    }
+    return null
+}

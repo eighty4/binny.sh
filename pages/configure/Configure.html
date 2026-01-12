@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Binny.sh</title>
+    <link rel="stylesheet" href="./Configure.css" />
+    <script type="module" src="./Configure.ts"></script>
+  </head>
+  <body>
+    <header>
+      <release-header />
+    </header>
+    <main class="loading">
+      <crossplatform-matrix>
+        <div></div>
+        <div>
+          <progress-ring class="linux" progress=".2">
+            <img class="system-logo" src="/systems/linux.svg" alt="Linux" />
+          </progress-ring>
+        </div>
+        <div>
+          <progress-ring class="macos" progress=".7">
+            <img class="system-logo" src="/systems/macos.svg" alt="MacOS" />
+          </progress-ring>
+        </div>
+        <div>
+          <progress-ring class="windows" progress="1">
+            <img class="system-logo" src="/systems/windows.svg" alt="Windows" />
+          </progress-ring>
+        </div>
+      </crossplatform-matrix>
+      <div id="posix">
+        <div class="crossplatform-summary">
+          <progress-ring class="linux" progress=".2">
+            <img class="system-logo" src="/systems/linux.svg" alt="Linux" />
+          </progress-ring>
+          <progress-ring class="macos" progress=".7">
+            <img class="system-logo" src="/systems/macos.svg" alt="MacOS" />
+          </progress-ring>
+          <progress-ring class="windows" progress="1">
+            <img class="system-logo" src="/systems/windows.svg" alt="Windows" />
+          </progress-ring>
+        </div>
+        <script-preview />
+      </div>
+      <div id="powershell">
+        <div class="crossplatform-summary">
+          <progress-ring class="linux" progress=".2">
+            <img class="system-logo" src="/systems/linux.svg" alt="Linux" />
+          </progress-ring>
+          <progress-ring class="macos" progress=".7">
+            <img class="system-logo" src="/systems/macos.svg" alt="MacOS" />
+          </progress-ring>
+          <progress-ring class="windows" progress="1">
+            <img class="system-logo" src="/systems/windows.svg" alt="Windows" />
+          </progress-ring>
+        </div>
+        <script-preview />
+      </div>
+      <div id="release">
+        <p>bad news bear</p>
+      </div>
+    </main>
+    <footer>
+      <nav>
+        <ul>
+          <li>
+            <button data-view="matrix">Cross-platform coverage</button>
+          </li>
+          <li>
+            <button data-view="posix" class="active">Posix script</button>
+          </li>
+          <li>
+            <button data-view="powershell" disabled>PowerShell script</button>
+          </li>
+          <li>
+            <button data-view="release">Release details</button>
+          </li>
+        </ul>
+      </nav>
+    </footer>
+  </body>
+</html>

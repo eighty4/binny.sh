@@ -1,0 +1,34 @@
+{
+    "name": "@binny.sh/template",
+    "version": "0.0.0",
+    "author": "Adam McKee <adam.be.g84d@gmail.com>",
+    "license": "BSD-3-Clause",
+    "type": "module",
+    "exports": {
+        ".": {
+            "node": "./lib_js/Template.js",
+            "types": "./lib_types/Template.d.ts",
+            "import": "./lib/Template.ts"
+        }
+    },
+    "scripts": {
+        "build": "tsc --build",
+        "test": "pnpm test:unit && pnpm test:gold",
+        "test:gold": "node --test lib/**/*.gold.ts",
+        "test:gold:update": "UPDATE_GOLD=1 pnpm test:gold",
+        "test:integration": "./gold/integration_test.sh",
+        "test:unit": "node --test lib/**/*.test.ts"
+    },
+    "devDependencies": {
+        "@types/node": "^24.5.2",
+        "typescript": "^5.9.3"
+    },
+    "files": [
+        "lib/**/*",
+        "lib_js/**/*",
+        "lib_types/**/*",
+        "gold/**/*.sh",
+        "package.json",
+        "tsconfig.json"
+    ]
+}

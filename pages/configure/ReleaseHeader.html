@@ -1,0 +1,27 @@
+<style>
+  #repo {
+    display: flex;
+    font-size: 1.5rem;
+    align-items: center;
+    gap: 1rem;
+
+    & #avatar {
+      border-radius: 50%;
+    }
+
+    & #owner {
+      font-weight: 400;
+    }
+
+    & #name {
+      font-weight: 600;
+    }
+  }
+</style>
+
+<div id="repo">
+  <profile-picture></profile-picture>
+  <span><span id="owner"></span> / <span id="name"></span></span>
+</div>
+
+<div id="release"></div>

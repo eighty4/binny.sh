@@ -5,7 +5,7 @@ type FulfillOpts = Parameters<Route['fulfill']>[0]
 export type RouteBehavior = {
     fulfill: FulfillOpts
     // return false or throw to not fulfill
-    predicate?: (req: Request) => boolean | void
+    predicate?: (req: Request) => Promise<boolean | void> | boolean | void
 }
 
 export type HttpMethod = 'GET' | 'POST' | 'UPDATE'
@@ -33,25 +33,27 @@ async function fauxLogin(fulfill: FulfillOpts, page: Page) {
         },
         cookie.substring(cookie.indexOf('=') + 1, cookie.indexOf(';')),
     )
-    await page.goto('/?login')
+    await page.goto(headers['Location'])
 }
 
 export class RouteResponses {
     #behavior: UnfulfilledBehavior
     #res: Partial<Record<HttpMethod, Array<RouteBehavior>>> = {}
+    #reqs: Array<any> = []
 
     constructor(opts?: { behavior?: UnfulfilledBehavior }) {
         this.#behavior = opts?.behavior || 'abort'
     }
 
-    async configure(page: Page, url: string) {
+    async configure(page: Page, url: string | ((url: URL) => boolean)) {
         await page.route(url, async (route, request) => {
+            this.#reqs.push(request)
             const behavior = this.#res[request.method() as HttpMethod]?.shift()
             if (behavior) {
                 let toFulfill: boolean =
                     typeof behavior.predicate === 'undefined'
                 if (!toFulfill) {
-                    const result = behavior.predicate!(request)
+                    const result = await behavior.predicate!(request)
                     toFulfill = typeof result === 'undefined' || result === true
                 }
                 if (toFulfill) {
@@ -61,15 +63,17 @@ export class RouteResponses {
                         await route.fulfill(behavior.fulfill)
                     }
                 } else {
-                    console.error(
-                        url,
-                        'route matching failed predicate',
-                        request.postDataJSON(),
-                    )
-                    throw Error()
+                    throw Error(`route matching url ${url} failed predicate`)
                 }
             } else {
-                console.error(url, 'missing route', request.postDataJSON())
+                console.error(
+                    url,
+                    'missing route',
+                    'after',
+                    this.#reqs.length,
+                    'requests to this url',
+                    request.postDataJSON(),
+                )
                 if (this.#behavior === 'abort') {
                     await route.abort()
                 } else {

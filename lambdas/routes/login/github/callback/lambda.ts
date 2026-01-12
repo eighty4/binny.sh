@@ -1,13 +1,19 @@
-import type { LambdaHttpRequest, LambdaHttpResponse } from '../../../../aws.ts'
+import {
+    getCookie,
+    type LambdaHttpRequest,
+    type LambdaHttpResponse,
+} from '../../../../aws.ts'
 
 export async function GET(
     event: LambdaHttpRequest,
 ): Promise<LambdaHttpResponse> {
     const accessToken = await fetchAccessToken(event.queryStringParameters.code)
+    const skipGuide = !!getCookie(event, 'Ductus')
     return {
-        statusCode: 301,
+        statusCode: 302,
         headers: {
-            Location: 'http://localhost:5711?login',
+            Location:
+                process.env.WEBAPP_ADDRESS + (skipGuide ? '/search' : '/guide'),
             'Set-Cookie': `ght=${accessToken}; Secure; SameSite=Strict; Path=/`,
         },
     }
@@ -22,8 +28,8 @@ async function fetchAccessToken(code: string) {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                client_id: process.env.GH_OAUTH_CLIENT_ID,
-                client_secret: process.env.GH_OAUTH_CLIENT_SECRET,
+                client_id: process.env.GITHUB_CLIENT_ID,
+                client_secret: process.env.GITHUB_CLIENT_SECRET,
                 code,
             }),
         },

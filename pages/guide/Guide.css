@@ -1,0 +1,83 @@
+@import '../global.css';
+@import './SyncProgress.css';
+
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.step {
+    display: none;
+    width: 860px;
+
+    &.current {
+        display: block;
+    }
+
+    & .shortcuts {
+        display: grid;
+        list-style-type: none;
+        grid-template-columns: min-content max-content min-content;
+        gap: 1rem;
+
+        & .shortcut {
+            display: contents;
+
+            & .key {
+                font-family: monospace;
+                border: 0.5px solid #111;
+                border-radius: 2px;
+                background: #eee;
+                height: 2rem;
+                aspect-ratio: 1 / 1;
+                align-content: center;
+                text-align: center;
+            }
+
+            & .label {
+                align-self: center;
+            }
+
+            & .checkmark {
+                align-self: center;
+                opacity: 0;
+                transition: opacity 150ms ease-in-out;
+
+                &.done {
+                    opacity: 1;
+                }
+            }
+        }
+    }
+}
+
+::view-transition-new(root) {
+    animation: view-in 0.2s ease-in;
+}
+
+::view-transition-old(root) {
+    animation: view-out 0.2s ease-out;
+}
+
+@keyframes view-in {
+    from {
+        opacity: 0;
+        transform: translateY(5vh);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes view-out {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateX(50vw);
+    }
+}

@@ -1,0 +1,35 @@
+@import '../global.css';
+
+html {
+    overflow-y: scroll;
+}
+
+#search-page {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 20px;
+
+    & #search-and-filter {
+        & input[type='search'] {
+            border: 2px solid fuchsia;
+            width: 100%;
+            max-width: 400px;
+            outline: 0;
+            padding: 0.5rem;
+
+            &:focus {
+                border-color: teal;
+            }
+        }
+    }
+
+    & #found-repos {
+        &.filtering .section .repo {
+            display: none;
+
+            &.match {
+                display: block;
+            }
+        }
+    }
+}

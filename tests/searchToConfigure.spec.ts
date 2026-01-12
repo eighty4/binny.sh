@@ -1,51 +1,68 @@
 import { expect, test } from '@playwright/test'
-import * as graphData from './responses/graphData.js'
-import { RouteResponses } from './responses/RouteResponses.js'
+import * as githubCdn from './responses/githubCdn.ts'
+import * as graphData from './responses/graphData.ts'
+import { RouteResponses } from './responses/RouteResponses.ts'
 
-test('#search to #configure/eighty4/maestro', async ({ page }) => {
+test('/search to /configure/{owner}/{name}', async ({ page }) => {
     await new RouteResponses()
         .POST({
             fulfill: {
-                json: graphData.user(),
-            },
-        })
-        .POST({
-            fulfill: {
-                json: graphData.user(),
-            },
-        })
-        .POST({
-            fulfill: {
                 json: graphData.repositories(),
+            },
+            predicate(req) {
+                return req.postDataJSON().query.startsWith('query ViewerRepos(')
+            },
+        })
+        .POST({
+            fulfill: {
+                json: graphData.latestRelease(),
+            },
+            predicate(req) {
+                return req
+                    .postDataJSON()
+                    .query.startsWith('query RepoLatestRelease(')
+            },
+        })
+        .POST({
+            fulfill: {
+                json: graphData.userId(),
+            },
+            predicate(req) {
+                return req.postDataJSON().query.startsWith('query UserId(')
             },
         })
         .configure(page, 'https://api.github.com/graphql')
     await new RouteResponses()
         .GET({
             fulfill: {
-                status: 301,
+                status: 302,
                 headers: {
-                    Location: 'http://localhost:5711?login',
+                    Location: 'http://localhost:5711/search',
                     'Set-Cookie': 'ght=ght; Secure; SameSite=Strict; Path=/',
                 },
             },
+            predicate: () => true,
         })
-        .configure(page, 'http://localhost:5711/api/login/github/redirect')
+        .configure(page, 'http://localhost:5711/login/github/redirect')
     await new RouteResponses()
         .GET({
             fulfill: {
                 json: [],
             },
+            predicate: () => true,
         })
-        .configure(page, 'http://localhost:5711/api/generated-scripts')
+        .configure(page, 'http://localhost:5711/generated-scripts')
+    await new RouteResponses()
+        .GET({
+            fulfill: await githubCdn.userAvatar(),
+            predicate: () => true,
+        })
+        .configure(page, 'https://avatars.githubusercontent.com/u/*?*')
 
     await page.goto('/')
     await page.click('#login')
-    await page.waitForSelector('#login-redirect')
-    await page.click('#login-redirect')
-    await page.waitForSelector('#graph-paper')
-    await page.waitForSelector('.repos')
+    await page.waitForSelector('#found-repos')
     await page.getByText('eighty4/l3').click()
-    await expect(page.getByText('MacOS & Linux')).toBeVisible()
-    await expect(page.getByText('MacOS & Linux')).toBeEnabled()
+    await page.waitForURL('/configure/eighty4/l3')
+    await expect(page.locator('release-header')).toHaveText('l3 / eighty4')
 })

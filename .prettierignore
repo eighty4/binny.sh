@@ -1,1 +1,6 @@
 pnpm-lock.yaml
+
+lambdas/.l3
+
+**/lib_js
+**/lib_types

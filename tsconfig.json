@@ -1,16 +1,32 @@
 {
     "compilerOptions": {
+        "lib": ["DOM", "WebWorker", "ESNext"],
         "target": "ESNext",
-        "module": "NodeNext",
+        "module": "esnext",
+        "moduleResolution": "bundler",
         "composite": true,
         "forceConsistentCasingInFileNames": true,
         "skipLibCheck": true,
+
+        "allowImportingTsExtensions": true,
+        "noEmit": true,
 
         /* Linting */
         "noFallthroughCasesInSwitch": true,
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "strict": true,
-        "verbatimModuleSyntax": true
-    }
+        "verbatimModuleSyntax": true,
+
+        "paths": {
+            "Binny.sh/*": ["./lib/*.ts"]
+        }
+    },
+    "include": [
+        "Binny.d.ts",
+        "lib/**/*.ts",
+        "pages/**/*.ts",
+        "tests/**/*.ts",
+        "workers/**/*.ts"
+    ]
 }

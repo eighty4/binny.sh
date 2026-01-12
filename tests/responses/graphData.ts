@@ -6,7 +6,17 @@ export function user() {
                 email: '',
                 avatarUrl:
                     'data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=',
-                id: '1234',
+                id: '50251875',
+            },
+        },
+    }
+}
+
+export function userId() {
+    return {
+        data: {
+            user: {
+                databaseId: '50251875',
             },
         },
     }

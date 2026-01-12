@@ -5,7 +5,7 @@ import {
     type ServerResponse,
 } from 'node:http'
 import { join } from 'node:path'
-import type { LambdaHttpRequest, LambdaHttpResponse } from './api.js'
+import type { LambdaHttpRequest, LambdaHttpResponse } from './aws.ts'
 
 type PlatformBridge<PIN, POUT> = {
     request(platform: PIN): Promise<LambdaHttpRequest> | LambdaHttpRequest

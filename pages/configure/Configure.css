@@ -1,0 +1,167 @@
+:root {
+    --mw: 700px;
+}
+
+::view-transition-old(nav-button),
+::view-transition-new(nav-button) {
+    height: 100%;
+}
+
+/* todo container query for progress ring size */
+/* todo checkmarks as mask or web component to style color */
+/* todo customize view transition instead of default fade transition */
+
+html,
+body,
+ul {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+header {
+    height: 15vh;
+}
+
+main {
+    margin: 0 auto;
+    width: var(--mw);
+    max-width: 100%;
+    height: 70vh;
+
+    &.loading * {
+        display: none;
+    }
+
+    crossplatform-matrix progress-ring {
+        --progress-ring-size: 4rem;
+    }
+
+    progress-ring {
+        --progress-ring-size: 5rem;
+
+        &.linux {
+            view-transition-name: linux;
+        }
+        &.macos {
+            view-transition-name: macos;
+        }
+        &.windows {
+            view-transition-name: windows;
+        }
+
+        & .system-logo {
+            height: calc(var(--progress-ring-size) * 0.4);
+            aspect-ratio: 1 / 1;
+        }
+    }
+
+    & #posix,
+    #powershell,
+    #release {
+        display: flex;
+        gap: 0.75rem;
+        flex-direction: row;
+
+        & .crossplatform-summary {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            height: 70vh;
+            width: fit-content;
+        }
+    }
+
+    & #posix,
+    #powershell {
+        & script-preview {
+            box-sizing: border-box;
+            height: 70vh;
+            width: 100%;
+            padding: 1rem;
+            overflow: scroll;
+            outline: 0;
+            border: 0.5px solid #eee;
+            transition: border 0.15s ease-in-out;
+
+            &:active {
+                border-color: orange;
+            }
+            &:focus {
+                border-color: green;
+            }
+        }
+    }
+
+    & crossplatform-matrix {
+        display: grid;
+        flex: 1;
+        background: #eee;
+        gap: 1px;
+
+        grid-template-columns: repeat(4, 1fr);
+        grid-auto-rows: minmax(5rem, auto);
+
+        & > div {
+            background: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            & .checkmark {
+                width: 20%;
+                aspect-ratio: 1 / 1;
+                display: block;
+            }
+        }
+    }
+}
+
+footer {
+    height: 15vh;
+    display: grid;
+    place-items: center;
+
+    ul {
+        width: var(--mw);
+        list-style-type: none;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+
+        button {
+            display: inline-block;
+            color: #555;
+            border: none;
+            background: none;
+            cursor: pointer;
+            height: 1.25rem;
+            padding: 0 0.75rem;
+            border-radius: 0.25rem;
+            outline: 0;
+
+            &:hover {
+                background: #f7f7f7;
+                color: #333;
+            }
+
+            &.active {
+                view-transition-name: nav-button;
+                background: #253587;
+                color: #eee;
+            }
+
+            &:disabled {
+                color: #ddd;
+                cursor: not-allowed;
+            }
+        }
+    }
+}

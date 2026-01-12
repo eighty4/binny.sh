@@ -1,9 +1,13 @@
 {
-    "name": "@eighty4/binny-lambdas",
+    "name": "@binny.sh/lambdas",
     "type": "module",
     "private": true,
     "scripts": {
         "build": "l3 build",
-        "dev": "node --env-file-if-exists .env.local --watch local.ts"
+        "dev": "node --env-file-if-exists .env.local --watch local.ts",
+        "typecheck": "tsc"
+    },
+    "devDependencies": {
+        "typescript": "^5.9.3"
     }
 }

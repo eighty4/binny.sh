@@ -60,19 +60,22 @@ fi
 #  exit 1
 #fi
 
-echo '\n*** tsc ***'
-pnpm -r --filter '!@eighty4/binny-frontend' build
-pnpm -r --filter '@eighty4/binny-frontend' build:tsc
+echo '\n*** lambdas: typecheck ***'
+(cd lambdas && pnpm typecheck)
 
-cd frontend
-echo '\n*** frontend ***'
-VITE_BINNY_API_BASE_URL=ci pnpm build
-cd ..
+echo '\n*** template: build ***'
+pnpm --filter ./template build
 
-echo '\n*** unit tests ***'
-pnpm -r test
+echo '\n*** template: test ***'
+pnpm --filter ./template test
 
-echo '\n*** e2e tests ***'
+echo '\n*** website: typecheck ***'
+pnpm typecheck
+
+echo '\n*** website: build ***'
+pnpm build
+
+echo '\n*** website: test:e2e ***'
 pnpm test:e2e
 
 pnpm fmtcheck

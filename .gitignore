@@ -1,17 +1,4 @@
-.DS_Store
-.idea
+.playwright
+build
 node_modules
 tsconfig.tsbuildinfo
-
-frontend/.env.production
-frontend/dist
-frontend/dist.zip
-libs/*/lib
-lambdas/.l3
-lambdas/.env.local
-
-# playwright tests
-blob-report
-playwright/.cache
-playwright-report
-test-results
