@@ -146,10 +146,5 @@ function navNext() {
 }
 
 function navToSearch() {
-    setGuidedCookie()
     location.assign('/search')
-}
-
-function setGuidedCookie() {
-    document.cookie = `ductus=1;SameSite=strict;Secure`
 }

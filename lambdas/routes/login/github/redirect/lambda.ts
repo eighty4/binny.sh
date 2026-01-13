@@ -1,4 +1,5 @@
 import {
+    getCookie,
     getHeader,
     type LambdaHttpRequest,
     type LambdaHttpResponse,
@@ -10,7 +11,10 @@ export async function GET(
     const redirect = new URL('https://github.com/login/oauth/authorize')
     redirect.searchParams.set('prompt', 'select_account')
     redirect.searchParams.set('client_id', process.env.GITHUB_CLIENT_ID!)
-    redirect.searchParams.set('state', 'abc')
+    redirect.searchParams.set(
+        'state',
+        `guide=${!!getCookie(event, 'Ductus') ? 0 : 1}`,
+    )
     redirect.searchParams.set('redirect_uri', redirectURI(event))
     return {
         statusCode: 302,
