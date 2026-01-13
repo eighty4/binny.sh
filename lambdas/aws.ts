@@ -29,7 +29,7 @@ export function getCookie(
 ): string | null {
     const cookieHV = getHeader(event, 'cookie')
     if (cookieHV?.length) {
-        for (const cookie of document.cookie.split(';')) {
+        for (const cookie of cookieHV.split(';')) {
             const [key, value] = cookie.split('=')
             if (key.trim() === name) {
                 return value.trim()
