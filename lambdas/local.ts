@@ -2,6 +2,7 @@ import { readdir, stat } from 'node:fs/promises'
 import {
     createServer,
     type IncomingMessage,
+    type OutgoingHttpHeaders,
     type ServerResponse,
 } from 'node:http'
 import { join } from 'node:path'
@@ -45,7 +46,24 @@ const bridge: NodeHttpBridge = {
     },
 
     response(platform: ServerResponse, res: LambdaHttpResponse) {
-        platform.writeHead(res.statusCode, res.headers)
+        const headers: OutgoingHttpHeaders = res.headers
+            ? { ...res.headers }
+            : {}
+        if (res.multiValueHeaders) {
+            for (const [k, av] of Object.entries(res.multiValueHeaders)) {
+                if (k in headers) {
+                    if (!Array.isArray(headers[k])) {
+                        headers[k] = [headers[k] as string]
+                    }
+                } else {
+                    headers[k] = []
+                }
+                for (const v of av) {
+                    headers[k].push(v)
+                }
+            }
+        }
+        platform.writeHead(res.statusCode, headers)
         platform.end(res.body)
     },
 }

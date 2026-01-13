@@ -7,6 +7,7 @@ export type LambdaHttpRequest = {
 export type LambdaHttpResponse = {
     body?: string | null
     headers?: Record<string, string>
+    multiValueHeaders?: Record<string, Array<string>>
     statusCode: number
 }
 
