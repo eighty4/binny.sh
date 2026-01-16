@@ -13,12 +13,7 @@ export async function GET(
         headers: {
             Location:
                 process.env.WEBAPP_ADDRESS + (skipGuide ? '/search' : '/guide'),
-        },
-        multiValueHeaders: {
-            'Set-Cookie': [
-                'Ductus=1; Secure; SameSite=Strict; Path=/',
-                `ght=${accessToken}; Secure; SameSite=Strict; Path=/`,
-            ],
+            'Set-Cookie': `ght=${accessToken}; SameSite=Strict; Path=/`,
         },
     }
 }

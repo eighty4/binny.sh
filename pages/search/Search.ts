@@ -60,6 +60,7 @@ function onSearchDataReply(e: MessageEvent<SearchDataReply>) {
 
 if (ghToken === null) {
     // todo github login redirect with state storing redirect uri
+    console.warn('ght missing, redirecting to homepage')
     location.assign('/')
 } else {
     postRequest({

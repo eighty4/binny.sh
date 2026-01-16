@@ -8,7 +8,7 @@ export async function GET(
     event: LambdaHttpRequest,
 ): Promise<LambdaHttpResponse> {
     const headers: Record<string, string> = {
-        'Clear-Site-Data': '"storage"',
+        'Clear-Site-Data': '"cookies", "storage"',
         Location: '/',
     }
     const cookie = getHeader(event, 'cookie')

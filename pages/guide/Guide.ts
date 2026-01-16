@@ -37,6 +37,7 @@ function onSearchDataReply(e: MessageEvent<SearchDataReply>) {
             )
             break
         case 'synced':
+            document.cookie = `Ductus=1;SameSite=strict`
             if (guideFinished) {
                 navToSearch()
             } else {
