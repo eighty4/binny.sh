@@ -170,6 +170,8 @@ function createControls() {
     const controls = document.createElement('div')
     controls.id = 'search-controls'
     filterElem = document.createElement('input')
+    filterElem.id = 'filter'
+    filterElem.autocomplete = 'off'
     filterElem.type = 'search'
     filterElem.placeholder = 'Find your repo'
     filterElem.oninput = onRepoFilter
