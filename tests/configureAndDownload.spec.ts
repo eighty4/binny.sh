@@ -63,7 +63,7 @@
 //         .configure(page, 'http://localhost:5711/generated-scripts')
 
 //     await page.goto('/')
-//     await page.click('#login')
+//     await page.click('#login-link')
 //     await page.waitForSelector('#login-redirect')
 //     await page.click('#login-redirect')
 //     await page.waitForSelector('#graph-paper')

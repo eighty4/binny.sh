@@ -1,9 +1,12 @@
+@import './reset.css';
 @import '@fontsource/inter';
 
 html {
     font-family: 'Inter', sans-serif;
 }
 
-body {
-    margin: 0;
+:root {
+    --color-green: limegreen;
+    --color-pink: #ff6084;
+    --color-yellow: #feed00;
 }

@@ -1,1 +1,79 @@
 @import '../global.css';
+@import './header.css';
+@import '@fontsource/inter/200';
+@import '@fontsource/inter/400';
+@import '@fontsource/inter/900';
+
+html {
+    font-family: 'Inter', sans-serif;
+}
+
+:root {
+    --section-max-width: 75rem;
+    --section-min-height: 75vh;
+}
+
+section {
+    width: var(--section-max-width);
+    max-width: 80vw;
+    min-height: var(--section-min-height);
+    margin: 2rem auto;
+    & h3 {
+        position: sticky;
+        top: calc(var(--header-min-height) + 2rem);
+    }
+}
+
+#binny-tagline {
+    h2 {
+        font-weight: 900;
+        font-size: 4rem;
+    }
+    p {
+        margin-top: 1rem;
+        font-weight: 200;
+        font-size: 2.5rem;
+        font-style: italic;
+    }
+}
+
+footer {
+    min-height: 50vh;
+    #eighty4-app {
+        width: fit-content;
+        margin: 0 auto;
+
+        & h2 a {
+            text-decoration: none;
+            letter-spacing: 0.05rem;
+            color: var(--color-pink);
+            &:hover {
+                color: var(--color-green);
+            }
+        }
+
+        & #extra-extra {
+            margin: 1.28rem auto;
+            font-size: 0.8rem;
+            width: fit-content;
+
+            & #at4-pronunciations {
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                gap: 0.84rem;
+                & ul {
+                    display: flex;
+                    flex-direction: column;
+                    & li + li {
+                        margin-top: 0.42rem;
+                    }
+                }
+            }
+
+            & #binny-built {
+                margin-top: 1.28rem;
+            }
+        }
+    }
+}

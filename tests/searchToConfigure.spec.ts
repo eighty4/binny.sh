@@ -60,7 +60,7 @@ test('/search to /configure/{owner}/{name}', async ({ page }) => {
         .configure(page, 'https://avatars.githubusercontent.com/u/*?*')
 
     await page.goto('/')
-    await page.click('#login')
+    await page.click('#login-link')
     await page.waitForSelector('#found-repos')
     await page.getByText('eighty4/l3').click()
     await page.waitForURL('/configure/eighty4/l3')

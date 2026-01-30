@@ -3,8 +3,66 @@
   <head>
     <!-- {{ ../head.html }}-->
     <link rel="stylesheet" href="./Landing.css" />
+    <script src="./header.ts"></script>
   </head>
   <body>
-    <a id="login" href="/login/github/redirect">Login with GitHub</a>
+    <header id="binny-header">
+      <div id="header-content">
+        <div id="header-stack">
+          <svg
+            id="get-shipped"
+            viewBox="0 0 200 100"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              id="get-shipped-path"
+              d="M0,80 L82,80 Q118,80 130,50 Q140,20 200,30"
+            />
+            <text>
+              <textPath href="#get-shipped-path" startOffset="44%">
+                Get shipped with
+              </textPath>
+            </text>
+          </svg>
+          <h1 id="header-text">Binny<span>.</span>sh</h1>
+        </div>
+        <div id="login-cta">
+          <a id="login-link" href="/login/github/redirect">Get started</a>
+          <div id="login-popup">
+            <p class="lead">We're using GitHub's sweet APIs.</p>
+            <!-- todo add green checkmarks -->
+            <p class="sub">Your identity never leaves your browser.</p>
+            <p class="sub">
+              Binny.sh uses 0 dependencies to protect your supply chain
+              security.
+            </p>
+          </div>
+        </div>
+      </div>
+    </header>
+    <section id="binny-tagline">
+      <h2>You used your skills</h2>
+      <h2>& published to GitHub Releases.</h2>
+      <p>Now ship to users with 0 hassle.</p>
+    </section>
+    <footer>
+      <div id="eighty4-app">
+        <h2>An <a href="https://eighty4.tech">Eighty4.tech</a> app</h2>
+        <div id="extra-extra">
+          <div id="at4-pronunciations">
+            <span>Pronounced</span>
+            <ul>
+              <li>A &mdash; T &mdash; 4 &mdash; tech</li>
+              <li>
+                /&#x2C8;e&#x26A;ti/ /&#x2C8;f&#x254;&#x279;/ /&#x2C8;t&#x25B;k/
+              </li>
+            </ul>
+          </div>
+          <div id="binny-built">
+            <span>Built with AWS & GitHub.</span>
+          </div>
+        </div>
+      </div>
+    </footer>
   </body>
 </html>
