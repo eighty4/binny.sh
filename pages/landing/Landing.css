@@ -1,16 +1,191 @@
-@import '../global.css';
-@import './header.css';
 @import '@fontsource/inter/200';
 @import '@fontsource/inter/400';
 @import '@fontsource/inter/900';
+@import '../reset.css';
+@import '../variables.css';
+@import '../ui.css';
+
+@font-face {
+    font-family: 'GetShipped';
+    src: url('../../public/GetShipped.woff2');
+    unicode-range:
+        U+0020, U+0047, U+0064-0065, U+0068-0070, U+0073-0074, U+0077;
+}
 
 html {
     font-family: 'Inter', sans-serif;
 }
 
 :root {
+    --header-max-height: 512px;
+    --header-min-height: var(--header-height);
+    --header-content-max-height: 10rem;
+    --header-content-min-height: 3.5rem;
+    --header-max-font-size: 7rem;
+    --header-min-font-size: calc(var(--header-min-height) / 2);
+
     --section-max-width: 75rem;
     --section-min-height: 75vh;
+}
+
+@media (max-height: 768px) {
+    :root {
+        --header-max-height: 256px;
+    }
+}
+
+body {
+    padding-top: var(--header-max-height);
+}
+
+#binny-header {
+    background: #fff;
+    position: fixed;
+    top: 0;
+    height: var(--header-max-height);
+    width: 100vw;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+
+    animation: header-height;
+    animation-fill-mode: both;
+    animation-range: 0 var(--header-max-height);
+    animation-timeline: scroll(root);
+}
+
+#header-content {
+    height: var(--header-content-max-height);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: var(--header-content-width);
+
+    animation: header-content-height;
+    animation-fill-mode: both;
+    animation-range: 0 var(--header-max-height);
+    animation-timeline: scroll(root);
+}
+
+#header-stack {
+    position: relative;
+
+    #header-text {
+        position: relative;
+        font-size: var(--header-max-font-size);
+        font-style: italic;
+        font-weight: 900;
+        animation: header-font-size;
+        animation-fill-mode: both;
+        animation-range: 0 var(--header-max-height);
+        animation-timeline: scroll(root);
+
+        & span {
+            color: var(--color-green);
+        }
+    }
+}
+
+#get-shipped {
+    --get-shipped-height-from: 16rem;
+    --get-shipped-left-from: -11rem;
+    --get-shipped-top-from: -7rem;
+    --get-shipped-height-to: 12rem;
+    --get-shipped-left-to: -8rem;
+    --get-shipped-top-to: -6.5rem;
+    height: var(--get-shipped-height-from);
+    aspect-ratio: 1/1;
+    position: absolute;
+    left: var(--get-shipped-left-from);
+    top: var(--get-shipped-top-from);
+
+    animation: get-shipped-font-size;
+    animation-fill-mode: both;
+    animation-range: 0 var(--header-max-height);
+    animation-timeline: scroll(root);
+
+    & #get-shipped-path {
+        fill: none;
+    }
+    text {
+        fill: black;
+        stroke: none;
+        font-family: 'GetShipped', sans-serif;
+    }
+}
+
+@keyframes header-height {
+    to {
+        height: var(--header-min-height);
+    }
+}
+
+@keyframes header-content-height {
+    to {
+        height: var(--header-content-min-height);
+    }
+}
+
+@keyframes get-shipped-font-size {
+    50% {
+        left: var(--get-shipped-left-from);
+        top: var(--get-shipped-top-from);
+        height: var(--get-shipped-height-from);
+    }
+    to {
+        left: var(--get-shipped-left-to);
+        top: var(--get-shipped-top-to);
+        height: var(--get-shipped-height-to);
+    }
+}
+
+@keyframes header-font-size {
+    20% {
+        font-size: var(--header-max-font-size);
+    }
+    to {
+        font-size: var(--header-min-font-size);
+    }
+}
+
+#login-cta {
+    & #login-link {
+        anchor-name: --login-link;
+        text-decoration: none;
+    }
+
+    & #login-popup {
+        display: none;
+        position: absolute;
+        position-anchor: --login-link;
+        top: calc(anchor(bottom) + (var(--header-min-height) / 2));
+        right: anchor(right);
+        width: 17.5rem;
+        max-width: 70vw;
+        letter-spacing: 0.01rem;
+
+        & .lead {
+            font-size: 0.9rem;
+            line-height: 1.2rem;
+            margin-bottom: 0.84rem;
+        }
+
+        & .sub {
+            font-style: italic;
+            font-size: 0.8rem;
+            line-height: 1.1rem;
+            padding-left: 0.75rem;
+        }
+
+        & .sub + .sub {
+            margin-top: 0.63rem;
+        }
+    }
+
+    &:has(#login-link:hover) #login-popup {
+        display: block;
+    }
 }
 
 section {
@@ -18,6 +193,7 @@ section {
     max-width: 80vw;
     min-height: var(--section-min-height);
     margin: 2rem auto;
+
     & h3 {
         position: sticky;
         top: calc(var(--header-min-height) + 2rem);
@@ -72,7 +248,20 @@ footer {
             }
 
             & #binny-built {
-                margin-top: 1.28rem;
+                & span {
+                    display: block;
+                    margin-top: 1.28rem;
+
+                    & a {
+                        color: var(--color-pink);
+                        font-weight: 600;
+                        letter-spacing: 0.05rem;
+                        text-decoration: none;
+                        &:hover {
+                            color: var(--color-green);
+                        }
+                    }
+                }
             }
         }
     }

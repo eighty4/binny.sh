@@ -1,0 +1,22 @@
+:root {
+    --color-blue-white: rgb(230, 230, 255);
+
+    --color-green: limegreen;
+    --color-pink: #ff6084;
+    --color-red: #ff1521;
+    --color-yellow: #feed00;
+
+    --header-bg-color: #fff;
+    --header-content-width: min(79rem, 80vw);
+    --header-height: 64px;
+    --header-title-size: calc(var(--header-height) / 2);
+    --header-z: 2;
+
+    --border-color-light: #aaaaaaaa;
+
+    --card-bg-color: var(--color-blue-white);
+    --card-border: 1px solid var(--border-color-light);
+    --card-padding: 1rem;
+    --card-shadow: 3px 3px 8px -3px #00000088;
+    --card-text-color: rgb(10, 15, 20);
+}

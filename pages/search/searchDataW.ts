@@ -8,6 +8,7 @@ import {
     type RepoRecord,
 } from 'Binny.sh/data/database'
 import type { Repository } from 'Binny.sh/github/model'
+import { Unauthorized } from 'Binny.sh/github/responses'
 import { collectViewerRepos } from 'Binny.sh/github/queries/viewerRepos'
 
 declare const self: DedicatedWorkerGlobalScope
@@ -15,11 +16,11 @@ declare const self: DedicatedWorkerGlobalScope
 export type SearchData = {
     // true if all collections in SearchData are empty
     empty: boolean
-    releasesWithGeneratedScripts: Array<
-        Repository & { script?: GeneratedScript }
-    >
-    releasesWithBinaries: Array<Repository>
-    notReleasedWithCompatibleLanguage: Array<Repository>
+    withGeneratedScripts: Array<Repository & { script?: GeneratedScript }>
+    nativeWithReleaseWithBins: Array<Repository>
+    nativeWithReleaseWithoutBins: Array<Repository>
+    nativeWithReleaseWithoutAssets: Array<Repository>
+    nativeWithoutRelease: Array<Repository>
     everythingElse: Array<Repository>
 }
 
@@ -73,7 +74,7 @@ onmessage = async (e: MessageEvent<SearchDataRequest>) => {
             await performSync()
             break
         case 'fetch':
-            performFetch().then(data => {
+            fetchSearchDataFromDb().then(data => {
                 postReply({
                     kind: 'fetch',
                     data,
@@ -117,22 +118,36 @@ function postSynced(updated: boolean, total: number) {
     postReply({ kind: 'synced', updated, total })
 }
 
-async function performFetch(): Promise<SearchData> {
+async function fetchSearchDataFromDb(): Promise<SearchData> {
     const repos = await readReposFromDb()
     return transformSearchData(repos, {})
 }
 
 async function performSync() {
     postProgress('fetch', 0, 1)
+    const repos = await fetchReposFromGh()
+    const updated = await syncReposToDb(repos)
+    postSynced(updated, repos.length)
+}
+
+async function fetchReposFromGh(): Promise<Array<Repository>> {
     const opts = progress
         ? {
               onPage: (completed: number, total: number) =>
                   postProgress('fetch', completed, total),
           }
         : undefined
-    const repos = await collectViewerRepos(ghToken!, opts)
-    const updated = await syncReposToDb(repos)
-    postSynced(updated, repos.length)
+    try {
+        return await collectViewerRepos(ghToken!, opts)
+    } catch (e) {
+        if (e instanceof Unauthorized) {
+            postReply({ kind: 'unauthorized' })
+            self.close()
+            throw Error('closing worker')
+        } else {
+            throw e
+        }
+    }
 }
 
 async function syncReposToDb(repos: Array<Repository>): Promise<boolean> {
@@ -277,29 +292,39 @@ function transformSearchData(
     repos: Array<Repository>,
     generatedScripts: Record<string, GeneratedScript>,
 ): SearchData {
-    const releasesWithGeneratedScripts: Array<
+    const withGeneratedScripts: Array<
         Repository & { script?: GeneratedScript }
     > = []
-    const releasesWithBinaries: Array<Repository> = []
-    const notReleasedWithCompatibleLanguage: Array<Repository> = []
+    const nativeWithReleaseWithBins: Array<Repository> = []
+    const nativeWithReleaseWithoutBins: Array<Repository> = []
+    const nativeWithReleaseWithoutAssets: Array<Repository> = []
+    const nativeWithoutRelease: Array<Repository> = []
     const everythingElse: Array<Repository> = []
     for (const repo of repos) {
         const script = generatedScripts[`${repo.owner}/${repo.name}`]
         if (script) {
-            releasesWithGeneratedScripts.push({ ...repo, script })
-        } else if (repo.latestRelease?.binaries?.length) {
-            releasesWithBinaries.push(repo)
+            withGeneratedScripts.push({ ...repo, script })
         } else if (repo.languages.length) {
-            notReleasedWithCompatibleLanguage.push(repo)
+            if (repo.latestRelease?.binaries?.length) {
+                nativeWithReleaseWithBins.push(repo)
+            } else if (repo.latestRelease?.otherAssets.length) {
+                nativeWithReleaseWithoutBins.push(repo)
+            } else if (repo.latestRelease) {
+                nativeWithReleaseWithoutAssets.push(repo)
+            } else {
+                nativeWithoutRelease.push(repo)
+            }
         } else {
             everythingElse.push(repo)
         }
     }
     return {
         empty: !repos.length,
-        releasesWithGeneratedScripts,
-        releasesWithBinaries,
-        notReleasedWithCompatibleLanguage,
+        withGeneratedScripts,
+        nativeWithReleaseWithBins,
+        nativeWithReleaseWithoutBins,
+        nativeWithReleaseWithoutAssets,
+        nativeWithoutRelease,
         everythingElse,
     }
 }

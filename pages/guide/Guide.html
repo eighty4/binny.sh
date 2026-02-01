@@ -4,99 +4,90 @@
     <!-- {{ ../head.html }}-->
     <link rel="stylesheet" href="./Guide.css" />
     <script type="module" src="./Guide.ts"></script>
-    <script>
-      document.addEventListener(
-        'DOMContentLoaded',
-        () => (document.body.querySelector('main').style.display = null),
-        { once: true },
-      )
-    </script>
   </head>
   <body>
-    <main style="display: none">
-      <section class="step current">
-        <h1>Welcome to <span>Binny.sh</span></h1>
-        <p>This is a keyboard-friendly app.</p>
-        <p>Arrow keys are a good way to get around the UI.</p>
-        <ul class="shortcuts">
-          <li class="shortcut">
-            <kbd class="key" data-activator="ArrowRight KeyL">&rarr;</kbd>
-            <span class="label">Give your right arrow key a try.</span>
-          </li>
-        </ul>
-      </section>
-      <section class="step">
-        <h2>Good job!</h2>
-        <p>Here are some other keyboard shortcuts you can use:</p>
-        <ul class="shortcuts">
-          <li class="shortcut">
-            <kbd class="key" data-activator="KeyS">s</kbd>
-            <span class="label">Open settings.</span>
+    <!-- {{ ../app-header.html }}-->
+    <main id="binny-guide">
+      <div id="explanation">
+        <h2>We're loading data.</h2>
+        <p>Try these keyboard friendly shortcuts while waiting.</p>
+      </div>
+      <div id="guide-shortcuts">
+        <div class="guide-grouping">
+          <h4>Quicker navigating</h4>
+          <div class="shortcuts">
+            <kbd class="key" data-activator="ArrowLeft">&larr;</kbd>
+            <kbd class="key" data-activator="ArrowUp">&uarr;</kbd>
+            <kbd class="key" data-activator="ArrowDown">&darr;</kbd>
+            <kbd class="key" data-activator="ArrowRight">&rarr;</kbd>
             <img
               class="checkmark"
               src="/checkmark.svg"
               height="10"
               width="10"
             />
-          </li>
-          <li class="shortcut">
+          </div>
+          <div class="shortcuts">
+            <kbd class="key" data-activator="KeyH">h</kbd>
+            <kbd class="key" data-activator="KeyJ">j</kbd>
+            <kbd class="key" data-activator="KeyK">k</kbd>
+            <kbd class="key" data-activator="KeyL">l</kbd>
+            <img
+              class="checkmark"
+              src="/checkmark.svg"
+              height="10"
+              width="10"
+            />
+          </div>
+        </div>
+        <div class="guide-grouping">
+          <h4>Search repositories</h4>
+          <div class="shortcuts">
+            <kbd class="key" data-activator="Slash">/</kbd>
+            <img
+              class="checkmark"
+              src="/checkmark.svg"
+              height="10"
+              width="10"
+            />
+          </div>
+        </div>
+        <div class="guide-grouping">
+          <h4>Toggling theme</h4>
+          <div class="shortcuts">
             <kbd class="key" data-activator="KeyT">t</kbd>
-            <span class="label">Toggle theme.</span>
             <img
               class="checkmark"
               src="/checkmark.svg"
               height="10"
               width="10"
             />
-          </li>
-        </ul>
-        <dialog id="settings">
-          <p>This is a placeholder for settings to come!</p>
-          <p>Press <kbd>esc</kbd> to close.</p>
-        </dialog>
-      </section>
-      <section class="step">
-        <h2>Scripts have their own shortcuts!</h2>
-        <p>When viewing a script, these shortcuts are available:</p>
-        <ul class="shortcuts">
-          <li class="shortcut">
+          </div>
+        </div>
+        <div class="guide-grouping">
+          <h4>Downloading scripts</h4>
+          <div class="shortcuts">
             <kbd class="key" data-activator="KeyD">d</kbd>
-            <span class="label">Download script.</span>
             <img
               class="checkmark"
               src="/checkmark.svg"
               height="10"
               width="10"
             />
-          </li>
-        </ul>
-      </section>
-      <section class="step">
-        <h2>Cool!</h2>
-        <p>
-          You're now familiar with some of the keyboard shortcuts in the app.
-        </p>
-        <p>
-          This page will redirect to the app once data has finished syncing.
-        </p>
-      </section>
-      <div id="sync-progress-container">
-        <sync-progress />
+          </div>
+        </div>
+        <div id="guide-interactive"></div>
       </div>
     </main>
-    <noscript>
-      <h1>Welcome to <span>Binny.sh</span></h1>
-      <p>This webapp requires JavaScript.</p>
-      <p>
-        Binny templates can be generated using the `@binny.sh/template` npm
-        package from your terminal.
-      </p>
-      <pre><code>npx @binny.sh/template</code></pre>
-      <p>
-        Read more on its
-        <a href="https://github.com/eighty4/binny.sh/template">GitHub page</a>
-        or use a JavaScript-enabled browser to launch this webapp.
-      </p>
-    </noscript>
+    <div id="sync-progress">
+      <div id="sync-progress-card" class="card-like">
+        <div id="sync-progress-msg">&nbsp;</div>
+        <sync-progress />
+      </div>
+      <a id="search-link" class="button-like" href="/search"
+        >Continue to search</a
+      >
+    </div>
+    <footer></footer>
   </body>
 </html>

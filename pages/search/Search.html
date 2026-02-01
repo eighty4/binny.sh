@@ -6,6 +6,28 @@
     <script type="module" src="./Search.ts"></script>
   </head>
   <body>
-    <main id="search-page"></main>
+    <!-- {{ ../app-header.html }}-->
+    <div id="cursor-x">
+      <div class="circle"></div>
+      <div class="arc"></div>
+    </div>
+    <div id="cursor-y">
+      <div class="circle"></div>
+      <div class="arc"></div>
+      <div class="line"></div>
+    </div>
+    <main id="search-page">
+      <h2 id="search-header">&nbsp;</h2>
+      <div id="search-controls">
+        <!-- <form>
+          <label>
+            Find your repo
+            <input id="repo-filter" type="search" autocomplete="filter-repos" />
+          </label>
+        </form> -->
+        <button id="repo-resync" disabled>refresh</button>
+      </div>
+      <div id="found-repos"></div>
+    </main>
   </body>
 </html>

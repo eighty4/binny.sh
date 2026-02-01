@@ -117,12 +117,12 @@ query ViewerRepos($after: String, $perPage: Int!) {
             updatedAt
             url
             releaseAssets(first: 100) {
+              totalCount
               nodes {
                 name
                 contentType
               }
               pageInfo {
-                endCursor
                 hasNextPage
               }
             }

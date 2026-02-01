@@ -1,15 +1,116 @@
-@import '../global.css';
+@import '@fontsource/inter/200';
+@import '@fontsource/inter/400';
+@import '@fontsource/inter/600';
+@import '@fontsource/inter/900';
+@import '../reset.css';
+@import '../variables.css';
+@import '../ui.css';
+@import '../app-header.css';
+
+:root {
+    --cursor-z: calc(var(--header-z) + 1);
+}
 
 html {
+    font-family: 'Inter', sans-serif;
     overflow-y: scroll;
 }
 
-#search-page {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 20px;
+/* --repos-[xy]: page offset of #found-repos, updates on resize of #found-repos */
+/* --scroll-[xy]: window viewport offset, updates window.onscroll */
+/* --grid-item-[xy]: offset from #found-repos to center point of grid item .repo, updates window.onresize */
+#cursor-x,
+#cursor-y {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: var(--cursor-z);
 
-    & #search-and-filter {
+    &#cursor-x {
+        --cursor-x: calc(var(--repos-x) + var(--grid-item-x) - var(--scroll-x));
+        left: var(--cursor-x, -1vw);
+    }
+
+    &#cursor-y {
+        --cursor-y: calc(var(--repos-y) + var(--grid-item-y) - var(--scroll-y));
+        top: var(--cursor-y, -1vh);
+    }
+
+    & .circle,
+    .arc {
+        position: absolute;
+        mask-size: cover;
+        transform: translate(-50%, -50%);
+    }
+
+    & .circle {
+        background: var(--color-pink);
+        mask-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle r="45" cx="50" cy="50" fill="none" stroke="red" stroke-width="10"/></svg>');
+        height: 1.5rem;
+        width: 1.5rem;
+    }
+
+    & .arc {
+        background: var(--color-green);
+        mask-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle r="45" cx="50" cy="50" fill="red"/></svg>');
+        height: 0.75rem;
+        width: 0.75rem;
+    }
+}
+
+#search-header,
+.section .title {
+    position: sticky;
+    z-index: var(--header-z);
+    background: var(--header-bg-color);
+}
+
+#found-repos {
+    position: relative;
+    z-index: 1;
+}
+
+#search-page {
+    --search-header-height: 5rem;
+    max-width: min(42rem, 84vw);
+    margin: 0 auto;
+
+    & #search-header {
+        top: var(--header-height);
+        height: var(--search-header-height);
+        display: flex;
+        align-items: center;
+    }
+
+    & #search-controls {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-end;
+        gap: 0.84rem;
+
+        /* & form {
+            display: contents;
+
+            & label {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                gap: 0.42rem;
+
+                font-weight: 600;
+
+                & #repo-filter {
+                    line-height: 1.5rem;
+                }
+            }
+        } */
+
+        & #repo-resync {
+            height: 2rem;
+        }
+    }
+
+    /* & #search-and-filter {
         & input[type='search'] {
             border: 2px solid fuchsia;
             width: 100%;
@@ -21,9 +122,168 @@ html {
                 border-color: teal;
             }
         }
-    }
+    } */
 
     & #found-repos {
+        & .section {
+            & .title {
+                top: calc(var(--header-height) + var(--search-header-height));
+                margin-top: 1.28rem;
+                padding-bottom: 0.64rem;
+            }
+
+            & .repos {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: repeat(auto-fit, minmax(4rem, min-content));
+                gap: 0.84rem;
+
+                & .repo {
+                    position: relative;
+                    font-size: 1.2rem;
+                    letter-spacing: 0.01rem;
+                    margin: 0.42rem 0;
+                    padding: 2rem;
+                    text-decoration: none;
+
+                    color: var(--color-blue-white);
+
+                    &.cursor {
+                        &::after {
+                            content: '';
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            height: 100%;
+                            width: 100%;
+                            border: 0.32rem solid var(--color-pink);
+                            border-radius: 0.64rem;
+                            z-index: -1;
+                            box-sizing: border-box;
+                        }
+                        &::before {
+                            border-radius: 0.32rem;
+                        }
+                    }
+
+                    &::before {
+                        --inset: 0.64rem;
+                        content: '';
+                        position: absolute;
+                        top: var(--inset);
+                        left: var(--inset);
+                        height: calc(100% - var(--inset) - var(--inset));
+                        width: calc(100% - var(--inset) - var(--inset));
+                        background: rgb(12, 24, 36);
+                        z-index: -1;
+                    }
+
+                    & .card {
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: space-between;
+                        height: 100%;
+                        gap: 1rem;
+
+                        & .header {
+                            display: flex;
+                            gap: 0.42rem;
+
+                            & .name {
+                                font-weight: 600;
+                                letter-spacing: 0.042rem;
+                                flex: 1;
+                            }
+
+                            & .release {
+                                display: flex;
+                                flex-direction: column;
+                                font-size: 0.84rem;
+                            }
+                        }
+
+                        & .languages {
+                            display: flex;
+                            gap: 0.42rem;
+
+                            & .language {
+                                height: 1.35rem;
+                                background-size: cover;
+                                &.c {
+                                    background-image: url('../../public/languages/c.svg');
+                                    aspect-ratio: 181/200;
+                                }
+                                &.cpp {
+                                    background-image: url('../../public/languages/cpp.svg');
+                                    aspect-ratio: 181/200;
+                                }
+                                &.go {
+                                    background-image: url('../../public/languages/go.svg');
+                                    aspect-ratio: 349/170;
+                                }
+                                &.rust {
+                                    background-image: url('../../public/languages/rust.svg');
+                                    aspect-ratio: 1/1;
+                                }
+                                &.zig {
+                                    background-image: url('../../public/languages/zig.svg');
+                                    aspect-ratio: 219/200;
+                                }
+                            }
+                        }
+
+                        & .support {
+                            display: flex;
+                            justify-content: center;
+                            gap: 1.28rem;
+                            & .system {
+                                display: flex;
+                                align-items: center;
+                                gap: 0.64rem;
+                                & .logo {
+                                    height: 1.35rem;
+                                    background: var(--color-blue-white);
+                                    mask-size: cover;
+                                    &.Linux {
+                                        mask-image: url('../../public/systems/linux.svg');
+                                        aspect-ratio: 1/1;
+                                    }
+                                    &.MacOS {
+                                        mask-image: url('../../public/systems/macos.svg');
+                                        aspect-ratio: 643/680;
+                                    }
+                                    &.Windows {
+                                        mask-image: url('../../public/systems/windows.svg');
+                                        aspect-ratio: 1/1;
+                                    }
+                                }
+
+                                & .indicator {
+                                    height: 0.84rem;
+                                    mask-size: cover;
+                                    &.mia {
+                                        background: var(--color-red);
+                                        aspect-ratio: 1/1;
+                                        mask-image: url('../../public/x.svg');
+                                    }
+                                    &.partial {
+                                        background: var(--color-yellow);
+                                        mask-image: url('../../public/checkmark.svg');
+                                        aspect-ratio: 351/276;
+                                    }
+                                    &.full {
+                                        background: var(--color-green);
+                                        mask-image: url('../../public/checkmark.svg');
+                                        aspect-ratio: 351/276;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         &.filtering .section .repo {
             display: none;
 

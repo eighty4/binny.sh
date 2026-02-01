@@ -27,7 +27,7 @@ function animateGetShippedText() {
     })
 
     function addScrollListener() {
-        window.addEventListener('scroll', onScroll)
+        window.addEventListener('scroll', onScroll, { passive: true })
     }
 
     function onScroll() {

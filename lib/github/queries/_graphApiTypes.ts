@@ -63,6 +63,7 @@ export interface ReleaseNode {
     updatedAt: string
     url: string
     releaseAssets: {
+        totalCount: number
         nodes: Array<ReleaseAssetNode>
         pageInfo: {
             hasNextPage: boolean

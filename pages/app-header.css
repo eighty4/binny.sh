@@ -1,0 +1,66 @@
+@font-face {
+    font-family: 'GetShipped';
+    src: url('../public/GetShipped.woff2');
+    unicode-range:
+        U+0020, U+0047, U+0064-0065, U+0068-0070, U+0073-0074, U+0077;
+}
+
+body {
+    padding-top: var(--header-height);
+}
+
+#binny-app-header {
+    --x-bw-binny-and-get-shipped: 8rem;
+    position: fixed;
+    top: 0;
+    height: var(--header-height);
+    width: 100vw;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    background: var(--header-bg-color);
+    z-index: var(--header-z);
+
+    & #header-content {
+        height: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: var(--header-content-width);
+
+        & #header-stack {
+            position: relative;
+
+            & #get-shipped {
+                --get-shipped-height-to: 12rem;
+                --get-shipped-top-to: -6.5rem;
+                height: var(--get-shipped-height-to);
+                aspect-ratio: 1/1;
+                position: absolute;
+                top: var(--get-shipped-top-to);
+
+                & #get-shipped-path {
+                    fill: none;
+                }
+
+                & text {
+                    fill: black;
+                    stroke: none;
+                    font-family: 'GetShipped', sans-serif;
+                }
+            }
+
+            & #header-text {
+                position: absolute;
+                font-size: var(--header-title-size);
+                font-style: italic;
+                font-weight: 900;
+                left: var(--x-bw-binny-and-get-shipped);
+
+                & span {
+                    color: var(--color-green);
+                }
+            }
+        }
+    }
+}

@@ -14,6 +14,7 @@ export default defineConfig({
     esbuild: {
         loaders: {
             '.html': 'text',
+            '.svg': 'file',
             '.woff': 'file',
             '.woff2': 'file',
         },

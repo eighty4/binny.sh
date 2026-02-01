@@ -1,0 +1,38 @@
+.button-like {
+    display: grid;
+    align-content: center;
+    background: var(--color-pink);
+    color: #eef;
+    border: var(--card-border);
+    border-radius: 0.4rem;
+    height: calc(var(--header-min-height) * 0.5);
+    font-size: 1.2rem;
+    letter-spacing: 0.042rem;
+    padding: 0 1.5rem;
+
+    &:hover {
+        background: var(--color-green);
+    }
+}
+
+.card-like {
+    background: var(--card-bg-color);
+    padding: var(--card-padding);
+    border: var(--card-border);
+    border-radius: 0.3rem;
+    box-shadow: var(--card-shadow);
+    color: var(--card-text-color);
+}
+
+.key {
+    font-family: monospace;
+    border: var(--card-border);
+    box-shadow: var(--card-shadow);
+    color: var(--card-text-color);
+    border-radius: 2px;
+    background: #eee;
+    height: 2rem;
+    aspect-ratio: 1 / 1;
+    align-content: center;
+    text-align: center;
+}
