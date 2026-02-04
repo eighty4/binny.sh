@@ -1,4 +1,3 @@
-import type { GeneratedScript } from '@binny.sh/template'
 import {
     connectToDb,
     DB_INDEX_LATEST_RELEASE,
@@ -16,7 +15,7 @@ declare const self: DedicatedWorkerGlobalScope
 export type SearchData = {
     // true if all collections in SearchData are empty
     empty: boolean
-    withGeneratedScripts: Array<Repository & { script?: GeneratedScript }>
+    // withGeneratedScripts: Array<Repository & { script?: GeneratedScript }>
     nativeWithReleaseWithBins: Array<Repository>
     nativeWithReleaseWithoutBins: Array<Repository>
     nativeWithReleaseWithoutAssets: Array<Repository>
@@ -120,7 +119,7 @@ function postSynced(updated: boolean, total: number) {
 
 async function fetchSearchDataFromDb(): Promise<SearchData> {
     const repos = await readReposFromDb()
-    return transformSearchData(repos, {})
+    return transformSearchData(repos)
 }
 
 async function performSync() {
@@ -288,23 +287,14 @@ async function readReposFromDb(): Promise<Array<Repository>> {
     })
 }
 
-function transformSearchData(
-    repos: Array<Repository>,
-    generatedScripts: Record<string, GeneratedScript>,
-): SearchData {
-    const withGeneratedScripts: Array<
-        Repository & { script?: GeneratedScript }
-    > = []
+function transformSearchData(repos: Array<Repository>): SearchData {
     const nativeWithReleaseWithBins: Array<Repository> = []
     const nativeWithReleaseWithoutBins: Array<Repository> = []
     const nativeWithReleaseWithoutAssets: Array<Repository> = []
     const nativeWithoutRelease: Array<Repository> = []
     const everythingElse: Array<Repository> = []
     for (const repo of repos) {
-        const script = generatedScripts[`${repo.owner}/${repo.name}`]
-        if (script) {
-            withGeneratedScripts.push({ ...repo, script })
-        } else if (repo.languages.length) {
+        if (repo.languages.length) {
             if (repo.latestRelease?.binaries?.length) {
                 nativeWithReleaseWithBins.push(repo)
             } else if (repo.latestRelease?.otherAssets.length) {
@@ -320,7 +310,7 @@ function transformSearchData(
     }
     return {
         empty: !repos.length,
-        withGeneratedScripts,
+        // withGeneratedScripts: [],
         nativeWithReleaseWithBins,
         nativeWithReleaseWithoutBins,
         nativeWithReleaseWithoutAssets,

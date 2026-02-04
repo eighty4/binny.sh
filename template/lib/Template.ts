@@ -8,10 +8,15 @@ export {
     OPERATING_SYSTEMS,
     operatingSystemLabel,
 } from './Distrubtions.ts'
-export { generateScript } from './Generate.ts'
+export {
+    generateBothScripts,
+    generateNixShell,
+    generatePowerShell,
+} from './Generate.ts'
 export type {
-    GeneratedScript,
-    GeneratedScriptSpec,
+    BinaryDistributions,
+    GeneratedNixShellScript,
+    GeneratedPowerShellScript,
     GenerateScriptOptions,
 } from './Generate.ts'
 export { getTemplateVersion } from './getTemplateVersion.ts'

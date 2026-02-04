@@ -8,6 +8,7 @@
         "noEmit": false,
         "rewriteRelativeImportExtensions": true
     },
-    "include": ["lib/**/*.ts"],
+    "files": ["Binny.template.d.ts"],
+    "include": ["lib/**/*.ts", "gold/Generate.gold.ts"],
     "exclude": ["**/*.gold.ts", "**/*.test.ts"]
 }

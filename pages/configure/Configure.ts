@@ -1,7 +1,6 @@
 import {
-    type Distribution,
-    type GeneratedScript,
     type GenerateScriptOptions,
+    type BinaryDistributions,
 } from '@binny.sh/template'
 import { findGhToken } from 'Binny.sh/dom/ghTokenStorage'
 import removeChildNodes from 'Binny.sh/dom/removeChildNodes'
@@ -17,6 +16,7 @@ import type CrossPlatformMatrix from './CrossMatrix.ts'
 import type ScriptPreview from './ScriptPreview.ts'
 import type ReleaseHeader from './ReleaseHeader.ts'
 import errorHtml from '../client.error.html'
+import type { ConfiguredScriptsResult } from './generateScriptW.ts'
 
 type ConfigureView = 'matrix' | 'posix' | 'powershell' | 'release'
 
@@ -143,18 +143,13 @@ async function onDomReady() {
     }
 }
 
-function onWorkerMessage({
-    data,
-}: MessageEvent<{ result: GeneratedScript; error: Error }>) {
+function onWorkerMessage({ data }: MessageEvent<ConfiguredScriptsResult>) {
     if (data.error) {
         console.error(data.error)
     }
     if (data.result) {
-        posixElem.content = data.result.content
-        sessionStorage.setItem(
-            scriptCacheKey(repoId, 'posix'),
-            data.result.content,
-        )
+        posixElem.content = data.result.sh
+        sessionStorage.setItem(scriptCacheKey(repoId, 'posix'), data.result.sh)
     }
 }
 
@@ -248,24 +243,19 @@ function scriptCacheKey(
 }
 
 function createGenerateOptions(repo: Repository): GenerateScriptOptions {
-    const resolvedDistributions: Record<string, Distribution> = {}
-    repo.latestRelease!.binaries.forEach(binary => {
-        resolvedDistributions[binary.filename] = {
-            arch: binary.arch,
-            os: binary.os,
+    const distributions: BinaryDistributions = {
+        Linux: {},
+        MacOS: {},
+        Windows: {},
+    }
+    for (const binary of repo.latestRelease!.binaries) {
+        if (binary.arch) {
+            distributions[binary.os]![binary.arch] = binary.filename
         }
-    })
+    }
     return {
-        binaryInstalls: [
-            {
-                installAs: repo.name,
-                binaries: repo.latestRelease!.binaries.map(
-                    binary => binary.filename,
-                ),
-            },
-        ],
-        explicitArchitectures: {},
         repository: repo,
-        resolvedDistributions,
+        installName: repo.name,
+        distributions,
     }
 }

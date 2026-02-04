@@ -1,7 +1,6 @@
 import {
     OPERATING_SYSTEMS,
     type Architecture,
-    type GeneratedScript,
     type OperatingSystem,
 } from '@binny.sh/template'
 import { findGhToken } from 'Binny.sh/dom/ghTokenStorage'
@@ -340,14 +339,14 @@ function showSearchData(searchData: SearchData) {
         foundReposElem.innerHTML = emptyHtml
     } else {
         const sections: Array<HTMLElement> = []
-        if (searchData.withGeneratedScripts.length) {
-            sections.push(
-                createRepoSection(
-                    'Your release scripts',
-                    searchData.withGeneratedScripts,
-                ),
-            )
-        }
+        // if (searchData.withGeneratedScripts.length) {
+        //     sections.push(
+        //         createRepoSection(
+        //             'Your release scripts',
+        //             searchData.withGeneratedScripts,
+        //         ),
+        //     )
+        // }
         if (searchData.nativeWithReleaseWithBins.length) {
             sections.push(
                 createRepoSection(
@@ -402,7 +401,7 @@ function showSearchData(searchData: SearchData) {
 
 function createRepoSection(
     title: string,
-    repos: Array<Repository & { script?: GeneratedScript }>,
+    repos: Array<Repository>,
 ): HTMLElement {
     const section = document.createElement('section')
     section.className = 'section'
@@ -416,9 +415,7 @@ function createRepoSection(
     return section
 }
 
-function createRepoLink(
-    repo: Repository & { script?: GeneratedScript },
-): HTMLElement {
+function createRepoLink(repo: Repository): HTMLElement {
     const link = document.createElement('a')
     link.addEventListener('mouseenter', onRepoHover)
     link.className = 'repo'
