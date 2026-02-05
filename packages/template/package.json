@@ -6,17 +6,19 @@
     "type": "module",
     "exports": {
         ".": {
+            "bun": "./lib/Template.ts",
             "import": "./lib_js/Template.js",
             "types": "./lib_types/Template.d.ts"
         }
     },
     "scripts": {
         "build": "tsc --build && node esbuild.ts",
-        "test": "pnpm test:unit && pnpm test:gold",
-        "test:gold": "node --test gold/gold_test.ts",
-        "test:gold:update": "node gold/gold_update.ts",
-        "test:integration": "./gold/integration_test.sh",
-        "test:unit": "node --test lib/**/*.test.ts"
+        "test": "node --test gold/gold_test.ts",
+        "test:update_gold": "node gold/gold_update.ts",
+        "test:integration": "./gold/integration_test.sh"
+    },
+    "dependencies": {
+        "@binny.sh/systems": "workspace:*"
     },
     "devDependencies": {
         "@types/node": "^25.1.0",
@@ -26,9 +28,6 @@
     "files": [
         "lib/**/*",
         "lib_js/**/*",
-        "lib_types/**/*",
-        "gold/**/*.sh",
-        "package.json",
-        "tsconfig.json"
+        "lib_types/**/*"
     ]
 }

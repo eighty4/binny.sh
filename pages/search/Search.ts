@@ -1,10 +1,11 @@
+import type { Binary, Language, Repository } from '@binny.sh/github'
 import {
     OPERATING_SYSTEMS,
     type Architecture,
     type OperatingSystem,
-} from '@binny.sh/template'
+} from '@binny.sh/systems'
 import { findGhToken } from 'Binny.sh/dom/ghTokenStorage'
-import type { Binary, Language, Repository } from 'Binny.sh/github/model'
+import removeChildNodes from 'Binny.sh/dom/removeChildNodes'
 import logout from 'Binny.sh/logout'
 import emptyHtml from './search.empty.html'
 import type {
@@ -12,7 +13,6 @@ import type {
     SearchDataReply,
     SearchDataRequest,
 } from './searchDataW.ts'
-import removeChildNodes from 'Binny.sh/dom/removeChildNodes'
 
 const worker = new Worker('../search/searchDataW.ts')
 worker.onerror = e => console.error('searchDataW error', e)

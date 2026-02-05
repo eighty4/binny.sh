@@ -7,3 +7,8 @@ declare module '*.sh' {
     const content: string
     export default content
 }
+
+declare module 'npm:version' {
+    const content: string
+    export default content
+}

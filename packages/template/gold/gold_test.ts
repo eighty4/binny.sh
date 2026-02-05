@@ -2,7 +2,7 @@ import assert from 'node:assert/strict'
 import { test } from 'node:test'
 import { readFile } from 'node:fs/promises'
 import { join } from 'node:path'
-import { generateBothScripts } from '../lib_js/Generate.js'
+import { generateBothScripts } from '../lib_js/Template.js'
 import { TESTS } from './gold_update.ts'
 
 async function goldTest(goldFile: keyof typeof TESTS) {

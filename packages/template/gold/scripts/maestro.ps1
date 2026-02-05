@@ -104,7 +104,7 @@ function Windows-Install() {
     }
     Write-Output @"
 run this command to verify install:
-  Get-Command code
+  Get-Command ${binaryName}
 "@
 }
 

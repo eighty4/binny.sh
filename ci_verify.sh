@@ -63,19 +63,16 @@ fi
 echo '\n*** lambdas: typecheck ***'
 (cd lambdas && pnpm typecheck)
 
-echo '\n*** template: build ***'
-pnpm --filter ./template build
+echo '\n*** *: build ***'
+pnpm -r build
 
-echo '\n*** template: test ***'
-pnpm --filter ./template test
+echo '\n*** *: test ***'
+pnpm -r test
 
-echo '\n*** website: typecheck ***'
+echo '\n*** webapp: typecheck ***'
 pnpm typecheck
 
-echo '\n*** website: build ***'
-pnpm build
-
-echo '\n*** website: test:e2e ***'
+echo '\n*** webapp: test:e2e ***'
 pnpm test:e2e
 
 pnpm fmtcheck

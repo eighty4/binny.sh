@@ -1,4 +1,4 @@
-import type { Asset, Binary, Language } from 'Binny.sh/github/model'
+import type { Asset, Binary, Language } from '@binny.sh/github'
 
 const DB_NAME = 'binny-sh'
 const DB_VERSION = 1

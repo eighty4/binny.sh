@@ -1,12 +1,12 @@
+import { Unauthorized } from '@binny.sh/github'
+import type { Repository, RepositoryId } from '@binny.sh/github'
+import { getLatestRepoReleaseData } from '@binny.sh/github/queries/latestRelease'
 import {
     type GenerateScriptOptions,
     type BinaryDistributions,
 } from '@binny.sh/template'
 import { findGhToken } from 'Binny.sh/dom/ghTokenStorage'
 import removeChildNodes from 'Binny.sh/dom/removeChildNodes'
-import type { Repository, RepositoryId } from 'Binny.sh/github/model'
-import { Unauthorized } from 'Binny.sh/github/responses'
-import { getLatestRepoReleaseData } from 'Binny.sh/github/queries/repoLatestRelease'
 import logout from 'Binny.sh/logout'
 import './CrossMatrix.ts'
 import './ProgressRing.ts'

@@ -1,4 +1,4 @@
-import type { Architecture, OperatingSystem } from '@binny.sh/template'
+import type { Architecture, OperatingSystem } from '@binny.sh/systems'
 
 export type Language = 'C++' | 'C' | 'Go' | 'Rust' | 'Zig'
 

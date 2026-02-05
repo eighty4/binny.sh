@@ -1,7 +1,11 @@
-import type { Architecture, OperatingSystem } from './Distrubtions.ts'
-import { getTemplateVersion } from './getTemplateVersion.ts'
+import type { Architecture, OperatingSystem } from '@binny.sh/systems'
 import ps1TemplateString from './generate.ps1'
 import shTemplateString from './generate.sh'
+import templateVersion from 'npm:version'
+
+export function getTemplateVersion(): string {
+    return templateVersion
+}
 
 export type BinaryDistributions = Partial<
     Record<OperatingSystem, Partial<Record<Architecture, string>>>
@@ -40,6 +44,18 @@ export type GeneratedPowerShellScript = {
     templateVersion: string
 }
 
+export function generateBothScripts(
+    options: GenerateScriptOptions,
+): GeneratedNixShellScript & GeneratedPowerShellScript {
+    validateOptions(options)
+    const replacements = buildTemplateReplacements(options)
+    return {
+        ps1: templatePowerShell(replacements),
+        sh: templateNixShell(replacements),
+        templateVersion: getTemplateVersion(),
+    }
+}
+
 export function generateNixShell(
     options: GenerateScriptOptions,
 ): GeneratedNixShellScript {
@@ -58,18 +74,6 @@ export function generatePowerShell(
     const replacements = buildTemplateReplacements(options)
     return {
         ps1: templatePowerShell(replacements),
-        templateVersion: getTemplateVersion(),
-    }
-}
-
-export function generateBothScripts(
-    options: GenerateScriptOptions,
-): GeneratedNixShellScript & GeneratedPowerShellScript {
-    validateOptions(options)
-    const replacements = buildTemplateReplacements(options)
-    return {
-        ps1: templatePowerShell(replacements),
-        sh: templateNixShell(replacements),
         templateVersion: getTemplateVersion(),
     }
 }

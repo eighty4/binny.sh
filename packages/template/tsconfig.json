@@ -1,0 +1,19 @@
+{
+    "extends": "../../tsconfig.json",
+    "compilerOptions": {
+        "rootDir": "lib",
+        "outDir": "lib_js",
+        "declarationDir": "lib_types",
+        "resolveJsonModule": true,
+        "noEmit": false,
+        "rewriteRelativeImportExtensions": true
+    },
+    "files": ["Binny.template.d.ts"],
+    "include": ["lib/**/*.ts", "gold/Generate.gold.ts"],
+    "exclude": ["**/*.gold.ts", "**/*.test.ts"],
+    "references": [
+        {
+            "path": "../systems"
+        }
+    ]
+}

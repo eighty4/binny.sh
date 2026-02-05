@@ -1,5 +1,5 @@
+// import { Unauthorized } from '@binny.sh/github'
 // import type { GeneratedScript } from '@binny.sh/template'
-// import { Unauthorized } from 'Binny.sh/github/responses'
 
 // export async function saveGeneratedScript(
 //     ghToken: string,

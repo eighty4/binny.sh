@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
-import { resolveDistribution } from './Resolution.ts'
+import { resolveDistribution } from './Systems.ts'
 
 test('resolveDistribution for Linux', () => {
     assert.deepEqual(

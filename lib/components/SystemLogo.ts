@@ -1,4 +1,4 @@
-import type { OperatingSystem } from '@binny.sh/template'
+import type { OperatingSystem } from '@binny.sh/systems'
 
 interface SystemLogoOptions {
     color: string

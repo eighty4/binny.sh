@@ -1,3 +1,5 @@
+import { type Repository, Unauthorized } from '@binny.sh/github'
+import { collectViewerRepos } from '@binny.sh/github/queries/viewerRepos'
 import {
     connectToDb,
     DB_INDEX_LATEST_RELEASE,
@@ -6,9 +8,6 @@ import {
     type ReleaseRecord,
     type RepoRecord,
 } from 'Binny.sh/data/database'
-import type { Repository } from 'Binny.sh/github/model'
-import { Unauthorized } from 'Binny.sh/github/responses'
-import { collectViewerRepos } from 'Binny.sh/github/queries/viewerRepos'
 
 declare const self: DedicatedWorkerGlobalScope
 

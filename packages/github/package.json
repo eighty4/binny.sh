@@ -1,0 +1,34 @@
+{
+    "name": "@binny.sh/github",
+    "version": "0.0.0",
+    "author": "Adam McKee <adam.be.g84d@gmail.com>",
+    "license": "BSD-3-Clause",
+    "type": "module",
+    "exports": {
+        ".": {
+            "bun": "./lib/GitHub.ts",
+            "import": "./lib_js/GitHub.js",
+            "types": "./lib_types/GitHub.d.ts"
+        },
+        "./queries/*": {
+            "bun": "./lib/queries/*.ts",
+            "import": "./lib_js/queries/*.js",
+            "types": "./lib_types/queries/*.d.ts"
+        }
+    },
+    "scripts": {
+        "build": "tsc --build"
+    },
+    "dependencies": {
+        "@binny.sh/systems": "workspace:*"
+    },
+    "devDependencies": {
+        "@types/node": "^25.1.0",
+        "typescript": "^5.9.3"
+    },
+    "files": [
+        "lib/**/*",
+        "lib_js/**/*",
+        "lib_types/**/*"
+    ]
+}

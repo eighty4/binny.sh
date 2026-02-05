@@ -1,6 +1,6 @@
+import { getUserId } from '@binny.sh/github/queries/userId'
 import { findGhToken } from 'Binny.sh/dom/ghTokenStorage'
 import removeChildNodes from 'Binny.sh/dom/removeChildNodes'
-import { getUserId } from 'Binny.sh/github/queries/user'
 
 // works around https://github.com/eighty4.png avatar url
 // being a redirect and not cacheable

@@ -3,7 +3,7 @@ import {
     OPERATING_SYSTEMS,
     type Architecture,
     type OperatingSystem,
-} from '@binny.sh/template'
+} from '@binny.sh/systems'
 
 export default class CrossPlatformMatrix extends HTMLElement {
     static #archDiv(os: OperatingSystem, arch: Architecture): HTMLElement {

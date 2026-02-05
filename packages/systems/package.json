@@ -1,0 +1,26 @@
+{
+    "name": "@binny.sh/systems",
+    "version": "0.0.0",
+    "author": "Adam McKee <adam.be.g84d@gmail.com>",
+    "license": "BSD-3-Clause",
+    "type": "module",
+    "exports": {
+        ".": {
+            "bun": "./lib/Systems.ts",
+            "import": "./lib_js/Systems.js",
+            "types": "./lib_types/Systems.d.ts"
+        }
+    },
+    "scripts": {
+        "build": "tsc --build",
+        "test": "tsc -p tsconfig.test.json && node --test *.test.ts"
+    },
+    "devDependencies": {
+        "@types/node": "^25.1.0",
+        "typescript": "^5.9.3"
+    },
+    "files": [
+        "lib_js/Systems.js",
+        "lib_types/Systems.d.ts"
+    ]
+}

@@ -1,0 +1,12 @@
+{
+    "extends": "../../tsconfig.json",
+    "compilerOptions": {
+        "rootDir": "lib",
+        "resolveJsonModule": true,
+        "composite": false,
+        "noEmit": true,
+        "rewriteRelativeImportExtensions": true
+    },
+    "include": ["./lib/*.ts"],
+    "exclude": []
+}

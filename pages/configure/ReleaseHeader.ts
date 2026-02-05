@@ -1,6 +1,6 @@
+import type { RepositoryId } from '@binny.sh/github'
 import type ProfilePicture from 'Binny.sh/components/ProfilePicture'
 import 'Binny.sh/components/ProfilePicture'
-import type { RepositoryId } from 'Binny.sh/github/model'
 import html from './ReleaseHeader.html'
 
 export default class ReleaseHeader extends HTMLElement {

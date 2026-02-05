@@ -1,12 +1,12 @@
-import type { Architecture, OperatingSystem } from '@binny.sh/template'
-import type { Language } from 'Binny.sh/github/model'
+import type { Language } from '@binny.sh/github'
+import type { Architecture, OperatingSystem } from '@binny.sh/systems'
 import type {
     ReleaseAssetNode,
     ReleaseNode,
     RepositoryNodeWithLatestRelease,
     ViewerRepositoriesWithLatestReleaseGraph,
     ViewerUserGraph,
-} from 'Binny.sh/github/queries/_graphApiTypes'
+} from '@binny.sh/github/queries/_graphApiTypes'
 
 export function user(): { data: ViewerUserGraph } {
     return {

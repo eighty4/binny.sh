@@ -1,4 +1,4 @@
-import { resolveDistribution } from '@binny.sh/template'
+import { resolveDistribution } from '@binny.sh/systems'
 import type { Asset, Binary, Language, Release } from '../model.ts'
 
 const compileBinaryLanguages = Object.freeze(['C', 'C++', 'Go', 'Rust', 'Zig'])

@@ -1,0 +1,13 @@
+{
+    "extends": "../../tsconfig.json",
+    "compilerOptions": {
+        "rootDir": "lib",
+        "outDir": "lib_js",
+        "declarationDir": "lib_types",
+        "resolveJsonModule": true,
+        "noEmit": false,
+        "rewriteRelativeImportExtensions": true
+    },
+    "include": ["./lib/*.ts"],
+    "exclude": ["./lib/*.test.ts"]
+}
