@@ -1,34 +1,35 @@
-import { writeFile } from 'node:fs/promises'
+import { chmod, writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
 import { generateBothScripts } from '../lib_js/Template.js'
 import type { GenerateScriptOptions } from '../lib_types/Template.ts'
 
 export const TESTS: Record<string, GenerateScriptOptions> = {
-    maestro: {
+    l3: {
         repository: {
             owner: 'eighty4',
-            name: 'maestro',
+            name: 'l3',
         },
-        installName: 'maestro',
+        installName: 'l3',
         distributions: {
             Linux: {
-                aarch64: 'maestro-linux-arm64',
-                arm: 'maestro-linux-arm',
-                x86_64: 'maestro-linux-amd64',
+                aarch64: 'l3-linux-aarch64',
+                // arm: 'l3-linux-arm',
+                x86_64: 'l3-linux-x86_64',
             },
             MacOS: {
-                aarch64: 'maestro-darwin-arm64',
-                x86_64: 'maestro-darwin-amd64',
+                aarch64: 'l3-macos-aarch64',
+                x86_64: 'l3-macos-x86_64',
             },
             Windows: {
-                aarch64: 'maestro-windows-arm64',
-                x86_64: 'maestro-darwin-amd64',
+                aarch64: 'l3-windows-aarch64.exe',
+                x86_64: 'l3-windows-x86_64.exe',
             },
         },
     },
 } as const
 
 if (import.meta.main) {
+    const green = (s: string): string => `\u001b[32m${s}\u001b[0m`
     for (const [goldFile, options] of Object.entries(TESTS)) {
         const goldPs1Path = join(
             import.meta.dirname,
@@ -45,7 +46,8 @@ if (import.meta.main) {
             writeFile(goldPs1Path, ps1),
             writeFile(goldShPath, sh),
         ])
-        console.log('wrote', join('scripts', `${goldFile}.ps1`))
-        console.log('wrote', join('scripts', `${goldFile}.sh`))
+        await Promise.all([chmod(goldShPath, 0o755)])
+        console.log(green('✓'), 'wrote', join('scripts', `${goldFile}.ps1`))
+        console.log(green('✓'), 'wrote', join('scripts', `${goldFile}.sh`))
     }
 }

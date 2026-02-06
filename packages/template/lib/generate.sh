@@ -3,7 +3,7 @@ set -e
 
 # Created by npm package @binny.sh/template@***TEMPLATE_VERSION*** for https://github.com/***REPO_NAME***
 
-binary_name="maestro"
+binary_name="***BIN_NAME***"
 repository_name="***REPO_NAME***"
 
 abandon_ship() {

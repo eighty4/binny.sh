@@ -1,12 +1,12 @@
 #!/usr/bin/env pwsh
 
-# Created by npm package @binny.sh/template@0.0.0 for https://github.com/eighty4/maestro
+# Created by npm package @binny.sh/template@0.0.0 for https://github.com/eighty4/l3
 
 $ErrorActionPreference = 'Stop'
 $ProgressPreference = 'SilentlyContinue'
 
-$binaryName = 'maestro'
-$repoName = 'eighty4/maestro'
+$binaryName = 'l3'
+$repoName = 'eighty4/l3'
 
 function Abandon-Ship($message) {
     Write-Output $message
@@ -24,10 +24,10 @@ visit https://www.microsoft.com/net/download to upgrade.
 $os64bit = [System.Environment]::Is64BitOperatingSystem
 $os = $null
 switch -Wildcard ($PSVersionTable.OS) {
-    'Linux*'  { $os = 'Linux' }
-    'Ubuntu*' { $os = 'Linux' }
-    'Darwin*' { $os = 'MacOS' }
-    Default   { $os = 'Windows'; $binaryName = "${binaryName}.exe" }
+    '*Linux*'  { $os = 'Linux' }
+    '*Ubuntu*' { $os = 'Linux' }
+    'Darwin*'  { $os = 'MacOS' }
+    Default    { $os = 'Windows'; $binaryName = "${binaryName}.exe" }
 }
 
 $rawArch = $null
@@ -65,23 +65,23 @@ if (-Not $arch) {
 $filename = $Null
 if ($os -eq 'Windows') {
     if ($arch -eq 'aarch64') {
-        $filename = 'maestro-linux-arm64'
+        $filename = 'l3-linux-aarch64'
     } elseif ($arch -eq 'x86_64') {
-        $filename = 'maestro-linux-amd64'
+        $filename = 'l3-linux-x86_64'
     }
 } elseif ($os -eq 'Linux') {
     if ($arch -eq 'aarch64') {
-        $filename = 'maestro-linux-arm64'
+        $filename = 'l3-linux-aarch64'
     } elseif ($arch -eq 'x86_64') {
-        $filename = 'maestro-linux-amd64'
+        $filename = 'l3-linux-x86_64'
     } else {
-        $filename = 'maestro-linux-arm'
+        $filename = ''
     }
 } elseif ($os -eq 'MacOS') {
     if ($arch -eq 'aarch64') {
-        $filename = 'maestro-darwin-arm64'
+        $filename = 'l3-macos-aarch64'
     } elseif ($arch -eq 'x86_64') {
-        $filename = 'maestro-linux-amd64'
+        $filename = 'l3-linux-x86_64'
     }
 }
 
@@ -117,11 +117,13 @@ function Nix-Install() {
     $installDir = Nix-Install-Dir
     $null = New-Item -ItemType Directory -Path $installDir -Force
     Download-Binary $installDir
+    Nix-Make-Executable $installDir
     if (Nix-Path-Missing $installDir) {
-        Nix-Add-To-Path $installDir
+        $profile = Nix-Profile
+        Nix-Add-To-Path $installDir $profile
         Write-Output @"
 run these commands to verify install:
-  source ~/${shell_profile}
+  source ~/${profile}
   which ${binaryName}
 "@
     } else {
@@ -130,6 +132,11 @@ run this command to verify install:
   which ${binaryName}
 "@
     }
+}
+
+function Nix-Make-Executable($installDir) {
+    $p = Join-Path $installDir $binaryName
+    chmod +x $p
 }
 
 function Nix-Install-Dir() {
@@ -146,7 +153,7 @@ function Nix-Path-Missing($dir) {
     Path-Missing $env:PATH ':' $dir
 }
 
-function Nix-Add-To-Path($dir) {
+function Nix-Profile() {
     $profile = $null
     switch -Wildcard ($env:SHELL) {
         '*/zsh'   { $profile = '.zprofile' }
@@ -154,10 +161,14 @@ function Nix-Add-To-Path($dir) {
         '*/fish'  { $profile = '.config/fish/config.fish' }
         Default   { $profile = '.profile' }
     }
+    $profile
+}
+
+function Nix-Add-To-Path($dir, $profile) {
     $profilePath = Join-Path $env:HOME $profile
     @"
 # added by https://binny.sh
-PATH="${dir}"
+PATH="`$`PATH:${dir}"
 "@ >> $profilePath
     Write-Task-Complete "${profile} now adds ${binaryName} to PATH"
 }
@@ -178,8 +189,8 @@ function Path-Missing($pathStr, $pathDelim, $dir) {
 }
 
 function Write-Task-Complete($message) {
-    Write-Host ([char]8730) -ForegroundColor Green -NoNewline
-    Write-Task-Complete $message
+    Write-Host ([char]0x2713) -ForegroundColor Green -NoNewline
+    Write-Output " $message"
 }
 
 if ($os -eq 'Windows') {

@@ -1,10 +1,10 @@
 #!/usr/bin/env sh
 set -e
 
-# Created by npm package @binny.sh/template@0.0.0 for https://github.com/eighty4/maestro
+# Created by npm package @binny.sh/template@0.0.0 for https://github.com/eighty4/l3
 
-binary_name="maestro"
-repository_name="eighty4/maestro"
+binary_name="l3"
+repository_name="eighty4/l3"
 
 abandon_ship() {
   if [ $# -gt 0 ]; then
@@ -93,13 +93,13 @@ resolve_filename() {
   _os="$2"
   _filename=""
   if test "$_cpu" = "x86_64" && test "$_os" = "Linux"; then
-    _filename="maestro-linux-amd64"
+    _filename="l3-linux-x86_64"
   elif test "$_cpu" = "aarch64" && test "$_os" = "Linux"; then
-    _filename="maestro-linux-arm64"
+    _filename="l3-linux-aarch64"
   elif test "$_cpu" = "x86_64" && test "$_os" = "MacOS"; then
-    _filename="maestro-linux-amd64"
+    _filename="l3-linux-x86_64"
   elif test "$_cpu" = "aarch64" && test "$_os" = "MacOS"; then
-    _filename="maestro-darwin-arm64"
+    _filename="l3-macos-aarch64"
   else
     abandon_ship "no prebuilt $_cpu binary for $_os"
   fi

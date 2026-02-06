@@ -13,9 +13,9 @@
     },
     "scripts": {
         "build": "tsc --build && node esbuild.ts",
-        "test": "node --test gold/gold_test.ts",
+        "test:gold": "node --test gold/gold_test.ts",
         "test:update_gold": "node gold/gold_update.ts",
-        "test:integration": "./gold/integration_test.sh"
+        "test:integration": "node integration/integration_test.ts"
     },
     "dependencies": {
         "@binny.sh/systems": "workspace:*"

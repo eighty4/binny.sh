@@ -69,6 +69,9 @@ pnpm -r build
 echo '\n*** *: test ***'
 pnpm -r test
 
+echo '\n*** template: test:gold ***'
+pnpm -r test:gold
+
 echo '\n*** webapp: typecheck ***'
 pnpm typecheck
 

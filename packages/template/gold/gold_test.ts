@@ -17,4 +17,4 @@ async function goldTest(goldFile: keyof typeof TESTS) {
     assert.equal(result.sh, sh)
 }
 
-test('gold maestro.ps1 and maestro.sh', () => goldTest('maestro'))
+test('gold l3.ps1 and l3.sh', () => goldTest('l3'))

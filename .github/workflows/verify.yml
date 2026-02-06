@@ -14,7 +14,8 @@ jobs:
       - fmtcheck
       - verify-e2e
       - verify-lambdas
-      - verify-template
+      - verify-package-systems
+      - verify-package-template
       - verify-website
     steps:
       - uses: actions/checkout@v4
@@ -87,11 +88,11 @@ jobs:
       # - run: pnpm build
       - run: pnpm typecheck
 
-  verify-template:
+  verify-package-systems:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: template
+        working-directory: packages/systems
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -101,8 +102,25 @@ jobs:
           cache: pnpm
       - run: pnpm i
       - run: pnpm build
-      - shell: 'script -q -e -c "bash {0}"'
-        run: pnpm test
+      - run: pnpm test
+
+  verify-package-template:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/template
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm i
+      - run: pnpm -r --filter '@eighty4/binny-systems' build
+      - run: pnpm build
+      - run: pnpm test:gold
+      - run: pnpm test:integration
 
   verify-website:
     runs-on: ubuntu-latest
