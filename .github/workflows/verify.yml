@@ -16,6 +16,7 @@ jobs:
       - verify-lambdas
       - verify-package-systems
       - verify-package-template
+      - verify-package-template-windows
       - verify-website
     steps:
       - uses: actions/checkout@v4
@@ -120,6 +121,22 @@ jobs:
       - run: pnpm -r --filter '@eighty4/binny-systems' build
       - run: pnpm build
       - run: pnpm test:gold
+      - run: pnpm test:integration
+
+  verify-package-template-windows:
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: packages/template
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm i
+      - run: pnpm -r --filter '@eighty4/binny-systems' build
       - run: pnpm test:integration
 
   verify-website:

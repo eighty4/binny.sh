@@ -1,17 +1,25 @@
 import { type ChildProcessWithoutNullStreams, spawn } from 'node:child_process'
 
-export default class DockerProcess {
+export default class SpawnProcess {
     #args: Array<string>
     #done: Promise<void>
     #errored: boolean = false
     #label: string
     #output: string = ''
     #p: ChildProcessWithoutNullStreams
+    #program: string
 
-    constructor(label: string, args: Array<string>) {
+    constructor(
+        label: string,
+        program: string,
+        args: Array<string>,
+        env?: Record<string, string>,
+    ) {
+        this.#program = program
         this.#args = args
         this.#label = label
-        this.#p = spawn('docker', args)
+        const opts = env ? { env: { ...process.env, ...env } } : undefined
+        this.#p = spawn(this.#program, args, opts)
         this.#p.stdout.on('data', chunk => (this.#output += chunk.toString()))
         this.#p.stderr.on('data', chunk => (this.#output += chunk.toString()))
         this.#done = new Promise((res, rej) => {
@@ -29,7 +37,7 @@ export default class DockerProcess {
     }
 
     get command(): string {
-        return `docker ${this.#args.join(' ')}`
+        return `${this.#program} ${this.#args.join(' ')}`
     }
 
     get done(): Promise<void> {

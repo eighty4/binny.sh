@@ -27,7 +27,7 @@ switch -Wildcard ($PSVersionTable.OS) {
     '*Linux*'  { $os = 'Linux' }
     '*Ubuntu*' { $os = 'Linux' }
     'Darwin*'  { $os = 'MacOS' }
-    Default    { $os = 'Windows'; $binaryName = "${binaryName}.exe" }
+    Default    { $os = 'Windows' }
 }
 
 $rawArch = $null
@@ -95,17 +95,28 @@ $binaryUrl = "https://github.com/${repoName}/releases/download/${gitTag}/${filen
 
 function Windows-Install() {
     $installDir = "${env:LOCALAPPDATA}\Programs\${binaryName}"
+    $filename = "$binaryName.exe"
     $null = New-Item -ItemType Directory -Path $installDir -Force
-    Download-Binary $installDir
+    Download-Binary $installDir $filename
     if (Windows-Path-Missing $installDir) {
-        $updatePath = $env:Path + ";$installDir"
-        $env:Path = $updatePath
-        [System.Environment]::SetEnvironmentVariable("Path", $updatePath, "User")
-    }
-    Write-Output @"
-run this command to verify install:
-  Get-Command ${binaryName}
+        Windows-Add-Path $installDir
+        Write-Output @"
+run these commands to update `$env:PATH and verify install:
+  `$env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
+  Get-Command ${filename}
 "@
+    } else {
+        Write-Output @"
+run this command to verify install:
+  Get-Command ${filename}
+"@
+    }
+}
+
+function Windows-Add-Path($dir) {
+    $path = [System.Environment]::GetEnvironmentVariable("Path", "User")
+    [System.Environment]::SetEnvironmentVariable("Path", "$path;$dir", "User")
+    Write-Task-Complete "added ${dir} to User PATH"
 }
 
 function Windows-Path-Missing($dir) {
@@ -116,7 +127,7 @@ function Windows-Path-Missing($dir) {
 function Nix-Install() {
     $installDir = Nix-Install-Dir
     $null = New-Item -ItemType Directory -Path $installDir -Force
-    Download-Binary $installDir
+    Download-Binary $installDir $binaryName
     Nix-Make-Executable $installDir
     if (Nix-Path-Missing $installDir) {
         $profile = Nix-Profile
@@ -168,13 +179,13 @@ function Nix-Add-To-Path($dir, $profile) {
     $profilePath = Join-Path $env:HOME $profile
     @"
 # added by https://binny.sh
-PATH="`$`PATH:${dir}"
+PATH="`$PATH:${dir}"
 "@ >> $profilePath
     Write-Task-Complete "${profile} now adds ${binaryName} to PATH"
 }
 
-function Download-Binary($destDir) {
-    $dest = Join-Path $installDir $binaryName
+function Download-Binary($destDir, $filename) {
+    $dest = Join-Path $installDir $filename
     if (Get-Module -Name BitsTransfer -ListAvailable) {
         Import-Module BitsTransfer
         Start-BitsTransfer -Source $binaryUrl -Destination $dest
