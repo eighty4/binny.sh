@@ -5,7 +5,7 @@ import {
     type OutgoingHttpHeaders,
     type ServerResponse,
 } from 'node:http'
-import { join } from 'node:path'
+import { join, sep } from 'node:path'
 import type { LambdaHttpRequest, LambdaHttpResponse } from './aws.ts'
 
 type PlatformBridge<PIN, POUT> = {
@@ -94,9 +94,7 @@ async function findLambdas(): Promise<Array<LambdaRoute>> {
         lambdas.push(
             ...Object.entries(handlers).map(([method, handler]) => ({
                 method: method as HttpMethod,
-                path:
-                    '/' +
-                    path.replace(/^routes\//, '').replace(/\/lambda\.ts$/, ''),
+                path: `/${path.split(sep).slice(1, -1).join('/')}`,
                 handler,
             })),
         )
