@@ -21,8 +21,8 @@
         "@binny.sh/systems": "workspace:*"
     },
     "devDependencies": {
-        "@types/node": "^25.1.0",
-        "esbuild": "^0.27.2",
+        "@types/node": "^25.2.3",
+        "esbuild": "^0.27.3",
         "typescript": "^5.9.3"
     },
     "files": [
