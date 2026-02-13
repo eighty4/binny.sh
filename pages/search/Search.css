@@ -61,7 +61,7 @@ html {
 #search-header,
 .section .title {
     position: sticky;
-    z-index: var(--header-z);
+    z-index: var(--subheader-z);
     background: var(--header-bg-color);
 }
 
@@ -72,7 +72,7 @@ html {
 
 #search-page {
     --search-header-height: 5rem;
-    max-width: min(42rem, 84vw);
+    max-width: min(64rem, 64vw);
     margin: 0 auto;
 
     & #search-header {
@@ -80,6 +80,7 @@ html {
         height: var(--search-header-height);
         display: flex;
         align-items: center;
+        margin-top: 3.2rem;
     }
 
     & #search-controls {
@@ -134,7 +135,10 @@ html {
 
             & .repos {
                 display: grid;
-                grid-template-columns: 1fr 1fr;
+                grid-template-columns: repeat(
+                    auto-fit,
+                    minmax(min-content, 16rem)
+                );
                 grid-template-rows: repeat(auto-fit, minmax(4rem, min-content));
                 gap: 0.84rem;
 
