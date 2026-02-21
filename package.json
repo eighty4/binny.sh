@@ -5,7 +5,7 @@
     "author": "Adam McKee <adam.be.g84d@gmail.com>",
     "license": "BSD-3-Clause",
     "type": "module",
-    "packageManager": "pnpm@10.28.2",
+    "packageManager": "pnpm@10.30.1",
     "scripts": {
         "build": "dank build",
         "dev": "dank serve",
@@ -21,9 +21,9 @@
         "@fontsource/inter": "^5.2.8"
     },
     "devDependencies": {
-        "@eighty4/dank": "0.0.5-1",
+        "@eighty4/dank": "0.0.5-3",
         "@playwright/test": "^1.58.2",
-        "@types/node": "^25.2.3",
+        "@types/node": "^25.3.0",
         "prettier": "^3.8.1",
         "typescript": "^5.9.3"
     }
