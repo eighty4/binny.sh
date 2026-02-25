@@ -23,7 +23,7 @@ await esbuild.build({
         {
             name: 'npm-version',
             setup(build) {
-                build.onResolve({ filter: /npm:version/ }, args => {
+                build.onResolve({ filter: /npm:version/ }, () => {
                     return { path: join(import.meta.dirname, 'package.json') }
                 })
                 build.onLoad(

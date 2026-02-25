@@ -21,20 +21,16 @@ export async function queryGraphApi<V, R>(
             case 401:
                 throw new Unauthorized()
             default:
-                throw new Error(
-                    'internalDoGraphApiQuery bad gh graphql status code: ' +
-                        response.status,
+                throw Error(
+                    `unexpected gh graphql error status: ${response.status}`,
                 )
         }
     }
     const result = await response.json()
     if (!result.data) {
-        console.error(
-            'internalDoGraphApiQuery response',
-            JSON.stringify(result, null, 4),
+        throw Error(
+            `unexpected gh graphql error response: ${JSON.stringify(result, null, 4)}`,
         )
-        throw new Error('internalDoGraphApiQuery bad gh graphql response')
     }
-    console.log('internalDoGraphApiQuery', result)
     return result
 }

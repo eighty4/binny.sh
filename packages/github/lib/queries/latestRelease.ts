@@ -4,13 +4,13 @@ import {
     mapReleaseNode,
     type RepositoryReleasesGraph,
 } from './_graphApiTypes.ts'
-import type { RepositoryId } from '../model.ts'
+import type { Repository, RepositoryId } from '../model.ts'
 
 export async function getLatestRepoReleaseData(
     ghToken: string,
     repo: RepositoryId,
-    signal: AbortSignal,
-) {
+    signal?: AbortSignal,
+): Promise<Repository> {
     const result = await queryGraphApi<RepositoryId, RepositoryReleasesGraph>(
         ghToken,
         q,

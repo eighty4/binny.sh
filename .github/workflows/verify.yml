@@ -14,7 +14,7 @@ jobs:
       - fmtcheck
       - verify-e2e
       - verify-lambdas
-      - verify-package-systems
+      - verify-cli
       - verify-package-template
       - verify-package-template-windows
       - verify-website
@@ -89,11 +89,11 @@ jobs:
       # - run: pnpm build
       - run: pnpm typecheck
 
-  verify-package-systems:
+  verify-cli:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: packages/systems
+        working-directory: packages/cli
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -102,7 +102,7 @@ jobs:
           node-version: 24
           cache: pnpm
       - run: pnpm i
-      - run: pnpm build
+      - run: pnpm --filter="!@binny.sh/webapp" build
       - run: pnpm test
 
   verify-package-template:
@@ -118,8 +118,7 @@ jobs:
           node-version: 24
           cache: pnpm
       - run: pnpm i
-      - run: pnpm -r --filter '@eighty4/binny-systems' build
-      - run: pnpm build
+      - run: pnpm --filter="!@binny.sh/cli" --filter="!@binny.sh/webapp" build
       - run: pnpm test:gold
       - run: pnpm test:integration
 
@@ -136,7 +135,7 @@ jobs:
           node-version: 24
           cache: pnpm
       - run: pnpm i
-      - run: pnpm -r --filter '@eighty4/binny-systems' build
+      - run: pnpm --filter="!@binny.sh/cli" --filter="!@binny.sh/webapp" build
       - run: pnpm test:integration
 
   verify-website:
@@ -149,5 +148,5 @@ jobs:
           node-version: 24
           cache: pnpm
       - run: pnpm i
-      - run: pnpm -r build
+      - run: pnpm --filter="!@binny.sh/cli" build
       - run: pnpm typecheck

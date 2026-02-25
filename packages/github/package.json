@@ -14,6 +14,11 @@
             "bun": "./lib/queries/*.ts",
             "import": "./lib_js/queries/*.js",
             "types": "./lib_types/queries/*.d.ts"
+        },
+        "./release/systemMatrix": {
+            "bun": "./lib/supportMatrix.ts",
+            "import": "./lib_js/supportMatrix.js",
+            "types": "./lib_types/supportMatrix.d.ts"
         }
     },
     "scripts": {

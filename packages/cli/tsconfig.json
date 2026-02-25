@@ -2,15 +2,21 @@
     "extends": "../../tsconfig.json",
     "compilerOptions": {
         "rootDir": "lib",
-        "declarationDir": "lib_types",
-        "emitDeclarationOnly": true,
+        "outDir": "lib_js",
+        "declaration": false,
+        "composite": false,
         "noEmit": false
     },
-    "files": ["Binny.template.d.ts"],
     "include": ["lib/**/*.ts"],
     "references": [
         {
+            "path": "../github"
+        },
+        {
             "path": "../systems"
+        },
+        {
+            "path": "../template"
         }
     ]
 }

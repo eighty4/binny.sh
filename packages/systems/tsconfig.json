@@ -4,9 +4,7 @@
         "rootDir": "lib",
         "outDir": "lib_js",
         "declarationDir": "lib_types",
-        "resolveJsonModule": true,
-        "noEmit": false,
-        "rewriteRelativeImportExtensions": true
+        "noEmit": false
     },
     "include": ["./lib/*.ts"],
     "exclude": ["./lib/*.test.ts"]

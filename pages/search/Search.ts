@@ -1,9 +1,9 @@
-import type { Binary, Language, Repository } from '@binny.sh/github'
+import { type Language, type Repository } from '@binny.sh/github'
 import {
-    OPERATING_SYSTEMS,
-    type Architecture,
-    type OperatingSystem,
-} from '@binny.sh/systems'
+    calculateSystemSupportMatrix,
+    type SystemSupportMatrix,
+} from '@binny.sh/github/release/systemMatrix'
+import { OPERATING_SYSTEMS } from '@binny.sh/systems'
 import { findGhToken } from 'Binny.sh/dom/ghTokenStorage'
 import removeChildNodes from 'Binny.sh/dom/removeChildNodes'
 import logout from 'Binny.sh/logout'
@@ -449,7 +449,9 @@ function createRepoLink(repo: Repository): HTMLElement {
     if (repo.latestRelease?.binaries.length) {
         const support = document.createElement('div')
         support.className = 'support'
-        support.append(...createSupportIcons(repo.latestRelease.binaries))
+        // todo move matrix to searchDataW.ts
+        const matrix = calculateSystemSupportMatrix(repo.latestRelease)
+        support.append(...createSupportIcons(matrix))
         card.append(support)
     }
     link.append(card)
@@ -481,30 +483,7 @@ function languageClassName(language: Language): string {
     }
 }
 
-function createSupportIcons(bins: Array<Binary>): Array<HTMLElement> {
-    const matrix: Record<
-        OperatingSystem,
-        Partial<Record<Architecture, boolean>>
-    > = {
-        Linux: {
-            aarch64: false,
-            arm: false,
-            x86_64: false,
-        },
-        MacOS: {
-            aarch64: false,
-            x86_64: false,
-        },
-        Windows: {
-            aarch64: false,
-            x86_64: false,
-        },
-    }
-    for (const bin of bins) {
-        if (bin.arch) {
-            matrix[bin.os][bin.arch] = true
-        }
-    }
+function createSupportIcons(matrix: SystemSupportMatrix): Array<HTMLElement> {
     return OPERATING_SYSTEMS.map(os => {
         const bools = Object.values(matrix[os])
         let support: 'mia' | 'partial' | 'full' = bools.every(b => b)

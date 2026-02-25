@@ -17,4 +17,6 @@ async function goldTest(goldFile: keyof typeof TESTS) {
     assert.equal(result.sh, sh)
 }
 
-test('gold l3.ps1 and l3.sh', () => goldTest('l3'))
+Object.keys(TESTS).forEach(program => {
+    test(`gold ${program}.ps1 and ${program}.sh`, () => goldTest(program))
+})

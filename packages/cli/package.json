@@ -1,0 +1,23 @@
+{
+    "name": "@binny.sh/cli",
+    "version": "0.0.0",
+    "author": "Adam McKee <adam.be.g84d@gmail.com>",
+    "license": "BSD-3-Clause",
+    "type": "module",
+    "bin": "./lib_js/CLI.js",
+    "scripts": {
+        "build": "tsc --build"
+    },
+    "dependencies": {
+        "@binny.sh/github": "workspace:*",
+        "@binny.sh/systems": "workspace:*",
+        "@binny.sh/template": "workspace:*"
+    },
+    "devDependencies": {
+        "@types/node": "^25.3.0",
+        "typescript": "^5.9.3"
+    },
+    "files": [
+        "lib_js/**/*"
+    ]
+}
