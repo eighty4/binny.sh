@@ -3,6 +3,9 @@ name: E2E tests
 on:
   workflow_call:
 
+env:
+  NODE_V: 26
+
 jobs:
   test:
     timeout-minutes: 60
@@ -22,18 +25,15 @@ jobs:
     #          --health-timeout 5s
     #          --health-retries 10
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: pnpm/setup@a0881977cd8ea73b1ed212236c99ca10dcc80cf4 # v3.1.1
         with:
-          node-version: 24
-          cache: pnpm
+          runtime: node@${{ env.NODE_V }}
       #    - name: sql
       #      run: |
       #        sudo apt-get install -y postgresql-client
       #        PGPASSWORD=eighty4 psql -h localhost -U eighty4 -f v001-init-schema.sql eighty4
       #      working-directory: sql
-      - run: pnpm i
       - run: pnpm -r --filter '!@eighty4/binny-frontend' build
       # --env-file-if-exists does not seem to work in this env
       - run: touch lambdas/.env.local
@@ -41,9 +41,9 @@ jobs:
         env:
           CI: true
         run: |
-          pnpm exec playwright install --with-deps
-          pnpm exec playwright test
-      - uses: actions/upload-artifact@v4
+          pnpm exec playwright install chromium --only-shell --with-deps
+          pnpm exec playwright test --project chromium
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: always()
         with:
           name: playwright-report

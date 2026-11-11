@@ -7,6 +7,9 @@ on:
     branches: [main]
   workflow_call:
 
+env:
+  NODE_V: 26
+
 jobs:
   verified:
     runs-on: ubuntu-latest
@@ -19,19 +22,15 @@ jobs:
       - verify-package-template-windows
       - verify-website
     steps:
-      - uses: actions/checkout@v4
       - run: echo "44.481800,-88.054413"
 
   fmtcheck:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: pnpm/setup@a0881977cd8ea73b1ed212236c99ca10dcc80cf4 # v3.1.1
         with:
-          node-version: 24
-          cache: pnpm
-      - run: pnpm i
+          runtime: node@${{ env.NODE_V }}
       - run: pnpm fmtcheck
 
   #  verify-backend:
@@ -79,13 +78,10 @@ jobs:
       run:
         working-directory: lambdas
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: pnpm/setup@a0881977cd8ea73b1ed212236c99ca10dcc80cf4 # v3.1.1
         with:
-          node-version: 24
-          cache: pnpm
-      - run: pnpm i
+          runtime: node@${{ env.NODE_V }}
       # - run: pnpm build
       - run: pnpm typecheck
 
@@ -95,13 +91,10 @@ jobs:
       run:
         working-directory: packages/cli
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: pnpm/setup@a0881977cd8ea73b1ed212236c99ca10dcc80cf4 # v3.1.1
         with:
-          node-version: 24
-          cache: pnpm
-      - run: pnpm i
+          runtime: node@${{ env.NODE_V }}
       - run: pnpm --filter="!@binny.sh/webapp" build
       - run: pnpm test
 
@@ -111,13 +104,10 @@ jobs:
       run:
         working-directory: packages/template
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: pnpm/setup@a0881977cd8ea73b1ed212236c99ca10dcc80cf4 # v3.1.1
         with:
-          node-version: 24
-          cache: pnpm
-      - run: pnpm i
+          runtime: node@${{ env.NODE_V }}
       - run: pnpm --filter="!@binny.sh/cli" --filter="!@binny.sh/webapp" build
       - run: pnpm test:gold
       - run: pnpm test:integration
@@ -128,25 +118,19 @@ jobs:
       run:
         working-directory: packages/template
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: pnpm/setup@a0881977cd8ea73b1ed212236c99ca10dcc80cf4 # v3.1.1
         with:
-          node-version: 24
-          cache: pnpm
-      - run: pnpm i
+          runtime: node@${{ env.NODE_V }}
       - run: pnpm --filter="!@binny.sh/cli" --filter="!@binny.sh/webapp" build
       - run: pnpm test:integration
 
   verify-website:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: pnpm/setup@a0881977cd8ea73b1ed212236c99ca10dcc80cf4 # v3.1.1
         with:
-          node-version: 24
-          cache: pnpm
-      - run: pnpm i
+          runtime: node@${{ env.NODE_V }}
       - run: pnpm --filter="!@binny.sh/cli" build
       - run: pnpm typecheck

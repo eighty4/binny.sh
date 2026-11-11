@@ -13,6 +13,9 @@ on:
         required: true
         type: string
 
+env:
+  NODE_V: 26
+
 jobs:
   publish-frontend:
     runs-on: ubuntu-latest
@@ -20,16 +23,10 @@ jobs:
       run:
         working-directory: frontend
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: pnpm/setup@a0881977cd8ea73b1ed212236c99ca10dcc80cf4 # v3.1.1
         with:
-          ref: ${{ inputs.tag_name }}
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 23
-          cache: pnpm
-      - run: pnpm i
+          runtime: node@${{ env.NODE_V }}
       - run: pnpm build
         env:
           VITE_GITHUB_CLIENT_ID: ${{ secrets.GH_OAUTH_CLIENT_ID }}

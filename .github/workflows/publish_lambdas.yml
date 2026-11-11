@@ -20,10 +20,7 @@ jobs:
       run:
         working-directory: lambdas
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ inputs.tag_name }}
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Install l3
         run: |
           mkdir -p $HOME/.local/bin
